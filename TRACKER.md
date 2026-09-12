@@ -97,7 +97,7 @@ The store only stays truthful if the plan moves **with** the code. There is no g
   - _from session:_ `src/x/y.ts:42` already special-cases this; deferred until the adapter lands
 ```
 
-The headline stays one line regardless. The rule is **cost, not usefulness**: context already loaded is free to write down and evaporates if you don't, but nothing here justifies a *fetch* — no `general`, no grep, no opening a file to enrich a line. A cold capture is one line and that's correct, not lazy. Cite `file:line` for anything named, same as everywhere else in the store.
+The headline stays one line regardless. The rule is **cost, not usefulness**: context already loaded is free to write down and evaporates if you don't, but nothing here justifies a *fetch* — no `explore`, no grep, no opening a file to enrich a line. A cold capture is one line and that's correct, not lazy. Cite `file:line` for anything named, same as everywhere else in the store.
 
 **The line leaves when the work lands.** `TODOS.md` is the **open** parking lot, not an archive — the same rule that makes an empty `issues/` a true claim. A slice that satisfies a parked want **deletes its line** in the same Step 4.5 reconciliation that commits the work, because the commit is where the want is written down now. A **curation sweep** that lifts many lines at once — landed, stale (subject gone), or decided (a record, not a want) — moves them **verbatim** to `archive/todos-<verdict>-<date>.md` so the entry count balances (`{KRU_HOME}/kru/references/lossless-doc-compaction.md`); a single line retired by its own commit is simply deleted. The verb that lands wants is **`/kru/todos`** (`skill/kru-todos/`): it reconciles every line against the code, scores what's unsized, proposes a batch off the ranked file, **waits for the user's pick**, and retires each line it lands. It's also the only place a filed `value`/`effort` meets the code and is corrected — a want that turns out bigger than its number is **rescored in place and left parked**, never half-built to justify the batch. Nothing is written before the user answers; everything the batch never reached stays as filed plus whatever digit the user confirmed.
 
@@ -151,7 +151,7 @@ It is **change-shaped, not product-shaped**: it accounts for the change that's g
 The user's own framing from the grill, in their words. Not a business case.
 
 ## Blast radius
-- touches: `src/x`, `src/y` — from `general`'s map, not guessed
+- touches: `src/x`, `src/y` — from `explore`'s map, not guessed
 - risk: what breaks if this is wrong; what's irreversible
 
 ## Landing plan
@@ -175,7 +175,7 @@ Default is **one PR, commits are the steps**. Split only on an environment bound
 
 **Splitting one file, or compacting the whole store, is a verification — not a formatting move.** The procedure is `{KRU_HOME}/kru/references/lossless-doc-compaction.md` (the lead dispatches it, `lead` Step 4.5): curate by the **recurring read** — what a run opens every time — never by total size; checkpoint the store's git first; and never delete prose from a summary until its content is found in the long-form record, appending it there first where it isn't. A dead pointer into `decisions.md` is a **finding, not a broken link** (reconstruct only what the pointer itself asserts, log the rest as a dated gap). Nothing is deleted, only relocated, so the store's total grows while the recurring read falls — both numbers get reported.
 
-**`Landing plan` is the cadence, and it lives here on purpose.** The lead grills *and* reads the codebase (Step 2 `general`), so it's the only seat that knows both the intent and the seams. It is the durable answer to *how this ships*, and Step 4.5 ticks it as each commit and PR lands.
+**`Landing plan` is the cadence, and it lives here on purpose.** The lead grills *and* reads the codebase (Step 2 `explore`), so it's the only seat that knows both the intent and the seams. It is the durable answer to *how this ships*, and Step 4.5 ticks it as each commit and PR lands.
 
 **Two cadences, and the split rule between them:**
 

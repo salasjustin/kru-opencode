@@ -31,7 +31,7 @@ Conformance to WCAG 2.1 AA, and only that. Values outside the token file are the
 
 ## Context hygiene (stay lean)
 A reviewer runs in its own context and can't be capped mid-run — keeping it lean is on you. You read more files than you change (you change none), so this is your sharpest failure mode.
-- Read only what the audit names — the target pages/components, their shared layout and primitives, and the token file. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not a reviewer's.
+- Read only what the audit names — the target pages/components, their shared layout and primitives, and the token file. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not a reviewer's.
 - Never re-read a file already in context — you don't edit, so nothing you've read has changed under you.
 - One criterion failing across many pages is **one finding with its scope named**, traced to the shared component or token that causes it — not one row per page.
 - If the target is too large to audit in one pass, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

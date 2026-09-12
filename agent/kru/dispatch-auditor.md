@@ -40,7 +40,7 @@ Lane is `[workflow]`, source is `agent:dispatch-auditor`, project is the ledger'
 
 ## Context hygiene (stay lean)
 A reviewer runs in its own context and can't be capped mid-run — keeping it lean is on you, and you read far more than you change (you change nothing but the store).
-- Read only what the brief names — the ledger, plus `lead` SKILL.md Step 3 when a finding needs the contract's exact wording, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not yours.
+- Read only what the brief names — the ledger, plus `lead` SKILL.md Step 3 when a finding needs the contract's exact wording, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not yours.
 - Never re-read a file already in context — you don't edit, so nothing you've read has changed under you.
 - The one reference to pull is `lead` SKILL.md → Step 3; never load the repo's own source — the dispatched work's files are the other reviewers' evidence, not yours.
 - If the ledger is somehow too large to audit in one pass, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

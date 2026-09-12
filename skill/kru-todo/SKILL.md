@@ -15,7 +15,7 @@ This is the one judgment the skill makes, and the line is **cost, not usefulness
 
 - **Session has relevant context** — you just read the file, ran the failing command, made the decision, saw the error, or built the thing they're now deferring → **use it**. Name the file and symbol, the constraint, why it's deferred, what it depends on. A future reader gets what you knew at the moment it surfaced, which is exactly what evaporates.
 - **Cold, or the context is unrelated** — fresh session, or they're parking something you know nothing about → **log the line as they said it** and stop. No exploration to make it look better.
-- **The test, before writing anything extra:** *would knowing this require a tool call?* If yes, you don't know it — leave it out. No `general`, no grep, no opening a file, no checking whether it's already done, no dedupe against existing lines. A skill that "helpfully" investigated would turn a deferred want into work nobody asked for.
+- **The test, before writing anything extra:** *would knowing this require a tool call?* If yes, you don't know it — leave it out. No `explore`, no grep, no opening a file, no checking whether it's already done, no dedupe against existing lines. A skill that "helpfully" investigated would turn a deferred want into work nobody asked for.
 
 **Expansion adds detail, never commitment.** Past the two numbers below, no triage, no scheduling, no scoping it into the current effort, no verdict on whether it's a good idea. The parking lot is pre-decision by construction — the user is the PM, and thinking it through is `/kru/brief`'s job, later, if the line is ever pulled into scope.
 

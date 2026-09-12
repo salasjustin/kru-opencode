@@ -25,7 +25,7 @@ The skill's *Boundary* is yours in full — coverage and root cause, everything 
 
 ## Context hygiene (stay lean)
 A reviewer runs in its own context and can't be capped mid-run — keeping it lean is on you. Screenshots and page dumps are heavy, so this pass sprawls faster than any other review seat.
-- Read only what the sweep names — the target pages, the token file, and the source you `grep` to trace a defect back to a `file:line`. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not a reviewer's.
+- Read only what the sweep names — the target pages, the token file, and the source you `grep` to trace a defect back to a `file:line`. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not a reviewer's.
 - Never re-read a file already in context — you don't edit, so nothing you've read has changed under you.
 - **Chase a systemic cause once.** The moment a defect traces to something global — a shared header, a root `font-size`, a token — trace it to source, name the cause and its scope, and stop enumerating routes. Re-confirming it route by route is the single biggest way this pass burns context for no new information. One `grep` usually beats three more screenshots.
 - If the target is too large to sweep in one pass, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

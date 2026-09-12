@@ -120,9 +120,9 @@ const REWRITES = [
   [/`\/code-review`/g, "`kru/code-reviewer`"],
   [/(^|[\s(])\/code-review\b/g, "$1`kru/code-reviewer`"],
   // claude's built-in delegates → opencode's
-  [/`Explore`/g, "`general`"],
-  [/\bExplore's\b/g, "`general`'s"],
-  [/(^|[\s(])Explore\b(?!\.)/g, "$1`general`"],
+  [/`Explore`/g, "`explore`"],
+  [/\bExplore's\b/g, "`explore`'s"],
+  [/(^|[\s(])Explore\b(?!\.)/g, "$1`explore`"],
   [/`Plan`/g, "`plan`"],
   // same-task reuse: claude resumes an agent by name, opencode by task_id
   [/`SendMessage`\/resume/g, "`task` with a prior `task_id`"],

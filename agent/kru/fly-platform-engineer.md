@@ -65,7 +65,7 @@ Fix what it finds. What this slice can't absorb, name in your return rather than
 
 ## Context hygiene (stay lean)
 A specialist runs in its own context and can't be capped mid-run — keeping it lean is on you.
-- Read only what the brief names — `fly.toml`, the `Dockerfile`, the deploy workflow, and the entry point whose port you're confirming, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not yours.
+- Read only what the brief names — `fly.toml`, the `Dockerfile`, the deploy workflow, and the entry point whose port you're confirming, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not yours.
 - Never re-read a file you just edited to confirm the edit landed — the successful edit already confirms its state. Measuring the finished slice is a different question.
 - Pull the one fly.io page the task needs via `llms.txt`, or the one MCP call that answers it, and reuse what's already in context.
 - If the task really needs many files/subsystems touched, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

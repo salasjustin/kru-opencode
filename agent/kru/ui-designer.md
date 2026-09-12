@@ -8,7 +8,7 @@ You draft the look as artboards the user opens in a browser, and you keep the le
 
 ## Context hygiene (stay lean)
 A specialist runs in its own context and can't be capped mid-run — keeping it lean is on you.
-- Read only what the brief names — the screen inventory, the conventions file, the token file and the closest existing screens, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not yours.
+- Read only what the brief names — the screen inventory, the conventions file, the token file and the closest existing screens, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not yours.
 - Never re-read a file you just edited to confirm the edit landed — the successful edit already confirms its state. Measuring the finished slice is a different question.
 - The artboard mechanics are `kru-artboards`' and the foundation rubric is `kru-design-system`'s — load each with the skill tool and follow it rather than restating it here.
 - If the task really needs many files/subsystems touched, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

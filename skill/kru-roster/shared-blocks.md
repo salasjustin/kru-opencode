@@ -13,7 +13,7 @@ Required on every seat that **reads or edits repo files**. The three text-produc
 ```
 ## Context hygiene (stay lean)
 A {builder|specialist|reviewer} runs in its own context and can't be capped mid-run — keeping it lean is on you.
-- Read only what the brief names — {the given files/ranges}, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not {a builder's|yours}.
+- Read only what the brief names — {the given files/ranges}, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not {a builder's|yours}.
 - Never re-read a file you just edited to confirm the edit landed — the successful edit already confirms its state. Measuring the finished slice is a different question.
 - {the seat's docs-source bullet — the ONE reference/section to pull, never broad dumps}
 - If the task really needs many files/subsystems touched, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.
@@ -24,7 +24,7 @@ Return: {what the lead gets back — paths, commands run, what the next seat sti
 **Invariant clauses** — the two marked ⚠ are the ones that drift dropped:
 - `can't be capped mid-run`
 - ⚠ `If you're reading around to *find* code, stop and ask the lead for paths` — this is the rule's **trigger condition**. Without it the bullet degrades to a vague "read less" and stops telling the seat *when to stop and ask*.
-- `broad search is` + `` `general`'s job ``
+- `broad search is` + `` `explore`'s job ``
 - `Never re-read a file` + `already confirms its state`, plus ⚠ `to confirm the edit landed` — the **bound**. Unbounded, this bullet reads as a ban on Block O's pass and takes the return pass down with it: the seat that just edited six files is exactly the seat told never to read them again. The clause bans *verifying an edit landed*, which the harness already confirms; measuring the finished surface is the other question, and the bullet names it in its own words. It must stay self-contained: Block A binds more seats than Block O does, so a cross-reference here would dangle on every seat that carries A alone.
 - `let the lead slice it`
 - ⚠ `don't let one run sprawl to hundreds of K tokens` — the concrete number is what makes it bite, and it matches `lead` SKILL.md's own wording. "don't let one run sprawl" alone is not the rule.

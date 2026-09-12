@@ -15,7 +15,7 @@ Take the parking lot to the user as a decision, not a listing. The artifact is `
 
 Read `TODOS.md` at `~/.claude/kru/management/<project-slug>/` (`<project-slug>` = the working repo's dir name; no repo → the cwd's). Missing or empty → say so, name `/kru/todo <the thing>`, stop.
 
-Then check each **candidate** against the codebase — a targeted grep or file-open per line, `general` for the vague ones, budgeted at a read pass, not an investigation. Every candidate lands in one bucket:
+Then check each **candidate** against the codebase — a targeted grep or file-open per line, `explore` for the vague ones, budgeted at a read pass, not an investigation. Every candidate lands in one bucket:
 
 - **done** — the code has since grown it, or another change made it moot. Cite the `file:line` or commit that shows it.
 - **archived** — `plan: <slug>` whose `plan/<slug>/` is gone (`TRACKER.md` deletes it at merge). Still open; note it.

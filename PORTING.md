@@ -42,7 +42,7 @@ Mechanical, all of it in `scripts/port.mjs`:
 - **MCP tool names** — `mcp__<server>__<tool>` → `<server>_<tool>`, which is how opencode registers
   them. The server key in `opencode.json` *is* the prefix, so `context7` and `chrome-devtools` have to
   be keyed exactly that (`skill/kru-setup/SKILL.md` says why).
-- **Claude's built-in delegates** — `Explore` → `general`, `Plan` → `plan`, `/tdd` →  `kru-tdd`,
+- **Claude's built-in delegates** — `Explore` → `explore`, `Plan` → `plan`, `/tdd` →  `kru-tdd`,
   `/diagnosing-bugs` → `kru-diagnosing-bugs`, `/code-review` → the `kru/code-reviewer` seat.
 - **Instruction files** — the repo sheet `/kru/setup` writes moves from `.claude/CLAUDE.md` to
   `AGENTS.md`, which is what opencode reads at a repo root (then `CLAUDE.md`, first match winning).
@@ -81,7 +81,7 @@ terminal, and it cannot actually stop the turn.
 
 **`/verify`, `/run`, `/simplify`, `/research`** — Claude Code bundled skills. Their references resolve
 to what this fork has: the suite (`kru-testing`), the browser (`kru-local-browser`), the
-`kru/code-reviewer` seat, and the `general` subagent.
+`kru/code-reviewer` seat, and the `explore` subagent.
 
 **Nested dispatch.** Both harnesses stop a subagent from spawning another — but opencode's limit is a
 config value (`subagent_depth`, default 1), not a law. The contract still assumes depth 1.

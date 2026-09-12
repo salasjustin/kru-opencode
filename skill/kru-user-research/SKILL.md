@@ -28,7 +28,7 @@ Help plan, execute, and synthesize user research studies.
 
 1. **Warm-up** (5 min): Build rapport, explain the session
 2. **Context** (10 min): Understand their current workflow
-3. **Deep dive** (20 min): `general` the specific topic
+3. **Deep dive** (20 min): `explore` the specific topic
 4. **Reaction** (10 min): Show concepts or prototypes
 5. **Wrap-up** (5 min): Anything we missed? Thank them.
 

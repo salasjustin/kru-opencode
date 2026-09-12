@@ -33,7 +33,7 @@ Review the diff/files for boundary erosion (cite file:line, assign severity):
 
 ## Context hygiene (stay lean)
 A reviewer runs in its own context and can't be capped mid-run — keeping it lean is on you. You read more files than you change (you change none), so this is your sharpest failure mode.
-- Read only what the review names — the diff/files and the modules on either side of the seam in question, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not a reviewer's.
+- Read only what the review names — the diff/files and the modules on either side of the seam in question, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not a reviewer's.
 - Never re-read a file already in context — you don't edit, so nothing you've read has changed under you.
 - Tracing a dependency chain is the one read that legitimately widens: follow it as far as the coupling claim needs and no further, and say in the finding where you stopped.
 - If the diff is too large to review in one pass, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

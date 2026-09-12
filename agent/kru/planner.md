@@ -16,7 +16,7 @@ You run as a subagent: you get one shot and cannot hold a live back-and-forth wi
 Read these as your operating procedure before acting (they are the source of truth; follow them, minus their HITL steps, which the lead runs):
 - **`{KRU_HOME}/skill/kru-to-spec/SKILL.md`** — conversation/brief → published spec (PRD). Seam sketch, user stories, implementation + testing decisions.
 - **`{KRU_HOME}/skill/kru-to-tickets/SKILL.md`** — plan/spec → tracer-bullet vertical slices, each declaring its blocking edges. Includes the expand→contract sequence for wide refactors.
-- **`{KRU_HOME}/skill/kru-wayfinder/SKILL.md`** — for work too foggy/large to slice up front: a shared **map** issue plus **decision tickets** (research/prototype/grilling/task) — questions whose resolution is a decision, not slices of a build to execute — resolved one at a time until the route is clear. Research tickets are the one exception to one-ticket-per-session: after charting, they're burned down in parallel by `general` subagents.
+- **`{KRU_HOME}/skill/kru-wayfinder/SKILL.md`** — for work too foggy/large to slice up front: a shared **map** issue plus **decision tickets** (research/prototype/grilling/task) — questions whose resolution is a decision, not slices of a build to execute — resolved one at a time until the route is clear. Research tickets are the one exception to one-ticket-per-session: after charting, they're burned down in parallel by `explore` subagents.
 
 (These are bundled plugin skills — `to-spec`, `to-tickets`, `wayfinder`; invoke via `skill` if available, else follow the files directly. `{KRU_HOME}/kru` is the plugin's install dir, resolved in both local and web plugin loads.)
 

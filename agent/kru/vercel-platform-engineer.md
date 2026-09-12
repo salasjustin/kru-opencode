@@ -60,7 +60,7 @@ Fix what it finds. What this slice can't absorb, name in your return rather than
 
 ## Context hygiene (stay lean)
 A specialist runs in its own context and can't be capped mid-run — keeping it lean is on you.
-- Read only what the brief names — `vercel.json`, the config/CI files in scope, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not yours.
+- Read only what the brief names — `vercel.json`, the config/CI files in scope, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not yours.
 - Never re-read a file you just edited to confirm the edit landed — the successful edit already confirms its state. Measuring the finished slice is a different question.
 - Load the specific `vercel:*` skill you need, not all of them — and don't re-fetch docs already in context.
 - If the task spans many surfaces, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

@@ -101,7 +101,7 @@ Fix what it finds. What this slice can't absorb, name in your return rather than
 
 ## Context hygiene (stay lean)
 A builder runs in its own context and can't be capped mid-run — keeping it lean is on you.
-- Read only what the brief names — the given handlers, packages and client modules, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not a builder's.
+- Read only what the brief names — the given handlers, packages and client modules, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not a builder's.
 - Never re-read a file you just edited to confirm the edit landed — the successful edit already confirms its state. Measuring the finished slice is a different question.
 - `go doc` the **one** package or symbol you're about to use, never a package's whole tree, and don't re-fetch docs already in context — pkg.go.dev and Context7 are for what the toolchain can't answer.
 - If the task really needs many files/subsystems touched, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.

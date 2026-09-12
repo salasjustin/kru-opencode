@@ -130,7 +130,7 @@ Fix what it finds. What this slice can't absorb, name in your return rather than
 
 ## Context hygiene (stay lean)
 A builder runs in its own context and can't be capped mid-run — keeping it lean is on you.
-- Read only what the brief names — the given files/ranges, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not a builder's.
+- Read only what the brief names — the given files/ranges, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not a builder's.
 - Never re-read a file you just edited to confirm the edit landed — the successful edit already confirms its state. Measuring the finished slice is a different question.
 - Don't re-fetch docs already in context.
 - Never source or fetch graphic assets (brand SVGs, icons, imagery) mid-build — the brief hands them pre-sourced. If one's missing, use a clearly-marked placeholder and flag the gap in your return.

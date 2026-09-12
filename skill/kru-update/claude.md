@@ -22,7 +22,7 @@ opencode ships most weekdays, and a release can change the ground under a plugin
    | skill / slash-command frontmatter (`disable-model-invocation` · `allowed-tools` · `context` · `background` · `argument-hint`) | `skills/*/SKILL.md` |
    | plugin + marketplace manifest, install, loading, `{KRU_HOME}/kru` | `.claude-plugin/*.json`, README → *Install* |
    | subagent dispatch — concurrency caps, spawn depth, partial results, worktree isolation, a `task` call carrying the prior `task_id` | `lead` SKILL.md → Steps 3–4 |
-   | the built-ins the team delegates to — `general`, `plan`, `kru/code-reviewer`, `kru-tdd`, `kru-diagnosing-bugs`, `/verify`, `/run` | `lead` SKILL.md, `ROSTER.md` → *Reused, not owned* |
+   | the built-ins the team delegates to — `explore`, `plan`, `kru/code-reviewer`, `kru-tdd`, `kru-diagnosing-bugs`, `/verify`, `/run` | `lead` SKILL.md, `ROSTER.md` → *Reused, not owned* |
    | hook events and their payloads | `agents/*.md` frontmatter, target-repo gates |
    | tool and permission names a seat lists | every `tools:` / `allowed-tools:` line |
    | MCP config for `chrome-devtools` and `context7` | README → *Requirements*, `SOURCES.md` |

@@ -33,7 +33,7 @@ When a finding hinges on framework/library behavior, verify against the official
 
 ## Context hygiene (stay lean)
 A reviewer runs in its own context and can't be capped mid-run — keeping it lean is on you. You read more files than you change (you change none), so this is your sharpest failure mode.
-- Read only what the review names — the diff and the files it touches, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `general`'s job, not a reviewer's.
+- Read only what the review names — the diff and the files it touches, not the whole tree. If you're reading around to *find* code, stop and ask the lead for paths; broad search is `explore`'s job, not a reviewer's.
 - Never re-read a file already in context — you don't edit, so nothing you've read has changed under you.
 - Context7-query the specific API a finding hinges on, not broad dumps — and don't re-fetch docs already in context.
 - If the diff is too large to review in one pass, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.
