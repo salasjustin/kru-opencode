@@ -2,7 +2,7 @@
 # pretooluse on the subagent-dispatch tool: the mechanized half of the lead
 # contract's handoff scan (lead SKILL.md step 3). refuses a team-seat dispatch
 # whose brief carries a file:line coordinate, a verbatim run of an always-loaded
-# rule or of a file the brief itself names, a paraphrase of the user CLAUDE.md
+# rule or of a file the brief itself names, a paraphrase of the user AGENTS.md
 # machine budget or the comment standard, a hedged term, or no learnings
 # channel — or a planner brief naming no brief.md, or a review brief naming no
 # report path — and hands the reason back so the lead re-anchors and dispatches
@@ -10,16 +10,16 @@
 # costs more than one it lets through.
 command -v jq >/dev/null 2>&1 || exit 0
 [ -n "$KRU_NO_GATE" ] && exit 0
-plugin_root="${1:-$CLAUDE_PLUGIN_ROOT}"
-[ -d "$plugin_root/agents" ] || exit 0
+plugin_root="${1:-$KRU_HOME}"
+[ -d "$plugin_root/agent/kru" ] || exit 0
 input=$(cat) || exit 0
 
 seat=$(printf '%s' "$input" | jq -r '.tool_input.subagent_type // empty' 2>/dev/null)
-seat="${seat#kru:}"
+seat="${seat#kru/}"
 [ -z "$seat" ] && exit 0
 # the auditor's brief is the stop nudge's own template, not a handoff
 [ "$seat" = "dispatch-auditor" ] && exit 0
-[ -f "$plugin_root/agents/${seat}.md" ] || exit 0
+[ -f "$plugin_root/agent/kru/${seat}.md" ] || exit 0
 
 prompt=$(printf '%s' "$input" | jq -r '.tool_input.prompt // empty' 2>/dev/null)
 [ -z "$prompt" ] && exit 0
@@ -43,13 +43,18 @@ opencall=$(printf '%s' "$prompt" | grep -oiE '(say|tell|report|note)[^.]{0,30}(w
 
 # the two texts briefs re-type as paraphrase, which no shingle sees — lead scan 2
 # names these greps.
-USER_CANON="$HOME/.claude/CLAUDE.md"
-if [ -f "$USER_CANON" ]; then
+# opencode loads its own global AGENTS.md and the user's ~/.claude/CLAUDE.md,
+# so both are always-loaded canon a brief must point at rather than re-type
+USER_CANON=""
+for f in "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/AGENTS.md" "$HOME/.claude/CLAUDE.md"; do
+  [ -f "$f" ] && USER_CANON="$USER_CANON $f"
+done
+if [ -n "$USER_CANON" ]; then
   # a brief naming some other limit — an R2 object cap, a container's memory
   # request, a machine that isn't this one — states a fact about the slice, so
   # the figure has to be one this file spends before it reads as re-typed.
   nfig() { tr '[:upper:]' '[:lower:]' | tr -d ' ' | sed 's/cores$/core/'; }
-  figs=$(grep -oiE '\b[0-9]+ ?(gb|cores?)\b' "$USER_CANON" | nfig | sort -u)
+  figs=$(grep -hoiE '\b[0-9]+ ?(gb|cores?)\b' $USER_CANON | nfig | sort -u)
   budget=""
   # the reason quotes the brief's own spelling — the lead greps for the
   # sentence it names.
@@ -66,7 +71,7 @@ if [ -f "$USER_CANON" ]; then
   [ -z "$budget" ] && budget=$(printf '%s' "$prompt" |
     grep -oiE '[^.]*\b(one|a single)( [a-z-]+){1,3} at a time\b[^.]*' |
     grep -oiE '.{0,30}\b(ram|memory|swap|cores?|cpu|machine|budget|background shells?|long-running|headless|chromium|vitest|playwright|tsc)\b.{0,30}' | head -1)
-  [ -n "$budget" ] && reasons="${reasons}paraphrases the user CLAUDE.md machine budget: \"${budget}\" — that file loads into every seat on its own; cut the sentence (scan 2). "
+  [ -n "$budget" ] && reasons="${reasons}paraphrases the user rules file's machine budget: \"${budget}\" — that file loads into every seat on its own; cut the sentence (scan 2). "
 fi
 comments=$(printf '%s' "$prompt" | grep -oiE '\bcomments?\b[^.]{0,80}\blowercase\b|\blowercase\b[^.]{0,80}\bcomments?\b' | head -1)
 # the standard's other half — comments already in the file survive your edit.
@@ -89,7 +94,7 @@ esac
 # text. paraphrase stays a reading check; a shorter run would misfire on
 # ordinary phrasing, so the length is the fail-open margin. rule files are
 # terse, so the run shortens with them: six words from the repo's own
-# CLAUDE.md or rules, five from the user's, where the machine budget is the
+# AGENTS.md or rules, five from the user's, where the machine budget is the
 # text briefs re-type most.
 SHINGLE=8
 SHINGLE_REPO=6
@@ -97,14 +102,14 @@ SHINGLE_USER=5
 cwd=$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null)
 canon=""
 repo_canon=""
-for f in "$cwd/CLAUDE.md" "$cwd/.claude/CLAUDE.md" "$cwd/AGENTS.md" "$cwd"/.claude/rules/*.md; do
+for f in "$cwd/AGENTS.md" "$cwd/AGENTS.md" "$cwd/.opencode/AGENTS.md" "$cwd"/.claude/rules/*.md; do
   [ -f "$f" ] && canon="$canon $f" && repo_canon="$repo_canon $f"
 done
-for f in "$USER_CANON" "$plugin_root/skills/roster/shared-blocks.md"; do
+for f in $USER_CANON "$plugin_root/skill/kru-roster/shared-blocks.md"; do
   [ -f "$f" ] && canon="$canon $f"
 done
 # the plan store's contract is the file a planner brief re-types (lead step 2.6)
-[ "$seat" = "planner" ] && [ -f "$plugin_root/TRACKER.md" ] && canon="$canon $plugin_root/TRACKER.md"
+[ "$seat" = "planner" ] && [ -f "$plugin_root/kru/TRACKER.md" ] && canon="$canon $plugin_root/kru/TRACKER.md"
 # a file the brief names is canon too: naming it and pasting its text is the
 # co-occurrence scan 2 refuses. resolved under cwd, capped so a brief listing
 # a tree doesn't turn the check into a full-corpus read.
@@ -145,7 +150,7 @@ fi
 
 # planner reads a written brief.md (lead step 2.6)
 if [ "$seat" = "planner" ] && ! printf '%s' "$prompt" | grep -q 'brief\.md'; then
-  reasons="${reasons}planner brief names no brief.md: run /kru:brief first and point the seat at the written file (step 2.6). "
+  reasons="${reasons}planner brief names no brief.md: run /kru/brief first and point the seat at the written file (step 2.6). "
 fi
 
 [ -z "$reasons" ] && exit 0

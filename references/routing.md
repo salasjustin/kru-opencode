@@ -1,8 +1,8 @@
 # Routing — detected stack to seat and skill
 
-The derivation tables, with three callers. **`/kru:setup`** runs them once over a repo and
+The derivation tables, with three callers. **`/kru/setup`** runs them once over a repo and
 writes the answers into that repo's block — that block is then the repo's routing, in prose, and
-re-running the tables is what a block exists to retire. **`/kru:roster`** writes this file when
+re-running the tables is what a block exists to retire. **`/kru/roster`** writes this file when
 a seat is hired or retired, or a conditional skill authored. **`lead`** runs them where no block has
 resolved them, or where a slice reaches a stack the block never covered. A repo whose block already
 names the seat and its skills has this question answered — take the answer.
@@ -34,16 +34,16 @@ names the seat and its skills has this question answered — take the answer.
 | UI feature or screen — **system exists** | `ux-designer` (flow pass) → UI builder against the existing tokens (*UI on an existing system*, Step 2) |
 | a builder returned a **named gap** | the **user**, with the token name it would need. No seat fills it, and no seat extends the system |
 | needs generated/enhanced image assets (hero art, textures, OG, restyle a photo) | `graphic-designer` → builder (**preflight** below) |
-| correctness/quality review of a diff | `code-reviewer` (or `/code-review` skill inline) |
+| correctness/quality review of a diff | `code-reviewer` (or `kru/code-reviewer` skill inline) |
 | module/interface design, refactor with fuzzy boundaries, "where's the seam", coupling/testability | `architecture-reviewer` (design mode, before builder) |
 | structural-integrity gate on a change (boundary erosion, coupling drift) | `architecture-reviewer` (review mode, after builder) |
 | coverage sweep or fan-out across many files; repair a red/flaky suite; an exempt seat's logic-dense output; a repo with no testing conventions captured yet | `test-writer` |
 | repo tooling: pnpm workspaces/catalogs/lockfile · `turbo.json` monorepo task graph + caching · Biome/ESLint/Prettier lint+format · wiring a new package into the graph | `toolchain-engineer` |
 | repo-wide TypeScript infrastructure: strict migration, monorepo project references, type-perf profiling | a general agent with the `typescript` skill loaded |
-| ambiguous or high-blast-radius change the user wants stress-tested and written down before building | **`/kru:brief`** — name it for the user to type; it is not a seat you spawn |
-| something the user wants but doesn't want done now — "not yet," "remember this for later" | **`/kru:todo`** — user-invoked, so name it in one line; mid-task it's your Step 4.5 `TODOS.md` capture |
-| something *wrong* the user wants recorded before it evaporates — a bug they just hit, not being fixed now | **`/kru:issue`** — user-invoked, same deal; mid-task it's your Step 4.5 `issues/` capture |
-| the user wants to work what's parked or what's broken — the `TODOS.md` lines, the open defect files | **`/kru:todos`** / **`/kru:issues`** — user-invoked; each reconciles the store against the code, scores, proposes a batch and waits for the pick before building. Name the one they want; only the user can fire them. Mid-task you already read the store directly when a step needs it |
+| ambiguous or high-blast-radius change the user wants stress-tested and written down before building | **`/kru/brief`** — name it for the user to type; it is not a seat you spawn |
+| something the user wants but doesn't want done now — "not yet," "remember this for later" | **`/kru/todo`** — user-invoked, so name it in one line; mid-task it's your Step 4.5 `TODOS.md` capture |
+| something *wrong* the user wants recorded before it evaporates — a bug they just hit, not being fixed now | **`/kru/issue`** — user-invoked, same deal; mid-task it's your Step 4.5 `issues/` capture |
+| the user wants to work what's parked or what's broken — the `TODOS.md` lines, the open defect files | **`/kru/todos`** / **`/kru/issues`** — user-invoked; each reconciles the store against the code, scores, proposes a batch and waits for the pick before building. Name the one they want; only the user can fire them. Mid-task you already read the store directly when a step needs it |
 | work too big for one context / needs a durable plan of record / decompose a spec into parallelizable slices | `planner` (Step 2.6) |
 | **no specialist matches** | the **user**, naming the seat it would need (*Handling gaps*); the general path only on their say-so |
 

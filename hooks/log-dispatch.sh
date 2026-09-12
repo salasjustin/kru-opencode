@@ -5,22 +5,22 @@
 command -v jq >/dev/null 2>&1 || exit 0
 # plugin root arrives as $1 (substituted in hooks.json) — it is not a
 # guaranteed env var here, and an empty root would silence logging forever
-plugin_root="${1:-$CLAUDE_PLUGIN_ROOT}"
-[ -d "$plugin_root/agents" ] || exit 0
+plugin_root="${1:-$KRU_HOME}"
+[ -d "$plugin_root/agent/kru" ] || exit 0
 input=$(cat) || exit 0
 
 seat=$(printf '%s' "$input" | jq -r '.tool_input.subagent_type // empty' 2>/dev/null)
-seat="${seat#kru:}"
+seat="${seat#kru/}"
 [ -z "$seat" ] && exit 0
 # the auditor's own dispatch would re-create the ledger it just deleted
 [ "$seat" = "dispatch-auditor" ] && exit 0
 # only team seats are auditable against the lead contract
-[ -f "$plugin_root/agents/${seat}.md" ] || exit 0
+[ -f "$plugin_root/agent/kru/${seat}.md" ] || exit 0
 
 # seats carrying Block O owe a `Return pass:` line; the flag tells the auditor
 # whether an absent line is a deviation or simply a seat the block never bound
 block_o=false
-grep -q '^## The return pass' "$plugin_root/agents/${seat}.md" 2>/dev/null && block_o=true
+grep -q '^## The return pass' "$plugin_root/agent/kru/${seat}.md" 2>/dev/null && block_o=true
 
 # computed here rather than inside the jq below: the lead is told about this
 # pair too, and a turn-end audit lands long after the return was routed on
@@ -60,10 +60,7 @@ printf '%s' "$input" | jq -c --arg seat "$seat" \
 # finished (exit 2 is not honoured here); additionalContext is the whole lever,
 # and putting the fact in front of the lead in time is the whole job.
 if [ "$block_o" = true ] && [ "$return_pass" = false ]; then
-  jq -n --arg seat "$seat" '{ hookSpecificOutput: {
-    hookEventName: "PostToolUse",
-    additionalContext: ("kru: " + $seat + " carries Block O and its return states no `Return pass:` line — the pass either did not run or went unstated, so the slice arrives unread as a whole. Ask that seat for it (same-task reuse) before routing on this return.")
-  } }' 2>/dev/null
+  printf 'kru: %s carries Block O and its return states no `Return pass:` line — the pass either did not run or went unstated, so the slice arrives unread as a whole. Ask that seat for it (same task_id) before routing on this return.\n' "$seat"
 fi
 
 exit 0

@@ -1,9 +1,12 @@
 {
-  "name": "engineering-tools",
-  "private": true,
+  "name": "kru-opencode",
   "type": "module",
-  "description": "Tooling for the engineering team's specialists (e.g. graphic-designer's asset generation).",
+  "description": "kru for opencode \u2014 a versioned engineering team of 31 specialist subagents, opencode zen models per seat. A port of github.com/ap-justin/kru.",
   "scripts": {
+    "port": "node scripts/port.mjs",
+    "check": "node scripts/port.mjs --check",
+    "install-team": "node bin/kru-oc.mjs install",
+    "doctor": "node bin/kru-oc.mjs doctor",
     "gen-asset": "tsx scripts/gen-asset.ts"
   },
   "dependencies": {
@@ -11,6 +14,11 @@
     "sharp": "0.35.3"
   },
   "devDependencies": {
-    "tsx": "4.23.0"
+    "tsx": "4.23.0",
+    "@opencode-ai/plugin": "latest"
+  },
+  "version": "0.1.0",
+  "bin": {
+    "kru-oc": "./bin/kru-oc.mjs"
   }
 }
