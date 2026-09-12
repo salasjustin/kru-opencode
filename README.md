@@ -15,7 +15,7 @@ re-normalized rather than hand-patched. What opencode has no equivalent for is i
 
 ## Install
 ```
-git clone https://github.com/ap-justin/kru-opencode
+git clone https://github.com/salasjustin/kru-opencode
 cd kru-opencode
 node bin/kru-oc.mjs install          # copies into ~/.config/opencode
 node bin/kru-oc.mjs doctor           # checks the install, the port, and the claude-code side
