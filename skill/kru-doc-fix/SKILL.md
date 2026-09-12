@@ -18,7 +18,7 @@ The prose is the deliverable and the only thing that moves. The house standard, 
    | *(none)* | the repo's human docs — `README*`, `CONTRIBUTING*`, `DEPLOY*`, `docs/**`, root-level `*.md` |
    | a path or glob | those files, whole |
 
-   Agent-consumed documents — `AGENTS.md`, `AGENTS.md`, skill and agent definitions — are `writing-for-agents`' standard, not this one; leave them out unless named.
+   Agent-consumed documents — `AGENTS.md`, skill and agent definitions — are `writing-for-agents`' standard, not this one; leave them out unless named.
 
 2. **Cut** — each is a class, not a phrasing:
    - **Negatives** — what a doc doesn't state is simply not a path, so there's no need to deny it: "there is no X", "no A, no B, no C" enumerations, "X does not do Y" where nothing implied it would. Whole sections of the form *what is deliberately not here* go entirely.

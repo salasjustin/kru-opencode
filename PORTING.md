@@ -29,6 +29,12 @@ the tree is not normalized (the installer refuses to build an un-normalized tree
 `{KRU_HOME}` is the one placeholder in the committed tree; `kru-oc install` materializes it to the
 config dir it is installing into. A file that still carries it after an install is a `doctor` failure.
 
+Nothing is installed at `<config>/AGENTS.md`, and nothing should be: opencode takes the first global
+rules file that exists — `<config>/AGENTS.md`, else `~/.claude/CLAUDE.md` — so a file there would take
+the user's own global rules out of every session
+(`packages/opencode/src/session/instruction.ts`). The team's own standing context rides in the agent
+definitions instead.
+
 ## What the port rewrites
 
 Mechanical, all of it in `scripts/port.mjs`:

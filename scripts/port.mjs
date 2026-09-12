@@ -145,7 +145,8 @@ const REWRITES = [
   [/\bCLAUDE\.md\b/g, "AGENTS.md"],
   [/\{USER_RULES\}(~|\$HOME)/g, "$1/.claude/CLAUDE.md"],
   // both spellings named one file upstream, so the pair collapses to one branch
-  [/AGENTS\.md\s*(?:\/|or)\s*AGENTS\.md/g, "AGENTS.md"],
+  [/(`?)AGENTS\.md\1\s*(?:\/|,|\bor\b)\s*\1AGENTS\.md\1/g, "$1AGENTS.md$1"],
+  [/\ba (`?)AGENTS\.md/g, "an $1AGENTS.md"],
   // the design chain: opencode reaches no canvas editor and no claude.ai design
   // project, so the surface is the `ui-designer` seat's own artboards. the one
   // phrase kept is "Claude Design canvas", which ui-practice.md spends once to

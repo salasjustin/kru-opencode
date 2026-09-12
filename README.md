@@ -37,6 +37,10 @@ plan started in one harness continues in the other.
 - **Running this fork, adding Claude Code later** → `kru-oc claude` prints the two commands.
 - **opencode only** → nothing else to do; the Claude side is never touched.
 
+Install writes no `AGENTS.md` into the config dir, on purpose: opencode loads **one** global rules
+file — `~/.config/opencode/AGENTS.md` if it exists, otherwise `~/.claude/CLAUDE.md` — so shipping one
+would silently shadow your own global rules.
+
 ## Requirements
 - **opencode 1.18 or newer**, and **node 22+** for the port and install scripts.
 - **opencode zen access** to the five models the seats are pinned to: `claude-opus-5`, `kimi-k3`,

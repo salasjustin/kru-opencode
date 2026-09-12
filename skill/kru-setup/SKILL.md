@@ -139,9 +139,11 @@ Completion: every seat the derivation named can reach the source its row names, 
 told which one it can't and what enabling it would cost.
 
 ### 2. Read what the repo already says
-Open the repo's `AGENTS.md`, `AGENTS.md`, `.claude/rules/*`, `AGENTS.md`, and any nested
-member `AGENTS.md`. That is the whole always-loaded surface, and reading it in one pass is the vantage
-step 3 works from.
+Open the repo's `AGENTS.md` and every `AGENTS.md` above it up to the worktree root, plus an `AGENTS.md`
+or `.claude/rules/*` the repo carries for the opencode side. opencode loads that `AGENTS.md` chain —
+and `AGENTS.md` only when no `AGENTS.md` matched — plus exactly one global file: `~/.config/opencode/AGENTS.md`
+if it exists, otherwise the user's `~/.claude/CLAUDE.md`. That is the whole always-loaded surface, and
+reading it in one pass is the vantage step 3 works from.
 
 Completion: every always-loaded file in the repo is read.
 
