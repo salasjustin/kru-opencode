@@ -83,7 +83,7 @@ the two shell gates. Each interruption below is one you can turn off.
 
 | When | What happens | Turn it off |
 |---|---|---|
-| First tool call of a session not on the `kru` agent | Blocks once until the lead contract is loaded, so no build starts off-contract | `export KRU_NO_LEAD_GATE=1` |
+| First tool call of a session not on the `kru` agent | Refuses once, naming the two routes to the lead contract, so no build starts off-contract | `export KRU_NO_LEAD_GATE=1`, or `touch ~/.claude/kru/lead-gate/off` to keep it off for good |
 | Dispatching a seat | Refuses a handoff that carries stale line numbers, restates a rule the seat already has, or leaves a decision open | `export KRU_NO_GATE=1` |
 | While a session has unaudited dispatches | Adds a standing line asking for the dispatch auditor before the turn ends | `export KRU_NO_AUDIT=1` |
 | After each dispatch | Appends one line to a session ledger the auditor reads | — |

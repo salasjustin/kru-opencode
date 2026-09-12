@@ -1,5 +1,5 @@
 ---
-description: Set the team up in a repo — derive its standing answers, run the bars over its always-loaded AGENTS.md/AGENTS.md, and write the team into it in that file's own voice.
+description: Set the team up in a repo — derive its standing answers, run the bars over its always-loaded AGENTS.md, and write the team into it in that file's own voice.
 agent: kru
 ---
 

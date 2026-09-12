@@ -27,7 +27,7 @@ const LEDGER_DIR = join(STORE, "audit")
 
 const LEAD_MARKER = "You are the engineering lead."
 const GATE_MESSAGE =
-  "kru: this session has not loaded the lead contract. Switch to the `kru` agent (tab) or load the `kru-lead` skill, then take the action again — nothing else about the request has changed. This fires once per session, and read-only commands are exempt. To run without it: touch ~/.claude/kru/lead-gate/off"
+  "kru: refused — load the lead contract first. Switch to the `kru` agent (tab), or call the skill tool with name `kru-lead`, then take this action again with the same arguments. Every tool stays available, and read-only commands run ungated."
 
 // bash edits as readily as edit does — a redirect, a substitution, an in-place
 // flag — so bash is gated too, but a command that only reads is an inspection
@@ -111,9 +111,9 @@ export const kru: Plugin = async ({ client, directory }) => {
       output.system.push(
         [
           `kru dispatch audit pending: ${n} team-seat dispatch(es) this session, logged at ${ledgerPath(input.sessionID)}.`,
-          `Before you end this turn, dispatch the \`kru/dispatch-auditor\` subagent exactly once with the prompt:`,
+          `Before this turn ends, dispatch the \`kru/dispatch-auditor\` subagent once with the prompt:`,
           `"Audit the dispatch ledger at ${ledgerPath(input.sessionID)}. Lead contract (for exact wording only): ${join(KRU_HOME, "agent", "kru.md")}, Step 3."`,
-          `The seat carries its own rulebook; it files durable orchestration learnings to the preference inbox and deletes the ledger. Relay its one-line return, then stop.`,
+          `It files its own learnings and deletes the ledger. Relay its one-line return.`,
         ].join(" "),
       )
     },

@@ -17,21 +17,21 @@ Every place a **seat (agent)** is registered. `hire` writes all of them, `retire
 
 | # | File | Entry |
 |---|---|---|
-| 1 | `agents/<name>.md` | the definition — frontmatter `name`/`description`/`tools`/**pinned** `model`; seat-specific body copies a peer's shape, **shared blocks copy `shared-blocks.md`** |
+| 1 | `agent/kru/<name>.md` | the definition — frontmatter `name`/`description`/`tools`/**pinned** `model`; seat-specific body copies a peer's shape, **shared blocks copy `shared-blocks.md`** |
 | 2 | `ROSTER.md` → *Current specialists* | one role row (agent · role · backing source) |
-| 3 | `ROSTER.md` → *Model tiers* | a **pinned** row (explicit full ID) + one-line why — `inherit` is retired |
+| 3 | `scripts/port.mjs` → `SEATS` | the seat's tier, or nothing where the `coding` default is right (`MODELS.md`) |
 | 4 | `SOURCES.md` | backing-source row (skip only for a genuinely stack-agnostic seat, e.g. a pure reviewer — and say so) |
-| 5 | `{KRU_HOME}/kru/references/routing.md` | the `detected/needed → specialist` row — read by `lead` and by `/kru/setup`, which is what puts the seat into a repo's sheet (a review-only seat wires into *Step 4* instead; a **user-invoked** seat — triggered by the user, via a thin invoker skill (`/<name>`) or by spawning the agent — wires via its `ROSTER.md` row marked user-invoked, plus that invoker skill if it has one, and stays out of `lead` entirely; a **hook-invoked** seat — fired by the plugin's own `hooks/hooks.json`, e.g. the Stop nudge — wires via its `ROSTER.md` row marked hook-invoked plus its hook scripts, and likewise stays out of `lead` routing) |
-| 6 | `.claude-plugin/plugin.json` | `version` bump **and** the "routes to N specialist subagents" **count** in `description` |
-| 7 | `.claude-plugin/marketplace.json` | the "N specialist subagents" **count** in `description` |
+| 5 | `{KRU_HOME}/kru/references/routing.md` | the `detected/needed → specialist` row — read by `lead` and by `/kru/setup`, which is what puts the seat into a repo's sheet (a review-only seat wires into *Step 4* instead; a **user-invoked** seat — triggered by the user, via a thin invoker skill (`/<name>`) or by spawning the agent — wires via its `ROSTER.md` row marked user-invoked, plus that invoker skill if it has one, and stays out of `lead` entirely; a **hook-invoked** seat — fired by the plugin (`plugin/kru.ts`), e.g. the audit nudge — wires via its `ROSTER.md` row marked hook-invoked plus its hook scripts, and likewise stays out of `lead` routing) |
+| 6 | `package.json` | `version` bump **and** the "routes to N specialist subagents" **count** in `description` |
+| 7 | `README.md` | the "N specialist subagents" **count** in `description` |
 | 8 | `VERSION` · `ROSTER.md` header | version — minor for a new seat: `VERSION` and the `# Roster — vX.Y.Z` header, equal |
 | 9 | git | `commit` + `tag vX.Y.Z` — **only when the user asks** (team git rule) |
 
 A **skill** touches a smaller map: `skills/<name>/SKILL.md` (+ any disclosed sibling files), a note in `ROSTER.md` → *Reused, not owned* (and `SOURCES.md` if it backs a seat), `VERSION`/header, git. A skill gated on a **library the repo may or may not have** takes one more row — `references/routing.md` → *Conditional skills*, which is what puts it into a repo's sheet; a skill its seats load unconditionally stays out of that table. **No agent-count bump** (#6–#7 count is agents only). A *vendored* skill also needs the provenance HTML comment + a `SOURCES.md` → *Vendored resources* note — copy the shape at the top of `skill/kru-writing-for-agents/SKILL.md`.
 
-**`learn`** touches a map of its own: it promotes preferences from the inbox (`PREFERENCES.md`) into targeted `agents/<name>.md` prompt edits and/or the owning skill (`lead` SKILL.md for orchestration-wide rules), then bumps `VERSION`/header. No agent added → **no count bump**. It's the only verb that reads user-global state (`~/.claude/kru/`) and the only one gated on a per-edit user OK before it writes.
+**`learn`** touches a map of its own: it promotes preferences from the inbox (`PREFERENCES.md`) into targeted `agent/kru/<name>.md` prompt edits and/or the owning skill (`lead` SKILL.md for orchestration-wide rules), then bumps `VERSION`/header. No agent added → **no count bump**. It's the only verb that reads user-global state (`~/.claude/kru/`) and the only one gated on a per-edit user OK before it writes.
 
-The **count N** (#6–#7) is drift-prone — never hand-increment it; recompute from `ls agents/*.md | wc -l`.
+The **count N** (#6–#7) is drift-prone — never hand-increment it; recompute from `ls agent/kru/*.md | wc -l`.
 
 ## Dispatch
 Read the one file for the requested verb, then execute it against the wiring map above.

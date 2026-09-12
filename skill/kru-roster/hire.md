@@ -7,7 +7,7 @@ State, in one line each: the seat's **single responsibility**, its **boundary** 
 
 Completion: role + boundary-vs-nearest-peer + named source, all one line, no overlap.
 
-## 2. Draft `agents/<name>.md` (map #1)
+## 2. Draft `agent/kru/<name>.md` (map #1)
 Copy the **nearest peer's shape** for the seat-specific body — read it first. Optionally spawn a drafting agent with that peer file and `writing-for-agents` in context to write the body, then review it yourself. Frontmatter:
 - `description` — trigger-rich, ending in a **boundary clause** that names its complementary seat (see how `architecture-reviewer` names `code-reviewer`).
 - `tools` — omit for a full-access builder; scope it for a read-only reviewer (copy a reviewer's list).
@@ -25,7 +25,7 @@ Completion: file exists, meets the standard, description carries a boundary clau
 - `{KRU_HOME}/kru/references/routing.md` row — the `detected/needed → specialist`. That table has two callers (`lead` and `/kru/setup`), so one row serves both; a repo already deployed picks the new seat up on its next `/kru/setup`. A **review-only** seat wires into *Step 4* (review & verify) instead, next to its sibling reviewer.
 
 ## 4. Version + count (map #6–#8)
-Recompute the count — `ls agents/*.md | wc -l` — and set it in **both** `plugin.json` and `marketplace.json` descriptions (don't hand-increment). Minor bump: `VERSION`, `plugin.json` `version`, and the `ROSTER.md` header, all equal.
+Recompute the count — `ls agent/kru/*.md | wc -l` — and set it in **both** `package.json`'s description and `README.md` (don't hand-increment). Minor bump: `VERSION`, `package.json` `version`, and the `ROSTER.md` header, all equal.
 
 Completion: **run `audit` (see `audit.md`) — it must pass.**
 

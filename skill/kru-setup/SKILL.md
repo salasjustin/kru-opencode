@@ -1,6 +1,6 @@
 ---
 name: kru-setup
-description: Set the team up in a repo — derive its standing answers, run the bars over its always-loaded AGENTS.md/AGENTS.md, and write the team into it in that file's own voice. A blank repo is grilled first (what, stack, finalize) and the team deployed from the decision. `prose` runs the pass alone. Re-run to re-derive.
+description: Set the team up in a repo — derive its standing answers, run the bars over its always-loaded AGENTS.md, and write the team into it in that file's own voice. A blank repo is grilled first (what, stack, finalize) and the team deployed from the decision. `prose` runs the pass alone. Re-run to re-derive.
 disable-model-invocation: true
 argument-hint: "[prose | <repo path> — omit for cwd]"
 ---

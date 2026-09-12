@@ -37,7 +37,7 @@ Return: {what the lead gets back — paths, commands run, what the next seat sti
 
 Required on every seat that **writes or edits TypeScript**. `python-developer` is the one code-writing seat outside it — its artifact is Python and its packaging, with no TS surface at all, so there is nothing for the block to bind; it carries Block I on its own, and the `Comments`-follows-`TypeScript` grep is unaffected because it never enters that grep's input set.
 
-Full form (15 seats — the default for any seat writing app code; re-derive with `grep -lc 'cheat-sheet baseline' agents/*.md` rather than trusting this number):
+Full form (15 seats — the default for any seat writing app code; re-derive with `grep -lc 'cheat-sheet baseline' agent/kru/*.md` rather than trusting this number):
 
 ```
 ## TypeScript (shared skill)
@@ -50,7 +50,7 @@ Invariant in both forms: loads `` **`typescript`** `` **and** `solve it in-conte
 
 ## Block I — `## Comments (earn the line)`
 
-Required on every seat carrying **Block B** (20 seats — the same list, and it sits **immediately after** Block B in every one of them: both are ambient craft in the code the seat is already writing, so they read as a pair). Re-derive with `grep -L 'Comments (earn the line)' $(grep -l 'TypeScript (shared skill)' agents/*.md)` — it must return nothing.
+Required on every seat carrying **Block B** (20 seats — the same list, and it sits **immediately after** Block B in every one of them: both are ambient craft in the code the seat is already writing, so they read as a pair). Re-derive with `grep -L 'Comments (earn the line)' $(grep -l 'TypeScript (shared skill)' agent/kru/*.md)` — it must return nothing.
 
 **Exempt by decision** — record the reason, don't just omit:
 - `graphic-designer` — its p5.js output comes from the `algorithmic-art` template, whose heavy instructional comments are what mark the VARIABLE sections a later run replaces. Pruning them breaks the template's own contract, and the artifact is an image, not code anyone maintains.
@@ -91,7 +91,7 @@ Every seat ends with exactly one of:
 - a trailing **`Return:`** line — builders and specialists, or
 - a **`## Output`** / **`## Handoff`** section — reviewers, planners, and the asset seats, whose return is structured rather than a path list.
 
-The two are exhaustive and disjoint, so `grep -Lc '^Return:' agents/*.md` and `grep -lE '^## (Output|Handoff)' agents/*.md` should partition the roster — re-derive rather than trusting a count here.
+The two are exhaustive and disjoint, so `grep -Lc '^Return:' agent/kru/*.md` and `grep -lE '^## (Output|Handoff)' agent/kru/*.md` should partition the roster — re-derive rather than trusting a count here.
 
 Pick by seat kind, not by whichever peer you opened.
 

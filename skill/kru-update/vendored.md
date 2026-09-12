@@ -4,10 +4,10 @@ A vendored skill is a verbatim copy (`skill/kru-roster/author.md` → *Vendored*
 
 ## Do
 
-1. **Enumerate the copies.** Every `skills/*/SKILL.md` that opens with a provenance comment, plus the rows in `SOURCES.md` → *Vendored resources* — a copy with no comment (`react-router`) has the row as its only pin. `$ARGUMENTS` names a skill → just that one.
+1. **Enumerate the copies.** Every `skill/kru-*/SKILL.md` that opens with a provenance comment, plus the rows in `SOURCES.md` → *Vendored resources* — a copy with no comment (`react-router`) has the row as its only pin. `$ARGUMENTS` names a skill → just that one.
 
    ```bash
-   grep -H -o -m1 '<!-- vendored.\{0,400\}' skills/*/SKILL.md
+   grep -H -o -m1 '<!-- vendored.\{0,400\}' skill/kru-*/SKILL.md
    ```
 
    From each: the repo, the ref (branch or tag), the sha if one is recorded, the upstream path, and the recorded **deviations** — files excluded, lines re-applied after a re-sync. A directory that is in neither place is roster drift → note it for `/kru/roster audit` and move on. Done when every directory the `SOURCES.md` section names has a row in your list.

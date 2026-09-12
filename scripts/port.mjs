@@ -53,7 +53,10 @@ const DEFAULT_SEAT = { model: ZEN.coding }
 
 // the lead runs as a primary agent: it is the seat the user talks to, and
 // opencode switches primaries with tab rather than loading a skill.
-const LEAD = { model: ZEN.judgment }
+const LEAD = {
+  model: ZEN.judgment,
+  description: "The engineering lead — scopes the work, routes it to the kru seats, and runs the board.",
+}
 
 // ---------------------------------------------------------------------------
 // claude tool names → opencode tool ids (permission keys). an entry of null is
@@ -96,6 +99,10 @@ const REWRITES = [
   [/(^|[\s`('"])skills\/([a-z0-9-]+)\/SKILL\.md/g, "$1skill/kru-$2/SKILL.md"],
   [/(^|[\s`('"])skills\/([a-z0-9-]+)\//g, "$1skill/kru-$2/"],
   [/(^|[\s`('"])agents\/([a-z0-9-]+)\.md/g, "$1agent/kru/$2.md"],
+  [/(^|[\s`('"])agents\/(\*|<[a-z0-9-]+>)\.md/g, "$1agent/kru/$2.md"],
+  [/`agents\/`/g, "`agent/kru/`"],
+  [/`skills\/\*`/g, "`skill/kru-*`"],
+  [/(^|[\s`('"])skills\/\*\//g, "$1skill/kru-*/"],
   // slash commands: /kru:brief → /kru/brief
   [/\/kru:([a-z0-9-]+)/g, "/kru/$1"],
   // tools: claude capitalizes its tool names, opencode lower-cases them. only
@@ -107,6 +114,7 @@ const REWRITES = [
   [/\bTodoWrite\b/g, "todowrite"],
   [/\bthe `?Agent`? tool\b/g, "the `task` tool"],
   [/\bAgent call\b/g, "`task` call"],
+  [/`Agent` call/g, "`task` call"],
   [/\bsubagent_type\b/g, "subagent_type"], // same key in opencode's task tool
   [/\bWebFetch\b/g, "webfetch"],
   [/\bWebSearch\b/g, "websearch"],
@@ -116,7 +124,7 @@ const REWRITES = [
   [/(^|[\s`(])\/tdd\b/g, "$1kru-tdd"],
   [/(^|[\s`(])\/diagnosing-bugs\b/g, "$1kru-diagnosing-bugs"],
   [/(^|[\s`(])\/testing\b/g, "$1kru-testing"],
-  [/(^|[\s`(])\/research\b(?!-)/g, "$1general"],
+  [/(^|[\s`(])\/research\b(?!-)/g, "$1`explore`"],
   [/`\/code-review`/g, "`kru/code-reviewer`"],
   [/(^|[\s(])\/code-review\b/g, "$1`kru/code-reviewer`"],
   // claude's built-in delegates → opencode's
@@ -136,6 +144,8 @@ const REWRITES = [
   [/(^|[\s`('"(\/])\.claude\/CLAUDE\.md/g, "$1AGENTS.md"],
   [/\bCLAUDE\.md\b/g, "AGENTS.md"],
   [/\{USER_RULES\}(~|\$HOME)/g, "$1/.claude/CLAUDE.md"],
+  // both spellings named one file upstream, so the pair collapses to one branch
+  [/AGENTS\.md\s*(?:\/|or)\s*AGENTS\.md/g, "AGENTS.md"],
   // the design chain: opencode reaches no canvas editor and no claude.ai design
   // project, so the surface is the `ui-designer` seat's own artboards. the one
   // phrase kept is "Claude Design canvas", which ui-practice.md spends once to
@@ -146,6 +156,40 @@ const REWRITES = [
   [/\bClaude Design\b(?! canvas)/g, "the design turn"],
   [/`\/design`/g, "`kru/ui-designer`"],
   [/(^|[\s(])\/design\b(?!-)/g, "$1`kru/ui-designer`"],
+  // install shape: a copy into an opencode config dir. nothing resolves
+  // differently per load, and the installed tree is a build `kru-oc sync`
+  // overwrites, which is the reason the inbox stays in the home dir.
+  [/This team is a versioned plugin; (`\{KRU_HOME\}\/kru`) is its install dir/g, "This team is versioned; $1 is its install dir"],
+  [/\s*\((?:resolves|resolved) in both local and web plugin loads\)/g, ""],
+  [/,? resolved in both local and web plugin loads/g, ""],
+  [/\bthe plugin'?s? install dir\b/g, "the install dir"],
+  [/\(that resolves to a read-only, version-pinned cache when installed from the marketplace — unwritable from other projects and blown away on update\)/g, "(the installed copy is a build the next `kru-oc sync` overwrites)"],
+  [/durable across plugin updates/g, "durable across syncs"],
+  [/bundled in this plugin/g, "bundled with the team"],
+  [/bundled plugin skills/g, "bundled team skills"],
+  [/plugins can't ship auto-loaded context, so /g, ""],
+  // hooks: one TS plugin, and none of them can block the end of a turn — the
+  // audit ask is a standing system line while the ledger is non-empty
+  [/the plugin'?s?( own)? `hooks\/hooks\.json`/g, "the plugin (`plugin/kru.ts`)"],
+  [/`hooks\/hooks\.json`/g, "`plugin/kru.ts`"],
+  [/`hooks\/nudge-audit\.sh` blocks a stop once while a ledger stands and hands back the dispatch instruction/g, "`plugin/kru.ts` appends the standing audit line while a ledger stands"],
+  [/a Stop-hook nudge fires/g, "a standing audit nudge asks the lead to dispatch"],
+  [/\bStop-hook nudge\b/g, "standing audit nudge"],
+  [/\bthe Stop (?:hook|nudge)\b/g, "the audit nudge"],
+  // the wiring map: no plugin manifest here. the seat count lives in
+  // package.json's description and README's opening; the version in
+  // package.json; every seat's model in this script's own SEATS.
+  [/\*\*both\*\* `plugin\.json` and `marketplace\.json` descriptions/g, "**both** `package.json`'s description and `README.md`"],
+  [/`plugin\.json` \+ `marketplace\.json`/g, "`package.json` + `README.md`"],
+  [/`plugin\.json`\/`marketplace\.json`/g, "`package.json`/`README.md`"],
+  [/`\.claude-plugin\/plugin\.json`/g, "`package.json`"],
+  [/`\.claude-plugin\/marketplace\.json`/g, "`README.md`"],
+  [/`plugin\.json`/g, "`package.json`"],
+  [/`marketplace\.json`/g, "`README.md`"],
+  [/the plugin manifest is the one that gets forgotten/g, "`package.json` is the one that gets forgotten"],
+  [/\| 3 \| `ROSTER\.md` → \*Model tiers\* \| a \*\*pinned\*\* row \(explicit full ID\) \+ one-line why — `inherit` is retired \|/g, "| 3 | `scripts/port.mjs` → `SEATS` | the seat's tier, or nothing where the `coding` default is right (`MODELS.md`) |"],
+  [/\(b\) a \*Model tiers\* entry/g, "(b) a `scripts/port.mjs` → `SEATS` tier or the `coding` default"],
+  [/\(`claude-opus-5` \/ `claude-sonnet-5` — never omitted, never a floating `opus`\/`sonnet` alias\) and it matches its `ROSTER\.md` \*Model tiers\* row/g, "(`opencode/<model>`, never a floating alias) and it comes from `scripts/port.mjs` → `SEATS` rather than a hand edit"],
   // the harness itself
   [/\bClaude Code\b/g, "opencode"],
   // opencode names an MCP tool `<server>_<tool>`, sanitizing the server; claude
@@ -305,17 +349,16 @@ function portAgents() {
 function portLead() {
   const src = readF(join(ROOT, "skill", "kru-lead", "SKILL.md"))
   const fm = splitFrontmatter(src)
-  const description = field(fm.raw, "description")
+  // a primary agent is picked by the human in the TUI, so its description is a
+  // name for the seat rather than the skill's model-facing trigger list
   const header = [
     `# GENERATED by scripts/port.mjs from skill/kru-lead/SKILL.md — do not edit.`,
     ``,
     `Seat names address the \`task\` tool as \`kru/<seat>\` (\`kru/react-ui-builder\`), and team`,
     `skills as \`kru-<name>\` (\`kru-testing\`). Commands are \`/kru/<name>\`.`,
-    `A subagent cannot dispatch another subagent unless \`subagent_depth\` is raised in`,
-    `opencode config, so the board below is this session's to run.`,
     ``,
   ].join("\n")
-  const out = `---\ndescription: ${description}\nmode: primary\nmodel: ${LEAD.model}\n---\n\n${header}\n${fm.body.trim()}\n`
+  const out = `---\ndescription: ${LEAD.description}\nmode: primary\nmodel: ${LEAD.model}\n---\n\n${header}\n${fm.body.trim()}\n`
   write(join(ROOT, "agent", "kru.md"), rewrite(out, new Set(seatNames())))
 }
 

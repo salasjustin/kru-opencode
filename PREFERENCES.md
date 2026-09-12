@@ -21,7 +21,7 @@ any project (cwd = someone's repo)         ~/.claude/kru/
                                               │  (run from the plugin source repo; user gates each edit)
                                               ▼
                               the plugin, versioned + shared
-                                agents/<seat>.md              (targeted prompt edits)
+                                agent/kru/<seat>.md              (targeted prompt edits)
                                 skills/<owner>/SKILL.md       (incl. lead — orchestration-wide rules)
                                 → commit + tag  (minor bump)
                                               │
@@ -38,13 +38,13 @@ Three arrows, one circuit. **Cheap lossless capture**, then a **curated, human-g
 
 ## Tier 1 — capture (the inbox)
 
-**Location: `~/.claude/kru/inbox.md`** — a single user-global file, created on first capture. Not per-project (the team is project-agnostic, so captures don't belong in any per-project plan store), and **not** the plugin's install dir (that resolves to a read-only, version-pinned cache when installed from the marketplace — unwritable from other projects and blown away on update). Home dir is the one place writable from every project and durable across plugin updates.
+**Location: `~/.claude/kru/inbox.md`** — a single user-global file, created on first capture. Not per-project (the team is project-agnostic, so captures don't belong in any per-project plan store), and **not** the install dir (the installed copy is a build the next `kru-oc sync` overwrites). Home dir is the one place writable from every project and durable across syncs.
 
 It has **three writers**:
 
 1. **The user, explicitly** — `/kru/remember <what they liked>`. Never inferred from approval; the team does not guess. A liked *pattern* with concrete code is saved as an artifact under `~/.claude/kru/patterns/<slug>.md` and indexed by an inbox line.
 2. **Agents, as they work** — a builder/reviewer that discovers a durable preference (the user rejected X twice and chose Y; this repo's approved convention is Z) appends one line at end-of-run. This is journaling a *learning*, not reading approval — the same instinct as `test-writer` capturing a repo's testing conventions. The **lead** hands each dispatched seat the inbox path + this format so the learning lands (Step 3).
-3. **`dispatch-auditor`, on the team's own process** — the plugin's hooks log every team-seat dispatch to a session ledger (`~/.claude/kru/audit/`), and a Stop-hook nudge fires the seat to audit it against the `lead` Step 3 contract, filing `[workflow]` lines for durable deviations (routing misses, incomplete handoffs, restated ambient blocks). This is the loop's autonomous half — the team observes how it was run and proposes its own corrections — and it is autonomy at the **capture** tier only: still never inferred from approval (the ledger holds the lead's dispatch text, not the user's reactions), and still gated at the sweep like every other line.
+3. **`dispatch-auditor`, on the team's own process** — the plugin's hooks log every team-seat dispatch to a session ledger (`~/.claude/kru/audit/`), and a standing audit nudge asks the lead to dispatch the seat to audit it against the `lead` Step 3 contract, filing `[workflow]` lines for durable deviations (routing misses, incomplete handoffs, restated ambient blocks). This is the loop's autonomous half — the team observes how it was run and proposes its own corrections — and it is autonomy at the **capture** tier only: still never inferred from approval (the ledger holds the lead's dispatch text, not the user's reactions), and still gated at the sweep like every other line.
 
 Entry format — one line, untriaged, lossless (mirrors the `TODOS.md` line):
 
@@ -68,7 +68,7 @@ The **curated, human-gated** half — it edits the team, so it lives under roste
 
 1. Reads `~/.claude/kru/inbox.md` (+ `patterns/`); groups by lane, dedupes, drops noise.
 2. For each keeper, picks a **destination**:
-   - **seat-specific** (a default only `graphic-designer`, or only the Svelte builder, should carry) → a **targeted prompt edit** to that `agents/<seat>.md`.
+   - **seat-specific** (a default only `graphic-designer`, or only the Svelte builder, should carry) → a **targeted prompt edit** to that `agent/kru/<seat>.md`.
    - **cross-seat** (several seats should carry it) → the same targeted edit in each affected seat, or the owning skill (`lead` SKILL.md for orchestration-wide rules).
    - **reusable concrete pattern** → keep the `patterns/<slug>.md` artifact, reference it from the seat/skill that uses it.
 3. **Proposes the diffs to the user and gates on approval** — editing agent prompts has global blast radius, so nothing lands unreviewed (same as `hire`'s hand-off).
@@ -80,7 +80,7 @@ The **curated, human-gated** half — it edits the team, so it lives under roste
 There is deliberately **no central style file**. opencode plugins cannot ship auto-loaded context (no plugin AGENTS.md/rules mechanism), so a file that has to be *handed down* only reaches a seat if the lead remembers to re-read and re-slice it on every dispatch — a hop that silently drops. A preference therefore lands in one of two places, both of which the seat reaches on its own:
 
 - **`ui-patterns`** (`skill/kru-ui-patterns/`) for a component-level UI default — the corpus a builder **consults by build target**, loading the one group matching what it's about to write. This is where most `[design]`-lane preferences go. It's a skill the seat loads itself rather than context the lead carries, which is what makes it survive the dispatch hop the retired central style file never did; and it holds the bound a flat list of preferences can't — `CURATION.md` requires every entry to name **the default it corrects**, so the corpus grows with wrong defaults rather than with taste. It takes **behavior only**: validation timing, where focus goes, where an outcome reports, what a control announces. A preference about how something *looks* — rank, ink, borders, the focus indicator itself — is the project design system's to settle, so the sweep returns it to you instead of filing it.
-- **The seat's own `agents/<seat>.md` prompt**, or the owning skill (`lead`'s SKILL.md for orchestration-wide rules), for everything that isn't a component pattern — a stack-specific mechanism, a routing rule, a seat's posture. Where a rule has both, the rule goes in the corpus and only the mechanism goes in the seat.
+- **The seat's own `agent/kru/<seat>.md` prompt**, or the owning skill (`lead`'s SKILL.md for orchestration-wide rules), for everything that isn't a component pattern — a stack-specific mechanism, a routing rule, a seat's posture. Where a rule has both, the rule goes in the corpus and only the mechanism goes in the seat.
 
 Versioned and shared either way — every install inherits them; the raw inbox stays personal to the user's machine.
 

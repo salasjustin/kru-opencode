@@ -4,7 +4,7 @@ The team's UI doctrine, read directly by the three UI component builders, `ux-de
 
 The look is **drafted as artboards and settled by the user's eye on a render** — never by a plan written in prose, and never by the seat that builds the screen. What the team owns is the **material** it designs with — the repo's real token file and its real components — and the **conformance gate** that keeps a build inside them.
 
-**This fork has no canvas editor.** Upstream's design turn publishes the Claude Design canvas editor, where the user reshapes artboards directly and saves. opencode has no equivalent surface, so the loop here is: `ui-designer` writes `.dc.html` artboards into the tree, the **lead opens them in the user's browser**, and what the user wants different comes back as a re-brief to the seat rather than a direct edit. The stop is the same stop — a render, in front of the user, before any screen is built — and it costs a round trip where upstream costs a drag.
+**The verdict lands on a render.** `ui-designer` writes `.dc.html` artboards into the tree, the **lead opens them in the user's browser**, and what the user wants different comes back as a re-brief to the seat. The stop is the one that matters — a render, in front of the user, before any screen is built — at the cost of a round trip per reshape.
 
 **The design is authoritative.** Every value it settled ships as authored, and the one place a value is ever authored is the repo's token file, transcribed from what came back.
 
@@ -14,7 +14,7 @@ The look is **drafted as artboards and settled by the user's eye on a render** �
 
 **The gallery is the builder's local loop.** Where the repo keeps one, its own components render on its own dev server, maintained as ordinary app code — `skill/kru-design-gallery/SKILL.md`, the user's `/kru/design-gallery`. It answers *what does this system have* for whoever is building it.
 
-**The sync lane does not exist in this fork.** Upstream's recurring-design surface publishes a bundle of the repo's real components to a claude.ai/design project, which opencode cannot reach. Nothing replaces it: a non-coder designing against the system works from the **gallery** on the dev server, and every design turn here is an engineer's own, reading the tree fresh.
+**A non-coder reads the system off the dev server.** The **gallery** is the recurring-design surface: the repo's own components, rendered from the branch they live on. Every design turn here is an engineer's own, reading the tree fresh.
 
 ## Who owns what
 

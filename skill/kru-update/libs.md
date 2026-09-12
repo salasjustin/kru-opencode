@@ -7,9 +7,9 @@ A first-party library skill is a set of runs on one specific version (`skill/kru
 1. **Enumerate the pins.** `$ARGUMENTS` names a skill → just that one.
 
    ```bash
-   grep -H -o -m1 'Reproduced on \*\*`[^`]*`\*\*[^.]*\.' skills/*/SKILL.md   # npm pins; companions follow "with"
-   grep -H -m1 'Reproduced on \*\*[a-zA-Z]' skills/*/SKILL.md              # toolchains — go, python (+ ruff, mcp, hatchling)
-   grep -H -m1 '^As of 20' skills/*/SKILL.md                               # dist-tag claims (drizzle, panda-css): what `latest` resolved to on a date
+   grep -H -o -m1 'Reproduced on \*\*`[^`]*`\*\*[^.]*\.' skill/kru-*/SKILL.md   # npm pins; companions follow "with"
+   grep -H -m1 'Reproduced on \*\*[a-zA-Z]' skill/kru-*/SKILL.md              # toolchains — go, python (+ ruff, mcp, hatchling)
+   grep -H -m1 '^As of 20' skill/kru-*/SKILL.md                               # dist-tag claims (drizzle, panda-css): what `latest` resolved to on a date
    ```
 
    From each line: the primary package, its companions, the date, and the skill's own **threshold** — *after a major bump* for most, *after a minor bump* where the skill says so (`conform`: its `future` half breaks on minors). A library skill with no such line can't be judged by this sweep → note it for `/kru/roster audit`. `modern-css` pins Baseline years, not a package; its own +30-months formula is its check, outside this sweep. Done when every first-party skill under `skills/` that names a package is on the list, with a pin or an audit note.

@@ -2,7 +2,8 @@
 
 Upstream pins every seat to `claude-opus-5` (three to `claude-sonnet-5`), because that is what its
 harness sells. This fork is zen-native: each seat runs on the model its *work* is worth, and the map
-lives in exactly one place — `scripts/port.mjs` → `ZEN` and `SEATS`. Edit there, run
+lives in exactly one place — `scripts/port.mjs` → `ZEN` and `SEATS`. Nothing else in the tree names a
+model id: `ROSTER.md` → *Model tiers* points here, and every seat's frontmatter is generated. Edit there, run
 `node scripts/port.mjs && node bin/kru-oc.mjs sync`, and every seat's frontmatter follows.
 
 ## The tiers

@@ -23,7 +23,7 @@ the tree is not normalized (the installer refuses to build an un-normalized tree
 | `skills/<name>/` | `skill/kru-<name>/` | opencode's skill namespace is flat and global, and the loader requires the frontmatter `name` to match its directory |
 | — | `command/kru/<name>.md` | opencode keeps commands separate from skills; one is generated per user-invoked skill (`argument-hint` upstream, or named as `/kru/<name>` in ported prose) |
 | `hooks/hooks.json` + 4 `.sh` | `plugin/kru.ts` + 2 `.sh` | opencode hooks are a TS plugin; two of the shell gates survive behind an adapter |
-| `.claude-plugin/` | `bin/kru-oc.mjs` | no plugin manifest; installation is a copy into a config dir |
+| `.claude-plugin/` | `bin/kru-oc.mjs` | no plugin manifest; installation is a copy into a config dir. The roster's wiring map follows: the version lives in `package.json`, the seat count in its `description` and `README.md` |
 | `ROSTER.md`, `SOURCES.md`, `TRACKER.md`, `PREFERENCES.md`, `references/`, `scripts/`, `hooks/` | same, installed under `<config>/kru/` | the support tree the prompts read through `{KRU_HOME}` |
 
 `{KRU_HOME}` is the one placeholder in the committed tree; `kru-oc install` materializes it to the
@@ -49,6 +49,13 @@ Mechanical, all of it in `scripts/port.mjs`:
   The user's own `~/.claude/CLAUDE.md` is **kept as-is** — opencode loads it too.
 - **Names** — `/kru:<x>` → `/kru/<x>`, and a bare `kru:<name>` resolves against the tree: a seat
   becomes `kru/<seat>`, a skill becomes `kru-<name>`.
+- **In-tree paths** — `agents/<seat>.md` → `agent/kru/<seat>.md`, `skills/<name>/` → `skill/kru-<name>/`,
+  including the glob forms the roster's `audit` greps with.
+- **Install vocabulary** — upstream is a versioned plugin resolved out of a cache; here it is a copy in
+  a config dir that `kru-oc sync` overwrites, which is what the rules about the install dir, the
+  preference inbox's home and the vendored skills say instead.
+- **The hooks** — `hooks/hooks.json` → `plugin/kru.ts`, and every "Stop hook" becomes the standing
+  audit nudge, because opencode has no hook that can block the end of a turn (below).
 - **The design chain** — see below.
 
 The script also **warns** (never rewrites) on references to surfaces opencode cannot reach, so a merge
@@ -98,6 +105,9 @@ human read. `scripts/port.mjs` → `HAND_OWNED` holds the list the rules skip en
 | `skill/kru-update/SKILL.md` | its "Claude Code" ground is about the *other* harness's releases — this fork's equivalent ground is opencode's, and the sweep needs rewriting by hand |
 | `plugin/kru.ts` → the lead gate | upstream's `require-lead.sh` reads the session transcript, which opencode does not expose; the read-only bash classifier is mirrored in TS and drifts if upstream edits its verb lists |
 | `agent/kru/ui-designer.md`, `references/ui-practice.md`, `skill/kru-artboards/` | the design chain above |
+| `ROSTER.md` → *Model tiers* | upstream argues Claude tiers, `effort:` and prompt-cache TTL; here the section is three lines pointing at `MODELS.md`, and `effort:`/`cacheTtl` have no opencode equivalent |
+| `skill/kru-roster/audit.md` → assertion 8 | upstream measures context load with `claude plugin details`; opencode reports none, so the assertion counts description bytes instead |
+| `SOURCES.md` → *Orchestration / harness mechanics* | the lead's own official source: opencode's docs and Context7, not `claude-code-guide` |
 
 ## Known gaps
 

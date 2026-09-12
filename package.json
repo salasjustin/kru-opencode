@@ -17,7 +17,7 @@
     "tsx": "4.23.0",
     "@opencode-ai/plugin": "latest"
   },
-  "version": "0.1.0",
+  "version": "0.1.0+kru0.82.0",
   "bin": {
     "kru-oc": "./bin/kru-oc.mjs"
   }

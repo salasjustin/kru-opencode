@@ -10,7 +10,7 @@
 
 | Shipped | Feature | Wired into |
 |---|---|---|
-| 2.1.78 | `effort:` on plugin-shipped agents (`low`\|`medium`\|`high`\|`xhigh`\|`max`) | `agents/*.md` frontmatter; policy in `ROSTER.md` → *Model tiers* |
+| 2.1.78 | `effort:` on plugin-shipped agents (`low`\|`medium`\|`high`\|`xhigh`\|`max`) | `agent/kru/*.md` frontmatter; policy in `ROSTER.md` → *Model tiers* |
 | 2.1.248 | `experimental.cacheTtl: "1h"` per-agent prompt cache TTL | the re-dispatched seats' frontmatter (builders, `test-writer`, `code-reviewer`) |
 | — | `claude plugin details <plugin>` — component inventory + projected always-on token cost | `skill/kru-roster/audit.md`, as the roster's context-load read |
 | 2.1.218 · 2.1.223 | `kru/code-reviewer` runs as a background subagent, and with no level reuses the last one typed | `lead` SKILL.md → Step 4 |
