@@ -44,17 +44,20 @@ a real browser and judge rendered pixels, so the model has to be multimodal; `ge
 cheapest capable one in the catalog. Neither seat renders a verdict on design intent, so the ceiling
 they need is lower than a reviewer's.
 
-**Mechanical — `dispatch-auditor` at `claude-haiku-5-5`, temperature 0.** It reads a JSONL ledger and
+**Mechanical — `dispatch-auditor` at `claude-haiku-5-5`.** It reads a JSONL ledger and
 checks each line against a contract it carries. No design calls, no prose, a fixed rubric — the one
-seat where the smallest model is not a compromise. Upstream kru 0.150.0 moved the seat to Claude Haiku
-5.5, and this fork follows now that zen lists it. On input, Anthropic's list price is below the
-flash model it replaced; what zen charges for it has not been checked.
+seat where the smallest model is not a compromise. Upstream kru v0.150.0 (`ap-justin/kru` branch
+`haiku-5-5-dispatch-auditor`, PR pending) moves the seat from `claude-sonnet-5-5` to Claude Haiku 5.5;
+this fork moves it now that zen lists it. On input, Anthropic's list price is below the flash model
+it replaced; what zen charges for it has not been checked.
 
 ## Temperature
 
-Only where it earns the line: `0.1` on the five review seats and `ux-auditor` (a review that varies
-between runs cannot be trusted as a gate), `0` on `dispatch-auditor`. Every other seat takes the
-provider default — a builder writing prose, copy or a component is worse at 0.
+Only where it earns the line: `0.1` on the four review seats and `ux-auditor` (a review that varies
+between runs cannot be trusted as a gate). Every other seat takes the provider default — a builder
+writing prose, copy or a component is worse at 0. `dispatch-auditor` would take `0`, but
+`claude-haiku-5-5` rejects the parameter outright (HTTP 400, "`temperature` is deprecated for this
+model"), so it carries none.
 
 ## Retiering
 

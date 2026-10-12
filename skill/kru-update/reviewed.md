@@ -52,7 +52,7 @@ Previous: 2.1.288 — 2026-10-03, read back to 2.1.281. 2.1.280 — 2026-09-23, 
 - **`onFailure: "block"` on command hooks** (2.1.295) — the gates (`require-lead`, `check-handoff`, `brainstorm-guard`) fail open on purpose: a gate that can't start would otherwise lock every tool call in the session.
 - **Agent tool `effort` parameter** (2.1.292) — seat effort is policy in frontmatter (`ROSTER.md` → *Model tiers*); no routing rule asks for a per-dispatch override.
 - **`claude plugin install --marketplace`** (2.1.292) — not in this install's `--help`; the two-line add + install works on every CLI above the floor.
-- **Claude Haiku 5.5** (2.1.293) — no seat is on the haiku tier.
+- **Claude Haiku 5.5** (2.1.293) — `dispatch-auditor` runs on it (`MODELS.md` → *Mechanical*); the API rejects `temperature` for it, so the seat carries none.
 - **Current, no line moves:** subagents preload ≤32 `skills:` (2.1.295; no seat uses the field). `<system-reminder>` escaped in hook output (2.1.292; no hook emits one). `prompt`/`agent` hook judging (2.1.294; plugin ships command hooks only). `claude plugin validate` README install-line advice and the marketplace-manifest fix (2.1.289/2.1.295; validate passes clean). Skill `allowed-tools`/`effort` drop fixes, mod API additions (`$.ui.notify`, `isDeferred`, `agent.spawn`, `tool.check` `agentId`; `kru-board` isn't shipped), `subagentStatusLine` `agentType`.
 - **Plan mode under `/kru/brainstorm`** — the user rejects it: every piece of feedback re-raises the plan-approval prompt. `brainstorm-guard.sh` stays, its anchor fixed.
 
