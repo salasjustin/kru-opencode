@@ -1,4 +1,4 @@
-# Roster — v0.2.0+kru0.148.0
+# Roster — v0.2.1+kru0.148.0
 
 The lead is the `lead` skill (`/kru/lead`, runs in the main thread). It delegates to the specialists below and to built-in agents (`explore`, `plan`) and skills (`kru-tdd`, `kru-diagnosing-bugs`, `kru-testing`, `kru-local-browser`) — review routes to the `kru/code-reviewer` seat. Every specialist follows **official sources first** (`SOURCES.md`).
 

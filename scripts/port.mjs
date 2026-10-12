@@ -27,7 +27,7 @@ const ZEN = {
   ui: "opencode/kimi-k3", //               component + design craft
   coding: "opencode/glm-5.3", //           builders, data, auth, payments, platform
   vision: "opencode/gemini-3.8-flash", //  seats that read screenshots
-  mechanical: "opencode/glm-5.3-flash", // ledger-shaped work, no design calls
+  mechanical: "opencode/claude-haiku-5-5", // ledger-shaped work, no design calls
 }
 
 const SEATS = {
@@ -48,8 +48,8 @@ const SEATS = {
   // vision
   "visual-reviewer": { model: ZEN.vision, temperature: 0.1 },
   "accessibility-reviewer": { model: ZEN.vision, temperature: 0.1 },
-  // mechanical
-  "dispatch-auditor": { model: ZEN.mechanical, temperature: 0 },
+  // mechanical — no temperature: claude-haiku-5-5 rejects the parameter (400, "deprecated for this model")
+  "dispatch-auditor": { model: ZEN.mechanical },
 }
 const DEFAULT_SEAT = { model: ZEN.coding }
 

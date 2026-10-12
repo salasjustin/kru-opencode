@@ -14,7 +14,10 @@ model id: `ROSTER.md` → *Model tiers* points here, and every seat's frontmatte
 | **ui** | `opencode/kimi-k3` | 3.00 | `react-ui-builder`, `svelte-ui-builder`, `web-components-builder`, `ui-designer`, `graphic-designer`, `brand-designer` |
 | **coding** | `opencode/glm-5.3` | 1.40 | the 26 remaining seats — frameworks, APIs, data, auth, payments, integrations, platform, tooling, tests |
 | **vision** | `opencode/gemini-3.8-flash` | 1.50 | `visual-reviewer`, `accessibility-reviewer` |
-| **mechanical** | `opencode/glm-5.3-flash` | 0.15 | `dispatch-auditor` |
+| **mechanical** | `opencode/claude-haiku-5-5` | 0.10¹ | `dispatch-auditor` |
+
+¹ Anthropic's list price for Claude Haiku 5.5 ($0.10 in / $0.50 out per 1M, prompts under 100k tokens);
+the zen price for it is unverified.
 
 ## Why each tier is where it is
 
@@ -41,15 +44,20 @@ a real browser and judge rendered pixels, so the model has to be multimodal; `ge
 cheapest capable one in the catalog. Neither seat renders a verdict on design intent, so the ceiling
 they need is lower than a reviewer's.
 
-**Mechanical — `dispatch-auditor` at `glm-5.3-flash`, temperature 0.** It reads a JSONL ledger and
+**Mechanical — `dispatch-auditor` at `claude-haiku-5-5`.** It reads a JSONL ledger and
 checks each line against a contract it carries. No design calls, no prose, a fixed rubric — the one
-seat where a flash model is not a compromise.
+seat where the smallest model is not a compromise. Upstream kru v0.150.0 (`ap-justin/kru` branch
+`haiku-5-5-dispatch-auditor`, PR pending) moves the seat from `claude-sonnet-5-5` to Claude Haiku 5.5;
+this fork moves it now that zen lists it. On input, Anthropic's list price is below the flash model
+it replaced; what zen charges for it has not been checked.
 
 ## Temperature
 
-Only where it earns the line: `0.1` on the five review seats and `ux-auditor` (a review that varies
-between runs cannot be trusted as a gate), `0` on `dispatch-auditor`. Every other seat takes the
-provider default — a builder writing prose, copy or a component is worse at 0.
+Only where it earns the line: `0.1` on the four review seats and `ux-auditor` (a review that varies
+between runs cannot be trusted as a gate). Every other seat takes the provider default — a builder
+writing prose, copy or a component is worse at 0. `dispatch-auditor` would take `0`, but
+`claude-haiku-5-5` rejects the parameter outright (HTTP 400, "`temperature` is deprecated for this
+model"), so it carries none.
 
 ## Retiering
 
@@ -60,7 +68,7 @@ const ZEN = {
   ui: "opencode/kimi-k3",
   coding: "opencode/glm-5.3",
   vision: "opencode/gemini-3.8-flash",
-  mechanical: "opencode/glm-5.3-flash",
+  mechanical: "opencode/claude-haiku-5-5",
 }
 ```
 

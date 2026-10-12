@@ -1,8 +1,7 @@
 ---
 description: Audits the lead's orchestration — checks each dispatch in the hook-captured ledger against the lead contract (routing fit, handoff completeness, grouping, restated blocks); files deviations as [workflow] inbox lines. Hook-invoked at turn end, never routed. The product is `code-reviewer`'s.
 mode: subagent
-model: opencode/glm-5.3-flash
-temperature: 0
+model: opencode/claude-haiku-5-5
 permission:
   "*": deny
   read: allow
