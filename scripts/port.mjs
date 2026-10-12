@@ -27,7 +27,7 @@ const ZEN = {
   ui: "opencode/kimi-k3", //               component + design craft
   coding: "opencode/glm-5.3", //           builders, data, auth, payments, platform
   vision: "opencode/gemini-3.8-flash", //  seats that read screenshots
-  mechanical: "opencode/glm-5.3-flash", // ledger-shaped work, no design calls
+  mechanical: "opencode/claude-haiku-5-5", // ledger-shaped work, no design calls
 }
 
 const SEATS = {

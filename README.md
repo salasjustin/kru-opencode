@@ -44,7 +44,7 @@ would silently shadow your own global rules.
 ## Requirements
 - **opencode 1.19 or newer**, and **node 22+** for the port and install scripts.
 - **opencode zen access** to the five models the seats are pinned to: `claude-opus-5`, `kimi-k3`,
-  `glm-5.3`, `glm-5.3-flash`, `gemini-3.8-flash`. Retier them in one place — `scripts/port.mjs` →
+  `glm-5.3`, `claude-haiku-5-5`, `gemini-3.8-flash`. Retier them in one place — `scripts/port.mjs` →
   `ZEN` — then re-port. The reasoning per tier is `MODELS.md`.
 - **`jq`**, for the shell gates. Without it they fail open and the team still runs, ungated.
 - **The `chrome-devtools` MCP server**, for the visual and accessibility reviewers only; without it they audit from source. In `~/.config/opencode/opencode.json`, keyed exactly `chrome-devtools` (the key is the tool prefix the seats name):
