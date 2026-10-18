@@ -68,7 +68,7 @@ The **curated** half — it edits the team, so it lives under roster-ops (`/kru/
 
 1. Reads the `inbox` (+ `patterns/`); groups by lane, dedupes, drops noise.
 2. For each keeper, picks a **destination**:
-   - **seat-specific** (a default only `graphic-designer`, or only the Svelte builder, should carry) → a **targeted prompt edit** to that `agent/kru/<seat>.md`.
+   - **seat-specific** (a default only one engineering seat, e.g. the Svelte builder, should carry) → a **targeted prompt edit** to that `agent/kru/<seat>.md`.
    - **cross-seat** (several seats should carry it) → the same targeted edit in each affected seat, or the owning skill (`lead` SKILL.md for orchestration-wide rules).
    - **reusable concrete pattern** → keep the `patterns/<slug>.md` artifact, reference it from the seat/skill that uses it.
 3. **Decides each line** — land, route to a repo's sheet, or drop with a reason — by the bars in `skill/kru-roster/learn.md` → step 3, and writes the landed edits. Nothing is committed, so the uncommitted diff is the user's review.

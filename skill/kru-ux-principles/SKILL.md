@@ -44,4 +44,4 @@ No group matches? `grep -ril "<term>" reference/` before concluding there's no p
 - **The words themselves** — `ux-copy`. This flags a *missing* error state; that skill decides what it says.
 - **Conversion** — `cro`. A usability principle is not a conversion test, and the two genuinely disagree sometimes.
 - **Building the primitive accessibly** — `ark-ui`. This says which principle is violated, never how to code the replacement.
-- **The visual system** — palette, type scale, spacing, motion feel live in the repo's token file, transcribed from what the design turn settled.
+- **The visual system** — palette, type scale, spacing, motion feel live in the repo's token file, transcribed from the approved design spec.

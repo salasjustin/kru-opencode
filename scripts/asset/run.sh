@@ -9,9 +9,9 @@
 # importing file, never through NODE_PATH, and the rembg venv it bootstraps lands
 # beside it.
 #
-#   run.sh gen-asset <flags…>   graphic-designer's generator
+#   run.sh gen-asset <flags…>   designer-library generator
 #   run.sh node <args…>         node with the deps on NODE_PATH — CommonJS
-#                               require('sharp') only, for brand-designer's rasters
+#                               require('sharp') only, for brand-marks rasters
 #   run.sh dir                  print the deps dir
 set -euo pipefail
 src=$(cd "$(dirname "$0")" && pwd)

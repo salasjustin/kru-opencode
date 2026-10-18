@@ -48,7 +48,7 @@ re-run has no way to check it.
 | project seats | `.claude/skills/*`, `.claude/agents/*` | seats this plugin has no way to know exist |
 | `skills` | the same manifests, run through **`{KRU_HOME}/kru/references/routing.md`** → *Conditional skills* | a seat reading `package.json` for its libraries on every dispatch — and the silence when a seat that never carried the skill writes against the library anyway |
 | `tokens` | the design system's file, and the gate that closes it (hook config, test script) | a builder's hunt for the `## Design system` pointer — and the from-scratch design chain, since a system already exists |
-| `screens` | whether this repo renders UI, and what starts its dev server | the screen passes and the design gate |
+| `screens` | whether this repo renders UI, and what starts its dev server | the screen passes and the PM's design-spec gate |
 | `test` | the runner, its command, and **what a run costs** | rediscovering the repo's testing conventions |
 | `verify` | typecheck and lint commands | the behavior gate's generic form |
 | `mcp` | `claude mcp list` and `claude plugin list`, against the seats the rows above named and their **`{KRU_HOME}/kru/SOURCES.md`** rows | a seat reaching mid-run for a server this repo never enabled, and a dispatch spent finding that out |
@@ -130,14 +130,21 @@ a config byte-identical across twenty repos is the duplication the project rule 
 instance of it, and a server sitting in one repo's list out of twenty is a project fact wearing a
 user-scope coat.
 
+**The lead's board is user-scoped too.** The task tools it tracks work in ship off on newer models,
+and their one switch is `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` in `~/.claude/settings.json` → `env`. Check
+`env`; unset, hand the user the line `{KRU_HOME}/kru/hooks/check-task-tools.sh` prints — it
+lands on their next restart.
+
 Three that fail with no error:
 
-- **The name is the namespace.** opencode names an MCP tool `<server>_<tool>`, sanitizing the
-  server key from `opencode.json`. Several seats name `context7_resolve-library-id` /
-  `context7_query-docs` in their own permission lists, so the server has to be keyed exactly
-  `context7` (`"mcp": { "context7": { "type": "remote", "url": "https://mcp.context7.com/mcp" } }`).
-  Key it anything else —
-  `context7-remote`, `c7` — and those seats hold entries that resolve to nothing.
+- **The name is the namespace.** Several seats name `context7_resolve-library-id` /
+  `query-docs` in their own tool lists, so Context7 has to be registered under the bare name
+  `context7` (user scope, http `https://mcp.context7.com/mcp`). The official plugin namespaces it to
+  `plugin_context7_context7_*` and the claude.ai connector to `claude_ai_Context7_*` —
+  either leaves those seats holding entries that resolve to nothing. The Svelte seats name
+  `svelte_*` the same way, and the `svelte@svelte` plugin namespaces its server to
+  `plugin_svelte_svelte_*` — a Svelte repo registers a bare `svelte` entry in its `.mcp.json`
+  (http `https://mcp.svelte.dev/mcp`).
 - **A permission allowlist entry is coupled to that same prefix.** Moving a server between plugin,
   connector and local scope dead-letters every rule naming it: the rule stops matching, nothing
   errors, and the user is re-prompted forever. Re-point the allowlist in the same change that moves
@@ -162,41 +169,156 @@ error and no log line, so the gap survives by being answered rather than noticed
 
 **The store, once, at user scope.** The cross-project root is reached from every engagement — the
 case the scope rule above reserves, not an instance of the habit it warns about. Run
-`bash "{KRU_HOME}/kru/scripts/kru-store.sh" home` and write the grant against **what it prints**, in
-`~/.config/opencode/opencode.json` → `permission` (opencode's permissions page, `opencode.ai/docs/permissions`):
+`bash "{KRU_HOME}/kru/scripts/kru-store.sh" home` and write the grants against **what it prints**. In `~/.claude/settings.json`:
 
-```json
-{ "permission": { "external_directory": { "~/.kru/**": "allow" } } }
+The rows spell the default root; substitute what `home` printed when it differs.
+
+| grant | covers |
+|---|---|
+| `"additionalDirectories": ["~/.kru"]` | reads outside the working dir; under `acceptEdits` it also auto-approves `mkdir`/`touch`/`rm`/`mv`/`cp` there |
+| `Read(~/.kru/**)` · `Edit(~/.kru/**)` (covers Write too) | a todo appended, a defect file written, a brief rewritten |
+| `Bash(rm <home>/.kru/audit/*)` · `Bash(rm <home>/.kru/management/*/issues/*)` | the two deletions the contract *mandates* — the audit closeout (`agent/kru/dispatch-auditor.md`) and the defect file a landed fix closes (`skill/kru-lead/references/reconcile.md`) |
+
+Two things decide whether those last rules ever fire:
+
+- **A Bash rule matches the command text, not the file it resolves to.** `planner` and
+  `dispatch-auditor` carry no `write` tool, so every store write of theirs is a shell command — and
+  the rule has to be written in the form the seat actually types. Expand `<home>`: `~` in a Bash rule
+  matches a literal tilde, and a seat writing an absolute path walks straight past it.
+- **Write the rules against the root the resolver prints** — a grant against a path the files left
+  silently covers nothing. `TRACKER.md` carries why that path and no other, and
+  `{KRU_HOME}/kru/references/store.md` carries the surfaces that move it.
+- **A cloud session reads none of this.** User settings stay on the machine, so on that surface the
+  same grants go in the repo's own `.claude/settings.json` — and the project half needs none of
+  them, because the resolver puts it inside the clone, where the working-dir grant already reaches.
+  With a store repo set (below), the project half lives under the home on the vm too, so the grants
+  cover it there.
+
+**The store repo, when the user works on the web.** A cloud vm's home dies with the session, so
+preferences, plans and the seats' repo memory only survive it through `KRU_STORE_REPO` — a private
+repo the user owns, which `hooks/store-sync.sh` keeps the home synced to. Check
+`~/.claude/settings.json` → `env`. Unset and the user runs cloud sessions: offer it. On a yes, add
+`"KRU_STORE_REPO": "<owner>/<store-repo>"` to that `env`. The session reaches a private store only
+when the user attaches it to the session: the setup script runs with no git credentials, so its
+clone of a private store fails, and store-sync clones it at session start instead.
+
+**The cloud environment is a record in the repo.** The environment dialog is the only runtime for
+what the user pastes there, so the repo carries the record and the user's part is copying. Write `.claude/cloud-setup.md` as three copy blocks and nothing
+else, each under its dialog field's name:
+
+1. **Environment variables** — `KRU_STORE_REPO=<owner>/<store-repo>`.
+2. **Network access** — Custom, *include defaults* on, plus one host per line. Check every host the
+   setup script downloads from against the default list (`code.claude.com/docs/en/cloud-environments`),
+   since a blocked one surfaces only as a `SETUP FAIL` line in the setup log: `get.pnpm.io`, the Playwright CDNs
+   (`cdn.playwright.dev`, `playwright.download.prss.microsoft.com`) and the image's own PPA
+   (`ppa.launchpadcontent.net` — without it `apt-get update` 403s and every chained install is
+   skipped) sit outside it. Then the hosts step 1 read off the repo's `.env*` files and SDK calls,
+   sandbox hosts only, so a live key pasted by mistake reaches nothing. Context7 reaches the vm
+   under its bare name too (step 1c) — the repo's `.mcp.json`, with `mcp.context7.com` listed here.
+3. **Setup script**, from this base:
+
+```bash
+#!/bin/bash
+# kru v<VERSION>
+set -uo pipefail
+exec > >(tee -a /tmp/setup.log) 2>&1
+
+try() {
+  for _ in 1 2 3; do "$@" && return 0; sleep 2; done
+  echo "SETUP FAIL: $*"
+}
+
+# kru store
+try git clone -q https://github.com/<owner>/<store-repo> ~/.kru
+[ -f ~/.kru/setup.sh ] && try bash ~/.kru/setup.sh
+
+# plugins
+try claude plugin marketplace add anthropics/claude-plugins-official
+try claude plugin marketplace add <owner>/kru
+try claude plugin install kru@kru --scope user
+try claude plugin enable cc-plugin-you-should-know@builtin --scope user
+
+# <repo>: vm provisioning, each line under `try`
+
+node --version; pnpm --version; claude plugin list
+exit 0
 ```
 
-That one key covers every tool that touches a path outside the working dir — reads, the `edit` a
-todo or a brief needs, and the shell commands `planner` and `dispatch-auditor` write the store with,
-since neither carries `edit`. Substitute what `home` printed when it differs: a grant against a path
-the files left silently covers nothing. `TRACKER.md` carries why that path and no other, and
-`{KRU_HOME}/kru/references/store.md` carries the surfaces that move it.
+Plugins install here because a cloud session ignores the repo's `enabledPlugins`; add each plugin
+the user runs locally. The environment cache keeps them at the version the script installed until
+the script changes, its network hosts change, or about seven days pass
+(`code.claude.com/docs/en/cloud-environments` → *Environment caching*) — so the `# kru` line carries
+the installed `VERSION`, and `/kru/propagate` moving it is what rebuilds the cache on a new release. The
+built-in *You should know* mod is enabled the same way: the laptop's `/plugin enable` never reaches
+the vm, and where telemetry is off the line is a no-op. The vm has no official marketplace,
+so the base adds it ahead of any `@claude-plugins-official` install. Below them goes what the vm lacks before
+this repo's first run, read off step 1's findings and the repo's own setup doc (`CONTRIBUTING*`,
+`README*`, `DEPLOY*`), each pinned to the version the repo pins: node's `engines` major fetched
+from `nodejs.org` when it isn't one the image ships (*Installed tools* on the same docs page);
+pnpm through its native installer with `SHELL=/bin/bash` in its env — the script has no login
+shell, and without one the installer fails — its `PATH` edit lands in a profile the session may
+never source, so the install hook below puts it on `PATH`; `apt-get install` for a system package; browsers
+for a browser-mode suite, pinned to the repo's `playwright` version, whose browser build is tied
+to it. `try` retries each step and names the one that still failed as a `SETUP FAIL` line, so a
+blocked download reads in `/tmp/setup.log` and the first session's setup log, beside the closing
+version line and plugin list that show what actually landed. The script runs as root, must exit
+zero — the closing `exit 0`, since one failed step shouldn't fail the environment — and finish in about
+five minutes, and only what it writes to disk survives the snapshot.
 
-**The store repo, when the user works on more than one machine.** `KRU_STORE_REPO` — a private repo
-the user owns — keeps the store's home synced through `hooks/store-sync.sh` at session start and every
-turn end. Unset: offer it once; on a yes, it goes in the user's shell profile as
-`export KRU_STORE_REPO=<owner>/<store-repo>`. `KRU_NO_STORE_SYNC=1` turns the sync off for one
-session. The mechanics and the merge rules: `{KRU_HOME}/kru/references/store.md` → *The store repo*.
+Dependencies install from a committed SessionStart hook, because a hook tracks each branch's
+lockfile and the snapshot doesn't: `.claude/cloud-install.sh`, copied from
+`{KRU_HOME}/skill/kru-setup/cloud-install.sh` and filled in, then checked with `bash -n`. The
+template carries each line's reason. The one to keep in view when adapting it: the image puts its own
+node and pnpm on `PATH`, and a hook that lets them win looks fine in a shell and fails in turbo with
+`Exec format error` — so the pinned pnpm goes first on `PATH` and that `PATH` reaches later shells
+through `$CLAUDE_ENV_FILE`. Where the installer lays down a binary under `.tools/pnpm-exe/<ver>/`, it's
+linked into a directory holding nothing else; pnpm 12 lays down none, and its `$PNPM_HOME/bin/pnpm`
+wrapper resolves relative to its own path, so that directory goes on `PATH` whole. A session
+with several repos attached — the store counts — runs no repo hooks. `CLAUDE_CODE_ENABLE_TODO_TOOLS` goes in
+`.claude/settings.json`'s `env`, beside the hook's registration. The credentials
+posture is the user's to hold: the env-var field is readable by anyone who shares the environment,
+so a private environment with sandbox values, never a staging or production file.
 
-**The repo's gates, per repo.** Step 1 derived `test` and `verify`, and each of those commands prompts
-on first use. They go in the repo's own `opencode.json` → `permission.bash`, one pattern per command
-with its trailing ` *` (`"pnpm test *": "allow"`) — **narrow to the commands the sheet names**:
-`"pnpm *"` grants the install and the publish with it. That file is the record, so no sheet field
-states it — an `AGENTS.md` line would be the cache bar 3 rejects. A repo that keeps its
-`opencode.json` out of version control keeps it that way; one that commits it gets the grant as a
-diff the user reviews.
+`KRU_NO_STORE_SYNC=1` turns the sync off for one session. The mechanics and the merge rules:
+`{KRU_HOME}/kru/references/store.md` → *The store repo*.
 
-**The seats' repo memory, ignored.** The seats carrying Block Q write what they learn about this repo
-to `.claude/agent-memory-local/<seat>/` — per-machine, and kept out of version control by the repo's
-`.gitignore`. Add `.claude/agent-memory-local/` to it when no line already covers the path (`git
-check-ignore -q .claude/agent-memory-local/x` answers that), so the first `git add -A` after a build
-leaves it behind.
+**The repo's gates, per repo, at project-local scope.** Step 1 derived `test` and `verify`, and each
+of those commands prompts on first use in each repo. They go in `.claude/settings.local.json` — the
+gates run on this machine, not a teammate's. **Narrow to the commands the sheet names**:
+`Bash(pnpm test:*)` grants the suite, `Bash(pnpm:*)` grants the install and the publish with it. The
+settings file is the record, so no sheet field states it — an `AGENTS.md` line would be the cache bar
+3 rejects.
 
-Completion: every grant traces to evidence the derivation already produced, the memory path is
-ignored, and the report names what the team may now do unasked (step 6).
+**The gate before every commit, as the repo's `verify` skill.** opencode runs a project skill
+named `verify` right before a commit (2.1.286; docs-only and tests-only commits skip it), so the
+sheet's `verify` line becomes `.claude/skills/verify/SKILL.md` — the gate then runs in every session,
+lead or not. Write it when the sheet has a `verify` line and no `.claude/skills/verify/` exists; one
+the repo already has is a project seat, left as it is. The body is the line's commands and nothing
+else — the `test` line stays out, since a suite per commit is the cost the sheet's `test` bound exists
+to price:
+
+```markdown
+---
+name: verify
+description: Typecheck and lint this repo before a commit. Written by /kru/setup from the sheet's `verify` line.
+---
+
+Run from the repo root: `<the sheet's verify commands>`. Red → fix it before the commit; the commit waits.
+```
+
+A re-run rewrites the body when the sheet's `verify` line changed and the file still carries that
+description; an edited description means the repo owns it now.
+
+**The seats' repo memory, ignored.** The seats carrying `memory: local` write what they learn
+about this repo to `.claude/agent-memory-local/<seat>/` — the scope the harness defines as
+per-machine and kept out of version control, and the repo's `.gitignore` is what keeps it out. Add
+`.claude/agent-memory-local/` to it when no line already covers the path (`git check-ignore -q
+.claude/agent-memory-local/x` answers that), so the first `git add -A` after a build leaves it behind.
+
+Completion: every grant traces to evidence the derivation already produced, the `verify` skill
+matches the sheet's line or is the repo's own, the memory path is ignored, `.claude/cloud-setup.md`
+and `.claude/cloud-install.sh` (passing `bash -n`) exist with the hook registered — on every full
+run, whether or not the user names cloud sessions — and the report names what the team may now do unasked (step 6).
 
 ### 1e. Encode what the seats would otherwise be told — *full run*
 **`{KRU_HOME}/kru/references/lint-rules.md`** is the catalog of seat rules a check can hold. Take the rows whose stack
@@ -208,11 +330,9 @@ user's, and setup's part ends at the filing. The report counts them in one claus
 Completion: every catalog row for this stack is wired or filed as a slice for its owner.
 
 ### 2. Read what the repo already says
-Open the repo's `AGENTS.md` and every `AGENTS.md` above it up to the worktree root, plus an `AGENTS.md`
-or `.claude/rules/*` the repo carries for the opencode side. opencode loads that `AGENTS.md` chain —
-and `AGENTS.md` only when no `AGENTS.md` matched — plus exactly one global file: `~/.config/opencode/AGENTS.md`
-if it exists, otherwise the user's `~/.claude/CLAUDE.md`. That is the whole always-loaded surface, and
-reading it in one pass is the vantage step 3 works from.
+Open the repo's `AGENTS.md`, `.claude/rules/*`, `AGENTS.md`, and any nested
+member `AGENTS.md`. That is the whole always-loaded surface, and reading it in one pass is the vantage
+step 3 works from.
 
 Completion: every always-loaded file in the repo is read.
 

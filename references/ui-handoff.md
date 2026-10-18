@@ -1,6 +1,6 @@
 # The UI handoff — the seam, the closed set, and what rides with the builders
 
-Detail behind `lead` → Step 3, and `visual-reviewer`'s conformance rule. Reached when the change list contains a `.tsx`/`.svelte`/custom-element file; a change that touches no component never loads this.
+Detail behind `lead` → Step 3, and `visual-reviewer`'s spec-match pass. Reached when the change list contains a `.tsx`/`.svelte`/custom-element file; a change that touches no component never loads this.
 
 Four things live here: **who writes components** (the seam), **why conformance is a handoff property rather than a review finding** (the closed set), and the two crafts that ride *with* the UI builders instead of getting a hop of their own (**motion**, **primitives**).
 
@@ -18,18 +18,18 @@ The contract is **data-agnostic components**: everything crosses as serializable
 
 ## Conformance is prevented, not detected
 
-Whether a build honors its design is a thing a person sees instantly and a machine cannot: an agent driving a browser can measure a gap, but "this is off" versus "this is the design" is exactly the judgment it doesn't have. So don't try to catch drift at the end — make it unavailable at the start. Two halves, both yours to enforce on the handoff:
+Design intent is settled **upstream** when the owner approves the designer's mockups; engineering's job is to match the **approved spec**, not to re-decide the look. Don't try to catch token drift at the end — make it unavailable at the start. Two halves, both yours to enforce on the handoff:
 
-- **The design system is authoritative and closed.** The token file is the *only* source of values — color, space, type, radius, elevation, duration. A builder writes **no literal value** that isn't in it. If the system doesn't cover what the slice needs, that's a defect in the system, not a licence to invent: it comes back to you as a **named gap**, and it goes to the **user** with the token name it would need. No seat on this team extends the design system — a value the system should have is a design decision, and those are made in the design turn. One invented hex is the whole system's authority gone.
-- **The handoff names the closed set.** Point at the token file — never paraphrase its values into the brief, or the paraphrase becomes a second, stale source. Name the components and their variants, the states each must implement, and the breakpoint behavior. **An unnamed *value* outside the token file is a named gap, never an invention; an unnamed state (empty, hover) built from existing tokens and parts is built and named in the return.** A vague handoff is what forces a builder to make something up, and every made-up value is a conformance defect you'll be asking a human to spot later.
+- **The approved design spec and the token file are authoritative and closed.** Mockups + build spec come from the PM (`references/design-spec.md`). The token file is the *only* source of values in code. A builder writes **no literal value** that isn't in it. If the spec or system doesn't cover what the slice needs, it comes back as a **named gap** to the **PM** with the token name it would need. No seat extends the design system without an updated approved spec from the designer.
+- **The handoff names the closed set and the spec.** Point at the token file and the approved mockups/build spec — never paraphrase values. Name components, variants, states, and breakpoint behavior from the build spec. **An unnamed value is a named gap; states the spec names must be built and named in the return.**
 
-What *is* machine-checkable is the source: a literal hex, an off-scale `p-[13px]`, an ad-hoc duration are all greppable — and that is the **repo's own gate**, set up by the builder in Phase 0 and holding at every commit, not a review pass anyone dispatches. It is structural where the build can make an off-system value have no rule at all, and a test in the suite for the rest — including the **class name nothing draws**, which paints nothing while still reading as correct in a diff (`ui-practice.md` → *The conformance gate*). A gate runs in no context window and can't be skipped because the batch was busy. Judgment stays with the user; enforcement stays static and local.
+What *is* machine-checkable is the source: a literal hex, an off-scale `p-[13px]`, an ad-hoc duration are all greppable — and that is the **repo's own gate**, set up by the builder in Phase 0 and holding at every commit, not a review pass anyone dispatches. Procedure and craft: `{KRU_HOME}/kru/references/ui-practice.md` → *The conformance gate*. **Pixels vs the mockups** are `visual-reviewer`'s at Step 4 (1440 and 375). A gate runs in no context window and can't be skipped because the batch was busy.
 
 The vocabulary is **shadcn's semantic set** as plain custom properties — the naming only, no shadcn or Tailwind dependency (`skill/kru-roster/shared-blocks.md` → Block E is the canonical seat-facing text). The builders read the names off the real token file, which is the only authority: a brownfield repo has already answered the naming question and its names win. A handoff points at that file and never restates its values.
 
 ## Motion rides with the UI builders
 
-There is no motion seat and no motion gate: describe the needed motion in the handoff — what the design settled when a design exists, one plain sentence of intent when not — and the UI component builder implements it in-place (it carries the vendored Emil Kowalski pack: restraint gate + exact curves/durations/origins). Motion craft is checked by the user in the same visual-intent inspection as the rest of the built UI.
+There is no motion seat and no motion gate: motion intent comes from the approved design spec in the handoff; if the spec does not settle it, the PM gets it from the designer before builders run. The UI component builder implements it in-place (it carries the vendored Emil Kowalski pack: restraint gate + exact curves/durations/origins). Motion in the built UI is checked against the approved spec by `visual-reviewer` at Step 4.
 
 ## UI primitives ride with the UI builders
 

@@ -4,16 +4,16 @@ The output shape of `SKILL.md` → *5. Return the deck*.
 
 ## Who reads it
 
-- **the design agent** (`ui-designer`) draws artboards around these strings. It needs the real copy, at real length, in final order — a wireframe drawn around lorem sizes to a different page.
+- **the designer** (standalone session, not the engineering lead) draws mockups around these strings. It needs the real copy, at real length, in final order — a wireframe drawn around lorem sizes to a different page.
 - **the UI builder** mounts the strings verbatim into components.
 
-Neither is a human reader. The deck therefore carries no rationale, no annotations and no alternatives — `copywriting` → *Output Format* produces those for a person, and they belong in the return's prose, outside the deck. Two headline options in a deck is a decision handed to an agent that has no basis to make it.
+Neither consumer reads for taste — the designer may be a person, but the deck is machine input. The deck therefore carries no rationale, no annotations and no alternatives — `copywriting` → *Output Format* produces those for a person, and they belong in the return's prose, outside the deck. Two headline options in a deck is a decision handed to an agent that has no basis to make it.
 
 ## Two load-bearing properties
 
 **The deck is a closed set.** It is the whole page: what is in it ships, what is not in it does not exist. The builder mounts the exact strings. A section whose slot has no string comes back as a **named gap**, so that the builder mounts an empty slot rather than text it wrote to fill the hole.
 
-**It is a contract, not annotated prose.** Every field is there because a downstream agent consumes it: `job` and `claim` tell the design agent what visual weight a section is carrying, `proof` tells it what has to be visible near the claim, `copy` is mounted character-for-character, `cta` is wired. A field nothing downstream reads is prose and belongs in the return instead.
+**It is a contract, not annotated prose.** Every field is there because a downstream agent consumes it: `job` and `claim` tell the designer what visual weight a section is carrying, `proof` tells it what has to be visible near the claim, `copy` is mounted character-for-character, `cta` is wired. A field nothing downstream reads is prose and belongs in the return instead.
 
 ## Shape
 
@@ -44,13 +44,13 @@ sections:
 
 | field | what it is | what downstream does with it |
 |---|---|---|
-| `placement` | the stage and level the deck was built for | the design agent knows the hero is carrying identification, not a claim |
+| `placement` | the stage and level the deck was built for | the designer knows the hero is carrying identification, not a claim |
 | `position` | the settled position the headline was cut from | nothing mounts it; it is what a later edit has to stay consistent with |
 | `budget` | the section count and why | a section added later has to displace one |
 | `id` | stable slug, never renumbered | the anchor, the component name, the gap's address |
 | `job` | one clause, reader-facing | visual weight and section ordering |
 | `claim` | the single assertion — the step-3 chain, one link per section. `null` only on a section that repeats an action already argued for, which is why a close carries no proof either | a section with two claims is two sections |
-| `proof` | the evidence, **with its source**, or the literal `gap` | the design agent places it inside this section, beside the claim |
+| `proof` | the evidence, **with its source**, or the literal `gap` | the designer places it inside this section, beside the claim |
 | `copy` | slot → verbatim string. Slots are whatever the section has: `eyebrow`, `headline`, `subhead`, `body`, `items[]`, `label` | mounted character-for-character |
 | `cta` | `label` + `href`, only where the section has one | wired |
 

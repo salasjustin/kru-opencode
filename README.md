@@ -3,7 +3,7 @@
 *(said “crew”)*
 
 An engineering team for **opencode**. A primary `kru` agent scopes the work, detects the stack, and
-routes it to 41 specialist subagents — builders, reviewers, design, platform — each pinned to its
+routes it to 37 specialist subagents (builders, reviewers, platform), each pinned to its
 framework's official source rather than to training data, and each **on the model its seat is worth**
 through opencode zen (`MODELS.md`).
 
@@ -20,16 +20,16 @@ cd kru-opencode
 node bin/kru-oc.mjs install          # copies into ~/.config/opencode
 node bin/kru-oc.mjs doctor           # checks the install, the port, and the claude-code side
 ```
-Then run `opencode` and **tab to the `kru` agent** — or make it the default with
+Then run `opencode` and **tab to the `kru` agent**, or make it the default with
 `node bin/kru-oc.mjs install --default-agent`.
 
 Install is a copy, not a symlink: the prompts carry absolute paths that only exist once a config dir
-is known. The repo stays the source — edit, `node scripts/port.mjs`, then `kru-oc sync`.
+is known. The repo stays the source: edit, `node scripts/port.mjs`, then `kru-oc sync`.
 
 ### Alongside the Claude Code original
 The two never collide. opencode reads `~/.config/opencode` and `~/.claude/skills`; the Claude plugin
 lives in `~/.claude/plugins/cache`, which opencode never scans. What they **share on purpose** is the
-state store at `~/.kru/` — the same briefs, plans, tickets, todos and learnings inbox, so a
+state store at `~/.kru/`, the same briefs, plans, tickets, todos and learnings inbox, so a
 plan started in one harness continues in the other.
 
 - **Already running kru, adding opencode** → `kru-oc install`. It reports the Claude-side version and
@@ -38,14 +38,14 @@ plan started in one harness continues in the other.
 - **opencode only** → nothing else to do; the Claude side is never touched.
 
 Install writes no `AGENTS.md` into the config dir, on purpose: opencode loads **one** global rules
-file — `~/.config/opencode/AGENTS.md` if it exists, otherwise `~/.claude/CLAUDE.md` — so shipping one
+file (`~/.config/opencode/AGENTS.md` if it exists, otherwise `~/.claude/CLAUDE.md`), so shipping one
 would silently shadow your own global rules.
 
 ## Requirements
 - **opencode 1.19 or newer**, and **node 22+** for the port and install scripts.
 - **opencode zen access** to the five models the seats are pinned to: `claude-opus-5`, `kimi-k3`,
-  `glm-5.3`, `claude-haiku-5-5`, `gemini-3.8-flash`. Retier them in one place — `scripts/port.mjs` →
-  `ZEN` — then re-port. The reasoning per tier is `MODELS.md`.
+  `glm-5.3`, `claude-haiku-5-5`, `gemini-3.8-flash`. Retier them in one place (`scripts/port.mjs` →
+  `ZEN`), then re-port. The reasoning per tier is `MODELS.md`.
 - **`jq`**, for the shell gates. Without it they fail open and the team still runs, ungated.
 - **The `chrome-devtools` MCP server**, for the visual and accessibility reviewers only; without it they audit from source. In `~/.config/opencode/opencode.json`, keyed exactly `chrome-devtools` (the key is the tool prefix the seats name):
   ```json
@@ -59,13 +59,14 @@ would silently shadow your own global rules.
     }
   }
   ```
-- **Context7**, for every seat that reads library docs — keyed exactly `context7`:
+- **Context7**, for every seat that reads library docs, keyed exactly `context7`:
   ```json
   { "mcp": { "context7": { "type": "remote", "enabled": true, "url": "https://mcp.context7.com/mcp" } } }
   ```
-- **Optional, for generated image/video assets:** `GOOGLE_API_KEY` (Google AI Studio) and a one-time
-  `npm` on the PATH — the asset script installs its own deps on first run. Without them the
-  `graphic-designer` seat reports what's missing and offers a fallback instead of shipping a placeholder.
+- **Optional, for generated image/video assets:** `GOOGLE_API_KEY` (Google AI Studio) and Node.js on PATH:
+  the image deps install themselves on first run (`scripts/asset/run.sh`). Without them, `scripts/asset/`
+  reports what's missing instead of shipping a placeholder. The same deps power `sharp` rasters for
+  generated marks; no key needed for cutouts or sharp-only runs.
 
 ## First run
 In the repo you want the team to work on:
@@ -74,7 +75,7 @@ In the repo you want the team to work on:
 /kru/setup
 ```
 
-It reads the repo — stack, framework versions, conventions, test setup, design system — and writes the
+It reads the repo (stack, framework versions, conventions, test setup, design system) and writes the
 answers into that repo's `AGENTS.md`, so later sessions don't re-derive them. Run it once per
 repo, again when the repo or the plugin moves. On an empty repo it grills the subject and the stack
 with you first.
@@ -89,10 +90,10 @@ upstream's shell gates. Each interruption below is one you can turn off.
 |---|---|---|
 | Session start, in a repo with no sheet | Asks the lead to name `/kru/setup` once | the lead gate's switches |
 | First tool call of a session not on the `kru` agent | Refuses once, naming the two routes to the lead contract, so no build starts off-contract | `export KRU_NO_LEAD_GATE=1`, or `touch ~/.kru/lead-gate/off` to keep it off for good |
-| During `/kru/brainstorm` | Refuses every write until you say go (or run `/kru/brief`); reads stay open | — |
+| During `/kru/brainstorm` | Refuses every write until you say go (or run `/kru/brief`); reads stay open | - |
 | Dispatching a seat | Refuses a handoff that carries stale line numbers, restates a rule the seat already has, or leaves a decision open, and logs the refusal; adds the learnings channel and a review's report path to the brief when it lacks them | `export KRU_NO_GATE=1` |
 | While a session has unaudited dispatches | Adds a standing line asking for the dispatch auditor before the turn ends | `export KRU_NO_AUDIT=1` |
-| After each dispatch | Appends one line to a session ledger the auditor reads; a return missing its `Return pass:` line comes back with an ask to request it | — |
+| After each dispatch | Appends one line to a session ledger the auditor reads; a return missing its `Return pass:` line comes back with an ask to request it | - |
 | Session start and every turn end, with `KRU_STORE_REPO` set | Pulls, then commits and pushes, the store through that git repo | `export KRU_NO_STORE_SYNC=1` |
 
 It writes outside your repo. Two things land inside it: `/kru/setup`, which edits that repo's
@@ -100,20 +101,20 @@ It writes outside your repo. Two things land inside it: `/kru/setup`, which edit
 git-ignores it). Every path below is resolved by `scripts/kru-store.sh`; `bash
 ~/.config/opencode/kru/scripts/kru-store.sh where` prints where yours is when it isn't here.
 
-- `~/.kru/management/<project>/` — briefs, plans, tickets, todos, issues. Kept at user
+- `~/.kru/management/<project>/`: briefs, plans, tickets, todos, issues. Kept at user
   level on purpose: your repo stays clean, and the plan survives branch churn and a re-clone.
-- `~/.kru/inbox.md`, `patterns/` — preferences you bank with `/kru/remember`.
-- `~/.kru/refusals.jsonl` — dispatches the handoff gate refused, capped at 500 lines;
+- `~/.kru/inbox.md`, `patterns/`: preferences you bank with `/kru/remember`.
+- `~/.kru/refusals.jsonl`: dispatches the handoff gate refused, capped at 500 lines;
   `/kru/roster learn` reads it for misfires and drains it.
-- `~/.kru/audit/`, `lead-gate/` — per-session bookkeeping for the hooks above; audit
+- `~/.kru/audit/`, `lead-gate/`: per-session bookkeeping for the hooks above; audit
   ledgers self-delete after 7 days.
-- `${TMPDIR}/kru-review/` — review reports, so an audit trail stays out of the conversation.
+- `${TMPDIR}/kru-review/`: review reports, so an audit trail stays out of the conversation.
 
-Three env vars move it: **`KRU_HOME`** relocates everything (default `~/.kru` — upstream's name for
+Three env vars move it: **`KRU_HOME`** relocates everything (default `~/.kru`, upstream's name for
 the store, unrelated to this fork's install dir), **`KRU_PROJECT`** names the project's store folder
 in place of the repo's folder name, and **`KRU_PROJECT_STORE`** pins one project's plan store.
 `references/store.md` is the whole map. A store kept at `~/.claude/kru/` by this fork's earlier
-versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` runs — never over a
+versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` runs, never over a
 `~/.kru/` that already holds files, and not when `KRU_HOME` names another root.
 
 ## Commands
@@ -129,7 +130,7 @@ versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` 
 - `/kru/todo <the thing>`, `/kru/issue <what's wrong>`: park a want or a defect without breaking the session.
 - `/kru/remember <what you liked>`: bank a preference for the team to absorb later.
 - `/kru/landed`: after the PR merges, sync back onto the base branch.
-- `/kru/text-fix` `[<path> | <branch> | <pr>]`: every text pass the target earns — comments, rendered copy, doc prose, agent docs — in one go. The three verbs under it run alone too: `/kru/comment-fix`, `/kru/prose-fix`, `/kru/doc-fix`.
+- `/kru/text-fix` `[<path> | <branch> | <pr>]`: every text pass the target earns (comments, rendered copy, doc prose, agent docs) in one go. The three verbs under it run alone too: `/kru/comment-fix`, `/kru/prose-fix`, `/kru/doc-fix`.
 - `/kru/eval-review` `[<eval dir>]`: audit a Claude Code plugin eval suite for checks that pass or fail for the wrong reason, and fix them.
 
 **Backlog and tech debt**
@@ -139,7 +140,7 @@ versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` 
 - `/kru/briefs`: check every brief against what shipped; tick, archive, or resume one.
 - `/kru/design-system audit`: audit the design system.
 - `/kru/seo-review`, `/kru/review-animations`, `/kru/improve-animations`, `/kru/design-gallery`: audits on shipped pages.
-- `/kru/ux-review <flow>`: audit a user flow — signup, checkout — end to end through source.
+- `/kru/ux-review <flow>`: audit a user flow (signup, checkout) end to end through source.
 
 ## Stack
 - **UI**: React, Svelte 5, Web Components.
@@ -152,14 +153,14 @@ versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` 
 - **Tooling**: pnpm, Turborepo, Biome.
 - **Programs and packages**: Node CLIs, scripts and workers; Vite plugins, MCP servers, small Node libraries.
 
-Design runs upstream of every build (flows, artboards, brand identity, marketing copy, assets) and review after it (correctness, structure, rendered UI, accessibility, UX). The seats behind each layer, and how to spawn one directly: `ROSTER.md`.
+Design (flows, mockups, brand, assets) is done by a **separate designer** outside this roster. Engineering builds from the PM's approved spec (`references/design-spec.md`, `references/designer-handoff.md`) and reviews after (correctness, structure, rendered UI against that spec at 1440px and 375px, accessibility, UX). The seats behind each layer, and how to spawn one directly: `ROSTER.md`.
 
 A stack with no seat is a question the lead brings to you before it guesses.
 
 ## Forking the team
 `/kru/roster` (hire a seat, author a skill, sweep banked preferences into the seats) and
 `/kru/update` (sweep what moved upstream) **edit the team's own files**. Run them in this repo, not
-against the installed copy — the installed copy is a build, and the next `kru-oc sync` overwrites it.
+against the installed copy. The installed copy is a build, and the next `kru-oc sync` overwrites it.
 After either one: `node scripts/port.mjs && node bin/kru-oc.mjs sync`.
 
 If you just want the team to learn your preferences, `/kru/remember` is the channel that works
@@ -177,4 +178,4 @@ The preference loop: `PREFERENCES.md`. The plan store's file format: `TRACKER.md
 changes and what opencode cannot do: `PORTING.md`. Which model each seat runs on: `MODELS.md`.
 
 ## License
-MIT — see `LICENSE`. Vendored upstream skills keep their own licenses; see `NOTICE`.
+MIT. See `LICENSE`. Vendored upstream skills keep their own licenses; see `NOTICE`.

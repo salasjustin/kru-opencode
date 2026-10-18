@@ -1,5 +1,5 @@
 ---
-description: Coverage pass on the rendered UI in a live browser — the states and widths nobody ever renders, what breaks in them, and the root cause behind it.
+description: Compare the rendered UI to the approved design spec at desktop 1440 and mobile 375, plus coverage of states nobody opens — report mismatches and breakage to the builder.
 agent: kru
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: Roster operations for this team plugin — hire or retire a specialist, author a skill, sweep learned preferences back into the team, or audit the roster for drift.
+description: Roster operations for this team plugin — hire or retire a specialist, author a skill, take a requester's ask for a new seat or skill, sweep learned preferences back into the team, or audit the roster for drift.
 agent: kru
 ---
 

@@ -10,7 +10,7 @@
 // what it never touches: prose judgment. a rule that would need judgment is
 // listed in PORTING.md under "hand-owned" instead.
 
-import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync } from "node:fs"
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync, copyFileSync, statSync } from "node:fs"
 import { join, dirname, basename, relative } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -36,15 +36,11 @@ const SEATS = {
   "code-reviewer": { model: ZEN.judgment, temperature: 0.1 },
   "architecture-reviewer": { model: ZEN.judgment, temperature: 0.1 },
   "ux-auditor": { model: ZEN.judgment, temperature: 0.1 },
-  "ux-designer": { model: ZEN.judgment },
   "conversion-copywriter": { model: ZEN.judgment },
-  // ui + design craft
+  // ui craft
   "react-ui-builder": { model: ZEN.ui },
   "svelte-ui-builder": { model: ZEN.ui },
   "web-components-builder": { model: ZEN.ui },
-  "ui-designer": { model: ZEN.ui },
-  "graphic-designer": { model: ZEN.ui },
-  "brand-designer": { model: ZEN.ui },
   // vision
   "visual-reviewer": { model: ZEN.vision, temperature: 0.1 },
   "accessibility-reviewer": { model: ZEN.vision, temperature: 0.1 },
@@ -57,7 +53,7 @@ const DEFAULT_SEAT = { model: ZEN.coding }
 // opencode switches primaries with tab rather than loading a skill.
 const LEAD = {
   model: ZEN.judgment,
-  description: "The engineering lead — scopes the work, routes it to the kru seats, and runs the board.",
+  description: "The engineering lead: scopes the work, routes it to the kru seats, and runs the board.",
 }
 
 // ---------------------------------------------------------------------------
@@ -153,7 +149,10 @@ const REWRITES = [
   // the rule above lands inside a code span upstream already opened
   [/``explore``/g, "`explore`"],
   [/`\/code-review`/g, "`kru/code-reviewer`"],
+  [/`\/code-review\s+(?:high|medium|low)`/g, "`kru/code-reviewer`"],
+  [/(say|type) `\/code-review\s+(?:high|medium|low)`/g, "$1 `kru/code-reviewer`"],
   [/(^|[\s(])\/code-review\b/g, "$1`kru/code-reviewer`"],
+  [/copied into `skills\/`/g, "vendored under `skill/kru-*/`"],
   // claude's built-in delegates → opencode's
   [/`Explore`/g, "`explore`"],
   [/\bExplore's\b/g, "`explore`'s"],
@@ -174,16 +173,6 @@ const REWRITES = [
   // both spellings named one file upstream, so the pair collapses to one branch
   [/(`?)AGENTS\.md\1\s*(?:\/|,|\bor\b)\s*\1AGENTS\.md\1/g, "$1AGENTS.md$1"],
   [/\ba (`?)AGENTS\.md/g, "an $1AGENTS.md"],
-  // the design chain: opencode reaches no canvas editor and no claude.ai design
-  // project, so the surface is the `ui-designer` seat's own artboards. the one
-  // phrase kept is "Claude Design canvas", which ui-practice.md spends once to
-  // say what upstream does and this fork doesn't.
-  [/Claude Design \(`\/design`\)/g, "the design turn (`kru/ui-designer`)"],
-  [/\*\*Claude Design\*\*(?! canvas)/g, "**the design draft**"],
-  [/Claude Design's(?! canvas)/g, "the design draft's"],
-  [/\bClaude Design\b(?! canvas)/g, "the design turn"],
-  [/`\/design`/g, "`kru/ui-designer`"],
-  [/(^|[\s(])\/design\b(?!-)/g, "$1`kru/ui-designer`"],
   // install shape: a copy into an opencode config dir. nothing resolves
   // differently per load, and the installed tree is a build `kru-oc sync`
   // overwrites, which is the reason the inbox stays in the home dir.
@@ -248,7 +237,8 @@ const HAND_OWNED = new Set(["skill/kru-update/SKILL.md", "PORTING.md", "MODELS.m
 
 // the fork's own checks and the store move: they name claude's vocabulary in
 // order to look for it, so normalizing them would blind the scan
-const FORK_OWNED = /^scripts\/(verify-tree\.mjs|verify\.sh|smoke\.sh|hooks\.test\.sh|kru-store-migrate(\.test)?\.mjs)$/
+const FORK_OWNED =
+  /^scripts\/(verify-tree\.mjs|verify\.sh|smoke\.sh|hooks\.test\.sh|kru-store-migrate(\.test)?\.mjs|port-upstream-hand-owned\.test\.mjs|verify-layout-links\.test\.mjs)$/
 
 // the official-source map names claude's surfaces on purpose (its design and
 // harness rows say what upstream uses and what this fork does instead), so only
@@ -460,8 +450,55 @@ function portLead() {
     `skills as \`kru-<name>\` (\`kru-testing\`). Commands are \`/kru/<name>\`.`,
     ``,
   ].join("\n")
-  const out = `---\ndescription: ${LEAD.description}\nmode: primary\nmodel: ${LEAD.model}\n---\n\n${header}\n${fm.body.trim()}\n`
+  const out = `---\ndescription: "${LEAD.description.replaceAll('"', '\\"')}"\nmode: primary\nmodel: ${LEAD.model}\n---\n\n${header}\n${fm.body.trim()}\n`
   write(join(ROOT, "agent", "kru.md"), rewrite(out, new Set(seatNames())))
+}
+
+// upstream lands vendored skills under skills/<name>/; opencode loads skill/kru-<name>/.
+// claude-code-delegation targets the claude CLI and is dropped on this fork (PORTING.md).
+const SKILLS_DROP = new Set(["claude-code-delegation"])
+
+function portUpstreamSkills() {
+  const skillsRoot = join(ROOT, "skills")
+  if (!existsSync(skillsRoot)) return
+  const seats = new Set(seatNames())
+  for (const name of readdirSync(skillsRoot)) {
+    const srcPath = join(skillsRoot, name)
+    if (!statSync(srcPath).isDirectory()) {
+      problems.push(`skills/${name}: not a directory — run node scripts/port.mjs to remove`)
+      if (!CHECK) rmSync(srcPath)
+      continue
+    }
+    if (SKILLS_DROP.has(name)) {
+      problems.push(`skills/${name}/: excluded (no opencode equivalent) — run node scripts/port.mjs to remove`)
+      if (!CHECK) rmSync(srcPath, { recursive: true })
+      continue
+    }
+    const destRoot = join(ROOT, "skill", `kru-${name}`)
+    for (const file of walk(srcPath)) {
+      const relPath = relative(srcPath, file)
+      const dest = join(destRoot, relPath)
+      const destRel = relative(ROOT, dest).replaceAll("\\", "/")
+      if (HAND_OWNED.has(destRel)) continue
+      if (!CHECK) mkdirSync(dirname(dest), { recursive: true })
+      if (/\.(md|sh|mjs|ts|js|txt|html|py)$/.test(file)) {
+        const text = readFileSync(file, "utf8")
+        const pathsOnly = PATHS_ONLY.has(destRel)
+        write(dest, rewrite(text, seats, { sh: file.endsWith(".sh"), pathsOnly }))
+      } else if (CHECK) {
+        const missing = !existsSync(dest)
+        const differs =
+          !missing &&
+          readFileSync(file).compare(readFileSync(dest)) !== 0
+        if (missing || differs) changed.push(destRel)
+      } else {
+        copyFileSync(file, dest)
+        if (!changed.includes(destRel)) changed.push(destRel)
+      }
+    }
+    if (!CHECK) rmSync(srcPath, { recursive: true })
+  }
+  if (!CHECK && existsSync(skillsRoot) && readdirSync(skillsRoot).length === 0) rmSync(skillsRoot, { recursive: true })
 }
 
 // --- step 3: skill names ---------------------------------------------------
@@ -581,6 +618,7 @@ function audit() {
 
 portAgents()
 portLead()
+portUpstreamSkills()
 portSkills()
 portText()
 portCommands()

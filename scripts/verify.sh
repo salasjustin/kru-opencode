@@ -51,6 +51,8 @@ step "script syntax (bash -n, node --check)" syntax
 step "plugin typecheck (tsc plugin/kru.ts)" npx --no-install tsc -p tsconfig.json
 step "store resolver (kru-store.test.sh)" bash scripts/kru-store.test.sh
 step "store move (kru-store-migrate.test.mjs)" node --test scripts/kru-store-migrate.test.mjs
+step "port upstream hand-owned (port-upstream-hand-owned.test.mjs)" node --test scripts/port-upstream-hand-owned.test.mjs
+step "layout relative links (verify-layout-links.test.mjs)" node --test scripts/verify-layout-links.test.mjs
 step "hooks on an installed tree (hooks.test.sh)" bash scripts/hooks.test.sh
 step "tree: frontmatter, json/yaml, version, seats, leftovers" node scripts/verify-tree.mjs
 

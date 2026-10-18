@@ -65,6 +65,21 @@ The frame scrolls; the page never does.
 ```
 The row handler returns early when the event came from the link.
 
+## A card that opens one place is a link on its title, stretched over the card
+
+**Trigger:** a card or tile whose whole surface should open its item, with no row action of its own (a card that has one takes the clickable-row entry above).
+**Pattern:** the title is the `<a>`; its `::after` covers the card. Any other control in the card sits above that layer.
+**Default it corrects:** the whole card wrapped in `<a>`, so the screen reader reads every word as one link name and a button inside it is an interactive nested in an interactive — invalid, and its press also follows the link.
+**Why:** the stretched title keeps the link name to the title, keeps text selectable outside it, and lets a nested control work alone.
+**Shape:**
+```css
+.card { position: relative }
+.card .title a::after { content: ""; position: absolute; inset: 0 }
+.card :is(button, a:not(.title a)) { position: relative; z-index: 1 }
+.card:has(.title a:focus-visible) { outline: var(--focus-ring) }
+```
+The focus ring moves to the card, since the link's own box is just the title.
+
 ## A column of figures read down keeps one decimal count
 
 **Trigger:** a table column, ledger or stat list of numbers the reader compares down the column.

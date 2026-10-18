@@ -7,13 +7,13 @@
 // exits 1.
 
 import { readFileSync, readdirSync, existsSync } from "node:fs"
-import { join, dirname, relative, basename } from "node:path"
+import { join, dirname, relative, basename, resolve, normalize } from "node:path"
 import { fileURLToPath } from "node:url"
 import { execFileSync } from "node:child_process"
 import { parse as parseYaml, parseAllDocuments } from "yaml"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
-const SEAT_COUNT = 41
+const SEAT_COUNT = 37
 // upstream's tools: allowlist carries no Edit/Write for these; the port turns
 // that into `"*": deny` with no edit key (scripts/port.mjs → portAgents)
 const READ_ONLY = [
@@ -24,7 +24,6 @@ const READ_ONLY = [
   "dispatch-auditor",
   "planner",
   "ux-auditor",
-  "ux-designer",
   "visual-reviewer",
 ]
 const WRITE_PERMS = ["edit", "write", "patch", "multiedit", "apply_patch", "*"]
@@ -224,15 +223,44 @@ for (const p of files) {
   }
 }
 
+// --- layout: no upstream skills/ tree; skill/kru-* links resolve -----------
+{
+  const skillsTop = join(ROOT, "skills")
+  if (existsSync(skillsTop)) {
+    const entries = readdirSync(skillsTop).filter((e) => !e.startsWith("."))
+    if (entries.length)
+      fail("layout", `skills/ must be empty after port (still has ${entries.join(", ")}) — run node scripts/port.mjs`)
+  }
+  const skillDirs = new Set(skills)
+  for (const p of files.filter((f) => f.endsWith(".md"))) {
+    const text = read(p)
+    for (const m of text.matchAll(/skill\/kru-([a-z0-9-]+)(?:\/|(?![a-z0-9-]))/g)) {
+      const dir = `kru-${m[1]}`
+      if (!skillDirs.has(dir)) fail("layout", `${rel(p)}: links skill/${dir} but skill/${dir}/ is missing`)
+    }
+    for (const m of text.matchAll(/\]\(\.\.\/([a-z0-9-]+)\/SKILL\.md\)/g)) {
+      const bare = m[1]
+      const target = normalize(resolve(dirname(p), "..", bare, "SKILL.md"))
+      if (!existsSync(target))
+        fail("layout", `${rel(p)}: relative link ../${bare}/SKILL.md does not resolve (${relative(ROOT, target)})`)
+    }
+  }
+}
+
 // --- leftover claude-code vocabulary ---------------------------------------
 // files that name claude code on purpose: the fork's own docs, the rewriter,
 // these checks, the official-source map and eval-review (PATHS_ONLY in
 // port.mjs), and the update sweep, whose claude ground is a PORTING.md known gap
-const ABOUT_CLAUDE = /^(README\.md|PORTING\.md|MODELS\.md|SOURCES\.md|scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh)|skill\/kru-update\/|skill\/kru-eval-review\/SKILL\.md)/
+const ABOUT_CLAUDE =
+  /^(README\.md|PORTING\.md|MODELS\.md|SOURCES\.md|scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh)|scripts\/port-upstream-hand-owned\.test\.mjs|skill\/kru-update\/|skill\/kru-eval-review\/SKILL\.md)/
 // the old store path is legal only where the move happens and where it's explained
 const STORE_MOVE = /^(README\.md|PORTING\.md|plugin\/kru\.ts|scripts\/kru-store-migrate(\.test)?\.mjs|scripts\/smoke\.sh|scripts\/verify(-tree\.mjs|\.sh))$/
 const SCANS = [
-  { name: "${CLAUDE_PLUGIN_ROOT}", re: /CLAUDE_PLUGIN_ROOT/, allow: /^(scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh))$/ },
+  {
+    name: "${CLAUDE_PLUGIN_ROOT}",
+    re: /CLAUDE_PLUGIN_ROOT/,
+    allow: /^(scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh)|scripts\/port-upstream-hand-owned\.test\.mjs)$/,
+  },
   { name: "~/.claude/kru", re: /(~|\$HOME|homedir\(\)[^\n]*)\/?\.claude\/kru\b|"\.claude", "kru"/, allow: STORE_MOVE },
   // "Claude Code channels" is a product extension-builder builds, not the harness
   { name: "Claude Code", re: /\bClaude Code\b(?! channels?\b)/, allow: ABOUT_CLAUDE },
@@ -266,12 +294,13 @@ for (const p of files) {
 }
 
 // --- report -----------------------------------------------------------------
-const CHECKS = ["frontmatter", "json/yaml", "version", "seats", "claude leftovers"]
+const CHECKS = ["frontmatter", "json/yaml", "version", "seats", "layout", "claude leftovers"]
 const detail = {
   frontmatter: `${seats.length + 1} agents · ${skills.length} skills · ${commands.length} commands`,
   "json/yaml": `${files.filter((f) => /\.(json|ya?ml)$/.test(f)).length} files`,
   version: read(join(ROOT, "VERSION")).trim(),
   seats: `${seats.length} seats · ${READ_ONLY.length} read-only`,
+  layout: "no skills/ dir · skill/kru-* links",
   "claude leftovers": `${SCANS.length} patterns`,
 }
 for (const n of notes) console.log(`note ${n}`)
