@@ -78,7 +78,6 @@ Mechanical, all of it in `scripts/port.mjs`:
   preference inbox's home and the vendored skills say instead.
 - **The hooks** — `hooks/hooks.json` → `plugin/kru.ts`, and every "Stop hook" becomes the standing
   audit nudge, because opencode has no hook that can block the end of a turn (below).
-- **The design chain** — see below.
 
 The script also **warns** (never rewrites) on references to surfaces opencode cannot reach, so a merge
 that reintroduces one is seen. The residue today is intentional: `SOURCES.md` and
@@ -87,21 +86,12 @@ instead.
 
 ## What opencode has no equivalent for
 
-**The design canvas.** Upstream's design turn publishes Claude Design's canvas editor as an artifact:
-the user reshapes artboards directly and saves, and the whole practice hangs off that surface.
-opencode reaches neither that editor nor a claude.ai/design project. The fork replaces the *surface*
-and keeps the *practice*:
-
-- a first-party **`kru-artboards`** skill holds the artboard mechanics — self-contained `.dc.html`
-  files written into the repo's design-work path
-- `kru/ui-designer` **drafts the look itself** (upstream keeps it to the frame around someone else's
-  look), the lead opens the files in the user's browser, and the verdict is still the user's
-- the reshape loop is a **re-brief**, not a drag: two rounds is normal, a third means the brief is wrong
-- the **sync lane** (`design-sync.md`, a bundle of real components pushed to a claude.ai/design
-  project) is gone with nothing in its place; a non-coder reads the gallery on the dev server
-
-**The `Artifact` tool** — dropped from `ui-designer`'s permissions; the `algorithmic-art` skill writes
-a local HTML file instead of publishing one.
+**The bundled `/design` skill and Claude Design canvas.** Upstream v0.156.0 routes flows, IA, mockups,
+brand and assets to a **separate designer** (human or bot) using `references/designer-handoff.md`; the
+engineering lead builds from the PM's approved mockup + build spec (`references/design-spec.md`) and
+`visual-reviewer` checks the build against it at **1440px and 375px**. opencode has no Claude Design
+editor, no `/design` skill, and no design seats on the roster — those references stay in prose as
+upstream vocabulary the port warns on, not seats to re-add.
 
 **A blocking stop hook.** Upstream refuses the end of a turn that dispatched seats until the dispatch
 auditor runs. opencode has no hook that can block a turn's end, so the nudge is a standing line
@@ -141,7 +131,7 @@ human read. `scripts/port.mjs` → `HAND_OWNED` holds the list the rules skip en
 | `plugin/kru.ts` → the lead gate and the brainstorm lock | upstream's `require-lead.sh` and `brainstorm-guard.sh` read the session transcript, which opencode does not expose, so their state is tracked in TS (a `kru-lead` load, a `/kru/brainstorm` run, the user's go). Both call upstream's `hooks/readonly-bash.sh` for the read-only test, so an edit to its verb lists needs no mirror |
 | `hooks/check-handoff.sh` → the user rules files | opencode loads `~/.config/opencode/AGENTS.md` or `~/.claude/CLAUDE.md`, so the machine-budget and shingle scans read both |
 | `skill/kru-roster/audit.md` → assertion 1 | upstream dropped the seat-count check with its tagline; this fork still states a count |
-| `agent/kru/ui-designer.md`, `references/ui-practice.md`, `skill/kru-artboards/` | the design chain above |
+| `references/ui-practice.md`, `references/designer-handoff.md` | upstream design workflow vs opencode; hand-merge after each upstream design change |
 | `ROSTER.md` → *Model tiers* | upstream argues Claude tiers, `effort:` and prompt-cache TTL; here the section is three lines pointing at `MODELS.md`, and `effort:`/`cacheTtl` have no opencode equivalent |
 | `skill/kru-roster/audit.md` → assertion 8 | upstream measures context load with `claude plugin details`; opencode reports none, so the assertion counts description bytes instead |
 | `SOURCES.md` → *Orchestration / harness mechanics* | the lead's own official source: opencode's docs and Context7, not `claude-code-guide` |

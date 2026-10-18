@@ -3,7 +3,7 @@
 ## An image the design depends on is real before the design is judged
 
 **Default it corrects:** a grey box or a stock stand-in drawn with the plan to swap in a phone photo later — the design is judged on the stand-in, and the swap never looks like it.
-**Rule:** an image slot is filled with the real asset or one pre-sourced for it (`graphic-designer` produces them). A slot with nothing yet is drawn empty and named as a gap in the return.
+**Rule:** an image slot is filled with the real asset or one pre-sourced for it (the designer produces them and paths land in the build spec). A slot with nothing yet is drawn empty and named as a gap in the return.
 
 ## Text over a photo gets its contrast from the image, not the text
 

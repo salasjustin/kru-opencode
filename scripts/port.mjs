@@ -36,15 +36,11 @@ const SEATS = {
   "code-reviewer": { model: ZEN.judgment, temperature: 0.1 },
   "architecture-reviewer": { model: ZEN.judgment, temperature: 0.1 },
   "ux-auditor": { model: ZEN.judgment, temperature: 0.1 },
-  "ux-designer": { model: ZEN.judgment },
   "conversion-copywriter": { model: ZEN.judgment },
-  // ui + design craft
+  // ui craft
   "react-ui-builder": { model: ZEN.ui },
   "svelte-ui-builder": { model: ZEN.ui },
   "web-components-builder": { model: ZEN.ui },
-  "ui-designer": { model: ZEN.ui },
-  "graphic-designer": { model: ZEN.ui },
-  "brand-designer": { model: ZEN.ui },
   // vision
   "visual-reviewer": { model: ZEN.vision, temperature: 0.1 },
   "accessibility-reviewer": { model: ZEN.vision, temperature: 0.1 },
@@ -174,16 +170,6 @@ const REWRITES = [
   // both spellings named one file upstream, so the pair collapses to one branch
   [/(`?)AGENTS\.md\1\s*(?:\/|,|\bor\b)\s*\1AGENTS\.md\1/g, "$1AGENTS.md$1"],
   [/\ba (`?)AGENTS\.md/g, "an $1AGENTS.md"],
-  // the design chain: opencode reaches no canvas editor and no claude.ai design
-  // project, so the surface is the `ui-designer` seat's own artboards. the one
-  // phrase kept is "Claude Design canvas", which ui-practice.md spends once to
-  // say what upstream does and this fork doesn't.
-  [/Claude Design \(`\/design`\)/g, "the design turn (`kru/ui-designer`)"],
-  [/\*\*Claude Design\*\*(?! canvas)/g, "**the design draft**"],
-  [/Claude Design's(?! canvas)/g, "the design draft's"],
-  [/\bClaude Design\b(?! canvas)/g, "the design turn"],
-  [/`\/design`/g, "`kru/ui-designer`"],
-  [/(^|[\s(])\/design\b(?!-)/g, "$1`kru/ui-designer`"],
   // install shape: a copy into an opencode config dir. nothing resolves
   // differently per load, and the installed tree is a build `kru-oc sync`
   // overwrites, which is the reason the inbox stays in the home dir.

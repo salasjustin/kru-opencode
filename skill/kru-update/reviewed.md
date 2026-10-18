@@ -26,6 +26,7 @@ Previous: 2.1.288 — 2026-10-03, read back to 2.1.281. 2.1.280 — 2026-09-23, 
 | 2.1.287 | Claude Mods — plugin function hooks with UI | `kru-board`, a row above the prompt naming the running seats; on trial as a session dev mod outside this repo, not yet shipped in the plugin |
 | — | `userConfig` (values reach hooks as `CLAUDE_PLUGIN_OPTION_<KEY>`; `claude plugin configure` 2.1.286) | `package.json` → `KRU_STORE_REPO` + four `KRU_NO_*` switches; `scripts/kru-store.sh` maps each onto its unset env var |
 | 2.1.290 | Correction: `kru/code-reviewer` at `medium` on Opus 5.5 / Sonnet 5.5 also reports cleanup and AGENTS.md-convention findings — not correctness only | `lead` → `references/gates.md` → *Correctness*; the comment pass stays the lead's (Block I isn't in AGENTS.md) |
+| 2.1.293 | Claude Haiku 5.5 (`claude-haiku-5-5`) — $0.10/$0.50 per Mtok to 100k-token prompts, $0.50/$2.50 above; 1M context; retires no sooner than 2027-10-07 | `dispatch-auditor`'s `model:` moved down from sonnet, the one haiku seat; `ROSTER.md` → *Model tiers*; `scripts/audit.sh` pin regex; `roster/hire.md` + `audit.md` pin text; README → *Requirements* |
 | — | Correction: `brainstorm-guard.sh` read any transcript line carrying an invocation, tool output included, and locked a session that never brainstormed | the anchor now matches only a string-content user turn; fixtures splice the name |
 
 ### Considered — the user's call
@@ -52,7 +53,6 @@ Previous: 2.1.288 — 2026-10-03, read back to 2.1.281. 2.1.280 — 2026-09-23, 
 - **`onFailure: "block"` on command hooks** (2.1.295) — the gates (`require-lead`, `check-handoff`, `brainstorm-guard`) fail open on purpose: a gate that can't start would otherwise lock every tool call in the session.
 - **Agent tool `effort` parameter** (2.1.292) — seat effort is policy in frontmatter (`ROSTER.md` → *Model tiers*); no routing rule asks for a per-dispatch override.
 - **`claude plugin install --marketplace`** (2.1.292) — not in this install's `--help`; the two-line add + install works on every CLI above the floor.
-- **Claude Haiku 5.5** (2.1.293) — `dispatch-auditor` runs on it (`MODELS.md` → *Mechanical*); the API rejects `temperature` for it, so the seat carries none.
 - **Current, no line moves:** subagents preload ≤32 `skills:` (2.1.295; no seat uses the field). `<system-reminder>` escaped in hook output (2.1.292; no hook emits one). `prompt`/`agent` hook judging (2.1.294; plugin ships command hooks only). `claude plugin validate` README install-line advice and the marketplace-manifest fix (2.1.289/2.1.295; validate passes clean). Skill `allowed-tools`/`effort` drop fixes, mod API additions (`$.ui.notify`, `isDeferred`, `agent.spawn`, `tool.check` `agentId`; `kru-board` isn't shipped), `subagentStatusLine` `agentType`.
 - **Plan mode under `/kru/brainstorm`** — the user rejects it: every piece of feedback re-raises the plan-approval prompt. `brainstorm-guard.sh` stays, its anchor fixed.
 

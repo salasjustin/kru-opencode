@@ -13,7 +13,7 @@ import { execFileSync } from "node:child_process"
 import { parse as parseYaml, parseAllDocuments } from "yaml"
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..")
-const SEAT_COUNT = 41
+const SEAT_COUNT = 37
 // upstream's tools: allowlist carries no Edit/Write for these; the port turns
 // that into `"*": deny` with no edit key (scripts/port.mjs → portAgents)
 const READ_ONLY = [
@@ -24,7 +24,6 @@ const READ_ONLY = [
   "dispatch-auditor",
   "planner",
   "ux-auditor",
-  "ux-designer",
   "visual-reviewer",
 ]
 const WRITE_PERMS = ["edit", "write", "patch", "multiedit", "apply_patch", "*"]

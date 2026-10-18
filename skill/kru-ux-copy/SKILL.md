@@ -10,7 +10,7 @@ user-invocable: false
      (slack, figma, linear, asana, atlassian, notion, intercom, google calendar, gmail) loaded.
      upstream ships this as the namespaced `design:ux-copy`; this is the plain vendored copy.
      TEAM-ADAPTED: dead CONNECTORS.md pointer dropped, connector block rewritten as team equivalents
-     (repo strings for voice, `ux-designer`'s inventory for screen context); error messages split field-level vs system-level, where upstream gives every error the what+why+how structure. re-sync: diff, then re-apply. -->
+     (repo strings for voice, the design spec's screen inventory for context); error messages split field-level vs system-level, where upstream gives every error the what+why+how structure. re-sync: diff, then re-apply. -->
 
 # /kru/ux-copy
 
@@ -103,7 +103,7 @@ Adapt tone to context:
 Upstream's connector hooks (knowledge base, Figma) aren't vendored — the plugin's MCP fleet is deliberately out. The equivalents:
 
 - **Voice, terminology and existing patterns** — grep the repo's own strings first. A product's vocabulary is already in its components, and matching it beats inventing a better word for something users have already learned.
-- **Screen context and the full flow** — `ux-designer`'s screen inventory and flowchart, plus the route/component files. Not a live Figma pull; there's no Figma MCP on this team.
+- **Screen context and the full flow** — the approved design spec's screen inventory and flows, plus the route/component files. Not a live Figma pull; there's no Figma MCP on this team.
 - **Character limits and layout constraints** — the design plan or the returned design; where neither settles it, say the string is length-sensitive and give a short alternative rather than guessing a cap.
 
 ## Tips

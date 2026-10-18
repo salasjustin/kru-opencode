@@ -141,8 +141,9 @@ if [ -n "$cctx" ]; then
   # quantifiers are what the standard itself spends, so they hold the refusal
   # even where a nearby identifier is backticked —
   # "existing" only on the plural, since "its existing comment" names one.
-  # a singular "the comment" or "a one-line comment" is one comment too.
-  if printf '%s' "$cctx" | grep -qiE '`|\b(above|below|beside)\b|\b(its|this|that|each|whose|a) comments?\b|\b(the|a|an)( [a-z-]+){0,2} comment\b' &&
+  # a singular "the comment" or "a one-line comment" is one comment too, and
+  # "keep its hand edits: lock_timeout, comments" lists one file's contents.
+  if printf '%s' "$cctx" | grep -qiE '`|\b(above|below|beside)\b|\b(its|this|that|each|whose|a) comments?\b|\b(the|a|an)( [a-z-]+){0,2} comment\b|\bits\b[^.]{0,60}\bcomments?\b' &&
     ! printf '%s' "$cctx" | grep -qiE '\b(every|all|any) comments?\b|\bexisting comments\b'; then
     comments=""
   fi
@@ -190,19 +191,6 @@ for f in $USER_CANON "$plugin_root/skill/kru-roster/shared-blocks.md"; do
 done
 # the plan store's contract is the file a planner brief re-types (lead step 2.6)
 [ "$seat" = "planner" ] && [ -f "$plugin_root/kru/TRACKER.md" ] && canon="$canon $plugin_root/kru/TRACKER.md"
-# a file the brief names is only shadow canon: the seat doesn't load it on its
-# own, and a passage the slice edits or the invariant it codes against is quoted
-# from exactly that file — slice content, not a second source. resolved under
-# cwd, capped so a brief listing a tree doesn't turn the check into a
-# full-corpus read.
-named=""
-if [ -n "$cwd" ]; then
-  for rel in $(printf '%s' "$prompt" | grep -oE '[A-Za-z0-9_./-]+\.md\b' | sed 's#^\./##' | sort -u | head -10); do
-    f="$cwd/$rel"
-    case " $canon $named " in *" $f "*) continue ;; esac
-    [ -f "$f" ] && named="$named $f"
-  done
-fi
 # a path and a backticked identifier are the pointer scan 2 asks for in place
 # of the text, and stripping punctuation turns one of them into a six-word run
 # any repo's own path map already spends — the gate refusing its own remedy.
@@ -241,29 +229,6 @@ fi
 
 # shadow scans — logged, never refused.
 shadow=""
-# the named-file shingle: a brief quoting a file it names is usually the passage
-# under edit, so a hit is shadow only until its rate against real paraphrase is proven.
-if [ -n "$named" ]; then
-  nhit=$(shingle "$named")
-  [ -n "$nhit" ] && shadow="${shadow}quotes a named file: \"${nhit#*	}\" is in ${nhit%%	*} — fine for a passage the slice edits or its invariant; a rule the seat already loads is a pointer (scan 2). "
-fi
-# a version pin re-typed beside the sheet line that carries it is a second
-# source of that line (scan 2). a sentence moving the version — an upgrade, a
-# bump, an old→new — names the pin as slice content.
-pin=""
-for f in "$cwd/AGENTS.md"; do
-  [ -f "$f" ] || continue
-  pins=$(grep -oE '\b[0-9]+\.[0-9]+\.[0-9]+\b' "$f" | sort -u)
-  [ -z "$pins" ] && continue
-  # sentences split on ". " and ";", since a version's own dots aren't one
-  pin=$(printf '%s\n' "$prompt" | sed 's/\. /\
-/g; s/;/\
-/g' |
-    grep -viE 'bump|upgrad|migrat|downgrad|→|->|\bfrom\b.*\bto\b|\bto [0-9]' |
-    grep -oE '\b[0-9]+\.[0-9]+\.[0-9]+\b' | grep -Fxf <(printf '%s\n' "$pins") | head -1)
-  [ -n "$pin" ] && break
-done
-[ -n "$pin" ] && shadow="${shadow}re-types a sheet pin: \"${pin}\" — the seat reads the sheet line itself; name the line instead (scan 2). "
 # grouping: a sheet line names the directories its seat owns in backticks, so a
 # file under another seat's directory rides in the wrong brief. only a seat the
 # sheet gives directories to is checked, and only a seat that edits — a
@@ -277,7 +242,7 @@ for f in "$cwd/AGENTS.md"; do
     owner = substr($0, RSTART + 4, RLENGTH - 4); rest = $0
     while (match(rest, /`[^` ]+\/[^` ]*`/)) {
       d = substr(rest, RSTART + 1, RLENGTH - 2); sub(/\/+$/, "", d)
-      print d, owner; rest = substr(rest, RSTART + RLENGTH)
+      if (d !~ /^@/) print d, owner; rest = substr(rest, RSTART + RLENGTH)
     }
   }' | while read -r d o; do [ -f "$plugin_root/agent/kru/$o.md" ] && printf '%s %s\n' "$d" "$o"; done)
 "
@@ -285,7 +250,12 @@ done
 readonly_seat=false
 grep -q '^  "\*": deny' "$plugin_root/agent/kru/$seat.md" && ! grep -q '^  edit: allow' "$plugin_root/agent/kru/$seat.md" && readonly_seat=true
 if [ -n "$lanes" ] && ! $readonly_seat && printf '%s' "$lanes" | awk -v s="$seat" '$2 == s { f = 1 } END { exit !f }'; then
-  misroute=$(printf '%s' "$prompt" | grep -oE '[A-Za-z0-9_.@-]+(/[][A-Za-z0-9_.@()-]+)+' | sort -u | head -40 |
+  # a scoped package (`@libsql/client`) is a dependency, not a directory; a
+  # sentence handing a path to its owner ("the auth seat owns that file") names
+  # it for reading.
+  misroute=$(printf '%s\n' "$prompt" | sed 's/\. /\
+/g' | grep -viE "\banother (seat|lane)|\bseat owns\b|\bowns (that|this|the) file\b|\boutside (the|your|its) lane\b" |
+    grep -oE '(^|[^@A-Za-z0-9_.-])[A-Za-z0-9_.-]+(/[][A-Za-z0-9_.@()-]+)+' | sed -E 's#^[^A-Za-z0-9_.-]##' | sort -u | head -40 |
     awk -v s="$seat" 'NR == FNR { if (NF == 2) { dir[++n] = $1; own[n] = $2 }; next }
       { best = ""; bl = 0
         for (i = 1; i <= n; i++) if (($0 == dir[i] || index($0, dir[i] "/") == 1) && length(dir[i]) > bl) { best = own[i]; bl = length(dir[i]) }

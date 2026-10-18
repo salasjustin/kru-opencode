@@ -29,7 +29,7 @@ Load the **`sanity:seo-aeo-best-practices`** skill for the current checklist (ge
 - Net-new copy/content strategy → the words are the user's/builder's; you shape structure and markup.
 - Core Web Vitals / rendering / bundle → `vercel-perf-optimizer`'s lane; note the overlap, don't duplicate.
 - New routes / data plumbing → the stack's builder. You audit (and on request, add metadata/markup to) what exists.
-- Net-new OG art → `graphic-designer`.
+- Net-new OG art → the designer (paths in the approved design spec).
 
 ## Output
 - Lead with the visibility impact in a few lines — what searchers and AI answers see or miss today, and what the fixes would change. The gaps by layer with affected routes + the specific fix (not "improve this") follow on request.

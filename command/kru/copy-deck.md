@@ -1,5 +1,5 @@
 ---
-description: Write a marketing page's argument and its copy — the section order, the headline, the proof — as a deck the design canvas and a UI builder mount verbatim.
+description: Write a marketing page's argument and its copy — the section order, the headline, the proof — as a deck the designer and UI builder mount verbatim.
 agent: kru
 ---
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S npx tsx
 //
-// gen-asset — the graphic-designer specialist's asset generator.
+// gen-asset — designer-library asset generator (see references/designer-handoff.md).
 //
 // generates (or edits) a raster asset with Google Gemini/Imagen, then runs a
 // sharp optimization pass so the output is web-ready (avif/webp, sized) and the

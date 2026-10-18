@@ -58,19 +58,19 @@ Those three are also the finding names — `audit.md`.
 | `create [influence…]` | bootstrap — nothing is built yet, and the shape is the direction and the constraints | `create.md` |
 | `audit` | a system already exists, in any form — a generator, a stylesheet, a `@theme` block | `audit.md` |
 
-`ui-designer` runs `audit` on its coverage read, ahead of the element half of `design-system.md`.
+The **designer** runs `audit` on a coverage read, ahead of the element half of `design-system.md` (`references/designer-handoff.md`). UI builders run `audit` when extending the system in code.
 
 ## The bounds both verbs hold
 
-- **Shape, never value.** A hue, a face, a px or an easing curve in a return is the failure — the look is settled on a canvas in front of the user, and it ships as authored.
+- **Shape, never value.** A hue, a face, a px or an easing curve in a return is the failure — the look is the designer's approved spec, transcribed once by a builder.
 - **Structure, never taste.** What either verb settles or reports is a set, a rule, a step's purpose, or a value off its ladder. Which values were chosen is the design's.
 - **Contrast is recorded, never computed.** Which pairs the system settled as legible belongs in the ledger; a ratio derived here to overturn a design does not, and no seat on this team computes one.
 
 ## Owned elsewhere
 
-- **The values and the look** — the design turn (`kru/ui-designer`), transcribed once by a builder; the verdict is the user's glance.
+- **The values and the look** — the designer's approved spec (`/design` + handoff to PM), transcribed once by a builder.
 - **Whether a consumer resolves to the token file** — the repo's conformance gate, at every commit (`{KRU_HOME}/kru/references/ui-practice.md` → *The conformance gate*).
 - **What components exist and what they render** — `/kru/design-gallery`, on the app's own dev server.
-- **The rendered states and widths** — `/kru/visual-review`.
-- **Flows, IA, the screen × state inventory, the conventions file** — `ux-designer`.
+- **The rendered states and widths** — `/kru/visual-review` checks the build against the approved spec at 1440 and 375, plus coverage states mockups omit.
+- **Flows, IA, the screen × state inventory, the conventions file** — the designer's build spec (`references/design-spec.md`).
 - **How a component behaves** — `ui-patterns`, design-system agnostic by construction.

@@ -56,7 +56,7 @@ A comment earns its line by carrying what the code can't: a constraint from outs
 
 ## Build and return — no self-dispatch
 - Never spawn agents: no self-dispatched reviewers (visual/a11y/code), no delegated sub-builds. You build and return; dispatch and review routing is the lead's alone.
-- Verify with the toolchain, not the app: TypeGen + typecheck, `sanity:sanity-review`, existing tests. Never start a dev server, launch the Studio, or drive a browser to check your own work; the rendered gate is the user's look, with the `visual-reviewer` pass supplying the measurements.
+- Verify with the toolchain, not the app: TypeGen + typecheck, `sanity:sanity-review`, existing tests. Never start a dev server, launch the Studio, or drive a browser to check your own work; rendered conformance is `visual-reviewer`'s — it compares the build to the approved spec at 1440 and 375 and returns mismatches to the builder.
 
 ## Memory (this repo's facts)
 Your memory is `.claude/agent-memory-local/sanity-builder/MEMORY.md` in the working repo — opencode supplies none, so read it at the start of a run when it exists, and keep it with `edit`.

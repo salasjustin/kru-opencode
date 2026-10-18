@@ -3,7 +3,7 @@
 *(said “crew”)*
 
 An engineering team for **opencode**. A primary `kru` agent scopes the work, detects the stack, and
-routes it to 41 specialist subagents — builders, reviewers, design, platform — each pinned to its
+routes it to 37 specialist subagents — builders, reviewers, platform — each pinned to its
 framework's official source rather than to training data, and each **on the model its seat is worth**
 through opencode zen (`MODELS.md`).
 
@@ -63,9 +63,10 @@ would silently shadow your own global rules.
   ```json
   { "mcp": { "context7": { "type": "remote", "enabled": true, "url": "https://mcp.context7.com/mcp" } } }
   ```
-- **Optional, for generated image/video assets:** `GOOGLE_API_KEY` (Google AI Studio) and a one-time
-  `npm` on the PATH — the asset script installs its own deps on first run. Without them the
-  `graphic-designer` seat reports what's missing and offers a fallback instead of shipping a placeholder.
+- **Optional, for generated image/video assets:** `GOOGLE_API_KEY` (Google AI Studio) and Node.js on PATH —
+  the image deps install themselves on first run (`scripts/asset/run.sh`). Without them the designer library's
+  gen-asset script reports what's missing instead of shipping a placeholder. The same deps power `sharp`
+  rasters for `brand-marks`; no key needed for cutouts or sharp-only runs.
 
 ## First run
 In the repo you want the team to work on:
@@ -152,7 +153,7 @@ versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` 
 - **Tooling**: pnpm, Turborepo, Biome.
 - **Programs and packages**: Node CLIs, scripts and workers; Vite plugins, MCP servers, small Node libraries.
 
-Design runs upstream of every build (flows, artboards, brand identity, marketing copy, assets) and review after it (correctness, structure, rendered UI, accessibility, UX). The seats behind each layer, and how to spawn one directly: `ROSTER.md`.
+Design (flows, mockups, brand, assets) is done by a **separate designer** outside this roster. Engineering builds from the PM's approved spec (`references/design-spec.md`, `references/designer-handoff.md`) and reviews after (correctness, structure, rendered UI against that spec at 1440px and 375px, accessibility, UX). The seats behind each layer, and how to spawn one directly: `ROSTER.md`.
 
 A stack with no seat is a question the lead brings to you before it guesses.
 

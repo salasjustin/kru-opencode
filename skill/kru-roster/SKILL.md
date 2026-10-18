@@ -1,6 +1,6 @@
 ---
 name: kru-roster
-description: Roster operations for this team plugin — hire or retire a specialist, author a skill, sweep learned preferences back into the team, or audit the roster for drift. The versioned "Growing the team" checklist, executed as a tool.
+description: Roster operations for this team plugin — hire or retire a specialist, author a skill, take a requester's ask for a new seat or skill, sweep learned preferences back into the team, or audit the roster for drift. The versioned "Growing the team" checklist, executed as a tool.
 disable-model-invocation: true
 argument-hint: "<hire|author|learn|retire|audit> [name]"
 ---
@@ -41,6 +41,8 @@ Read the one file for the requested verb, then execute it against the wiring map
 | `learn` | sweep the preference inbox back into the team | `learn.md` |
 | `retire <name>` | remove a seat + unwire everywhere | `retire.md` |
 | `audit` | report roster drift (read-only) | `audit.md` |
+
+**A requester asks for a new seat or skill** → [`request.md`](request.md). Restate the ask, choose `hire` or `author`, and ship it. A typed verb in the table still runs its own file.
 
 Plus one shared reference, read by `hire` and `audit` rather than dispatched to: **`shared-blocks.md`** — the canonical text of the blocks every seat carries (`Context hygiene`, `TypeScript`, the return contract), with its invariant clauses and its per-seat tailored slots marked.
 

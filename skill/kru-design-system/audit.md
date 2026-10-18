@@ -22,7 +22,7 @@ Findings first, **ordered by what they block**, each naming the screens or compo
 
 Every finding is phrased as **the builder's next slice**, carrying the token name it would need: *the motion ladder has durations and no named transitions — nothing states which duration an entering overlay takes; add the four.*
 
-**`nothing to add — dispatch` is one line, and is the expected answer** on a mature system. Manufacturing a finding to justify the pass costs a round trip through the lead.
+**`nothing to add — dispatch` is one line, and is the expected answer** on a mature system. Manufacturing a finding to justify the pass wastes the caller's time.
 
 ## Done when
 

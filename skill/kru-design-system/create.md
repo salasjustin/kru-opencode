@@ -48,7 +48,7 @@ export const semantic = {
 }
 ```
 
-**3. `design-system.md`** — the parts half: `## Primitives` and `## Shells` as element × state rows, above the `## Elements` ledger `ui-designer` fills from the screen inventory.
+**3. `design-system.md`** — the parts half: `## Primitives` and `## Shells` as element × state rows, above the `## Elements` ledger the designer maintains from the screen inventory (`references/designer-handoff.md`).
 
 ## The `UNSET` sentinel earns three things
 
