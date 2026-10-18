@@ -237,7 +237,8 @@ const HAND_OWNED = new Set(["skill/kru-update/SKILL.md", "PORTING.md", "MODELS.m
 
 // the fork's own checks and the store move: they name claude's vocabulary in
 // order to look for it, so normalizing them would blind the scan
-const FORK_OWNED = /^scripts\/(verify-tree\.mjs|verify\.sh|smoke\.sh|hooks\.test\.sh|kru-store-migrate(\.test)?\.mjs|port-upstream-hand-owned\.test\.mjs)$/
+const FORK_OWNED =
+  /^scripts\/(verify-tree\.mjs|verify\.sh|smoke\.sh|hooks\.test\.sh|kru-store-migrate(\.test)?\.mjs|port-upstream-hand-owned\.test\.mjs|verify-layout-links\.test\.mjs)$/
 
 // the official-source map names claude's surfaces on purpose (its design and
 // harness rows say what upstream uses and what this fork does instead), so only
@@ -479,7 +480,6 @@ function portUpstreamSkills() {
       const dest = join(destRoot, relPath)
       const destRel = relative(ROOT, dest).replaceAll("\\", "/")
       if (HAND_OWNED.has(destRel)) continue
-      if (PATHS_ONLY.has(destRel) && existsSync(dest)) continue
       if (!CHECK) mkdirSync(dirname(dest), { recursive: true })
       if (/\.(md|sh|mjs|ts|js|txt|html|py)$/.test(file)) {
         const text = readFileSync(file, "utf8")

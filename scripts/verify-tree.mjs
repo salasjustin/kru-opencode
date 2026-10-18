@@ -240,17 +240,9 @@ for (const p of files) {
     }
     for (const m of text.matchAll(/\]\(\.\.\/([a-z0-9-]+)\/SKILL\.md\)/g)) {
       const bare = m[1]
-      const prefixed = bare.startsWith("kru-") ? bare : `kru-${bare}`
-      const candidates = [
-        normalize(resolve(dirname(p), "..", bare, "SKILL.md")),
-        join(ROOT, "skill", prefixed, "SKILL.md"),
-        join(ROOT, "skill", bare, "SKILL.md"),
-      ]
-      if (!candidates.some((t) => existsSync(t)))
-        fail(
-          "layout",
-          `${rel(p)}: relative link ../${bare}/SKILL.md does not resolve (tried ${candidates.map((t) => relative(ROOT, t)).join(", ")})`,
-        )
+      const target = normalize(resolve(dirname(p), "..", bare, "SKILL.md"))
+      if (!existsSync(target))
+        fail("layout", `${rel(p)}: relative link ../${bare}/SKILL.md does not resolve (${relative(ROOT, target)})`)
     }
   }
 }
@@ -259,7 +251,8 @@ for (const p of files) {
 // files that name claude code on purpose: the fork's own docs, the rewriter,
 // these checks, the official-source map and eval-review (PATHS_ONLY in
 // port.mjs), and the update sweep, whose claude ground is a PORTING.md known gap
-const ABOUT_CLAUDE = /^(README\.md|PORTING\.md|MODELS\.md|SOURCES\.md|scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh)|skill\/kru-update\/|skill\/kru-eval-review\/SKILL\.md)/
+const ABOUT_CLAUDE =
+  /^(README\.md|PORTING\.md|MODELS\.md|SOURCES\.md|scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh)|scripts\/port-upstream-hand-owned\.test\.mjs|skill\/kru-update\/|skill\/kru-eval-review\/SKILL\.md)/
 // the old store path is legal only where the move happens and where it's explained
 const STORE_MOVE = /^(README\.md|PORTING\.md|plugin\/kru\.ts|scripts\/kru-store-migrate(\.test)?\.mjs|scripts\/smoke\.sh|scripts\/verify(-tree\.mjs|\.sh))$/
 const SCANS = [
