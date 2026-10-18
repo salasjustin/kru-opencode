@@ -1,7 +1,6 @@
 ---
 name: kru-design-system
 description: The shape of a design system before its values exist — seven foundations (color · typography · size · elevation · motion · primitives · shells). `create` writes it at bootstrap with every value `UNSET`; `audit` returns what an existing system is missing. Reach for it on a coverage read.
-argument-hint: "<create|audit> [influence…]"
 ---
 
 # design-system — the shape, before the values
@@ -53,7 +52,7 @@ Those three are also the finding names — `audit.md`.
 
 ## Dispatch
 
-| `$ARGUMENTS` | the branch | read |
+| branch in task | the branch | read |
 |---|---|---|
 | `create [influence…]` | bootstrap — nothing is built yet, and the shape is the direction and the constraints | `create.md` |
 | `audit` | a system already exists, in any form — a generator, a stylesheet, a `@theme` block | `audit.md` |
@@ -68,9 +67,9 @@ The **designer** runs `audit` on a coverage read, ahead of the element half of `
 
 ## Owned elsewhere
 
-- **The values and the look** — the designer's approved spec (`/design` + handoff to PM), transcribed once by a builder.
+- **The values and the look** — the designer's approved spec (the bundled opencode `design` skill (designer loads) + handoff to PM), transcribed once by a builder.
 - **Whether a consumer resolves to the token file** — the repo's conformance gate, at every commit (`{KRU_HOME}/kru/references/ui-practice.md` → *The conformance gate*).
-- **What components exist and what they render** — `/kru/design-gallery`, on the app's own dev server.
-- **The rendered states and widths** — `/kru/visual-review` checks the build against the approved spec at 1440 and 375, plus coverage states mockups omit.
+- **What components exist and what they render** — `skill/kru-design-gallery/SKILL.md`, on the app's own dev server.
+- **The rendered states and widths** — `skill/kru-visual-review/SKILL.md` checks the build against the approved spec at 1440 and 375, plus coverage states mockups omit.
 - **Flows, IA, the screen × state inventory, the conventions file** — the designer's build spec (`references/design-spec.md`).
 - **How a component behaves** — `ui-patterns`, design-system agnostic by construction.

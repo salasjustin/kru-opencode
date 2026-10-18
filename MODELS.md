@@ -84,4 +84,4 @@ Two things worth knowing before a retier:
   against the catalog; `opencode models` is the check.
 
 The current catalog and prices: <https://opencode.ai/docs/zen/>. Prices above are the input side as of
-this fork's port of kru 0.156.0. They move, and the tiers are the decision, not the numbers.
+this fork's port of kru 0.158.0. They move, and the tiers are the decision, not the numbers.

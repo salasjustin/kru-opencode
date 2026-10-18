@@ -1,6 +1,6 @@
 # Curating this corpus
 
-Authoring guidance, not runtime context — `SKILL.md` doesn't point here, so this file costs nothing during a build. Read it when adding or revising a pattern, which in practice means during a `/kru/roster learn` sweep.
+Authoring guidance, not runtime context — `SKILL.md` doesn't point here, so this file costs nothing during a build. Read it when adding or revising a pattern, which in practice means during a `skill/kru-roster/learn.md` (PM or lead loads) sweep.
 
 ## The entry bar
 

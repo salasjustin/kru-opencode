@@ -1,6 +1,6 @@
 ---
 name: kru-copy-editing
-description: "When the user wants to edit, proofread or tighten existing marketing copy, or refresh outdated content. Use when copy exists and needs improving rather than rewriting. For new copy, see copywriting."
+description: Line-edit existing marketing copy when the task asks to tighten, proofread, or refresh shipped page copy — not a new page from scratch.
 metadata:
   version: 2.1.1
 ---
@@ -8,7 +8,7 @@ metadata:
 <!-- vendored from `coreyhaines31/marketingskills` (main, sha b7fb899) → `skills/copy-editing`.
      Corey Haines is a recognized SaaS-marketing authority; no first-party source exists for
      conversion copy-editing, so this curated community skill is the backing (same tier as the
-     mattpocock pack). User-invoked line-edit pass (`/copy-editing`, runs inline) — on-page copy
+     mattpocock pack). User-invoked line-edit pass (`skill/kru-copy-editing/SKILL.md` (PM loads when the task names it), runs inline) — on-page copy
      that ships in the build, NOT channels/campaigns. Kept verbatim; cross-skill mentions (marketing-psychology/
      ab-testing) point at unvendored marketing skills and degrade gracefully.
      re-sync: re-download SKILL.md + references/* from the raw source.

@@ -1,22 +1,21 @@
 ---
 name: kru-brainstorm
-description: Grill an idea like `/kru/brief` does, grounded in the current codebase, and write nothing. On the user's go, the settled answers become the brief.
+description: Grill an idea like brief does, grounded in the current codebase, and write nothing until the task approves persist.
 disable-model-invocation: true
-argument-hint: "<the idea — half-formed is fine>"
 ---
 
-`/kru/brief` without the pen. Same grill, same codebase grounding, **nothing written** until the user says go — so an idea can be tried on and dropped at no cost.
+`brief` without the pen. Same grill, same codebase grounding, **nothing written** until the task approves persist — so an idea can be tried on and dropped at no cost.
 
-Read `$ARGUMENTS`; empty → ask one line ("What's the idea?") and stop.
+The invoking task carries the idea. If it names none, return one line asking what to grill.
 
 ## Grill
 
-Read `{KRU_HOME}/skill/kru-brief/SKILL.md` and run its preamble, §1 and §2 on the idea, read-only: §1's deletions and rewrites wait for the go.
+Read `{KRU_HOME}/skill/kru-brief/SKILL.md` and run its preamble, §1 and §2 on the idea, read-only: §1's deletions and rewrites wait for persist approval.
 
 **Write nothing** — no repo file, no store entry, no builder dispatched. Every settled answer lives in the session and is the hand-off.
 
-When the frontier is empty, or the user stops answering, one line: *nothing's saved — say go to write it as a brief, or `/kru/todo` to park it.*
+When the frontier is empty, or the PM stops answering, one line: *nothing's saved — the task can approve persist to write a brief, or load `skill/kru-todo/SKILL.md` to park it.*
 
-## Go
+## Persist
 
-The user's go ("go", "brief it") is the only thing that writes. Run the brief's §1 writes, then §3 and §4, with the grill's settled answers as `Decisions resolved` — none re-asked. A frontier still open at the go runs as brief rounds first.
+When the task approves persist ("go", "brief it", "write the brief", or equivalent), run the brief's §1 writes, then §3 and §4, with the grill's settled answers as `Decisions resolved` — none re-asked. A frontier still open at persist runs as brief rounds first.

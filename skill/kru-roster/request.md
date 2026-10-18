@@ -20,6 +20,6 @@ Done when [`audit`](audit.md) passes on the branch.
 
 ## 3. Ship
 
-Leave `commit`+`tag` to the user unless they asked (git rule). A release happens only when the user runs `/release`. Tell the requester the version, the name of the seat or skill, and to update the plugin and then run `/kru/setup`.
+Leave `commit`+`tag` to the user unless they asked (git rule). A release happens only when the user runs the opencode `/release` command. Tell the requester the version, the name of the seat or skill, and to update the plugin and then run `skill/kru-setup/SKILL.md`.
 
 Done when the requester has the version, the name, and those two steps.

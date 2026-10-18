@@ -1,6 +1,6 @@
 ---
 name: kru-find-animation-opportunities
-description: Search a codebase or UI for places that don't animate but should, and reject what shouldn't. Read-only; proposes motion with exact values. Use when the user asks "what could be animated here?" or wants to "make this feel more alive". For fixing existing animations, use improve-animations.
+description: Find motion opportunities read-only — places that should animate but do not — when the task asks what could animate or how to make an interface feel more alive; fixing existing motion is improve-animations.
 user-invocable: false
 ---
 

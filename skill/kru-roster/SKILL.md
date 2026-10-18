@@ -2,7 +2,6 @@
 name: kru-roster
 description: Roster operations for this team plugin — hire or retire a specialist, author a skill, take a requester's ask for a new seat or skill, sweep learned preferences back into the team, or audit the roster for drift. The versioned "Growing the team" checklist, executed as a tool.
 disable-model-invocation: true
-argument-hint: "<hire|author|learn|retire|audit> [name]"
 ---
 
 You run in the **main thread** (like `lead`) — minting a seat edits the orchestration contract (the `lead` routing table) and bumps + tags a version, which a subagent can't own. This skill operationalizes `ROSTER.md` → *Growing the team* so every seat is wired **identically** and nothing drifts.
@@ -21,7 +20,7 @@ Every place a **seat (agent)** is registered. `hire` writes all of them, `retire
 | 2 | `ROSTER.md` → *Current specialists* | one role row (agent · role · backing source) |
 | 3 | `scripts/port.mjs` → `SEATS` | the seat's tier, or nothing where the `coding` default is right (`MODELS.md`) |
 | 4 | `SOURCES.md` | backing-source row (skip only for a genuinely stack-agnostic seat, e.g. a pure reviewer — and say so) |
-| 5 | `{KRU_HOME}/kru/references/routing.md` | the `detected/needed → specialist` row — read by `lead` and by `/kru/setup`, which is what puts the seat into a repo's sheet (a review-only seat wires into *Step 4* instead; a **user-invoked** seat — triggered by the user, via a thin invoker skill (`/<name>`) or by spawning the agent — wires via its `ROSTER.md` row marked user-invoked, plus that invoker skill if it has one, and stays out of `lead` entirely; a **hook-invoked** seat — fired by the plugin (`plugin/kru.ts`), e.g. the audit nudge — wires via its `ROSTER.md` row marked hook-invoked plus its hook scripts, and likewise stays out of `lead` routing) |
+| 5 | `{KRU_HOME}/kru/references/routing.md` | the `detected/needed → specialist` row — read by `lead` and by `skill/kru-setup/SKILL.md`, which is what puts the seat into a repo's sheet (a review-only seat wires into *Step 4* instead; a **user-invoked** seat — PM-loaded via `skills/<name>/SKILL.md` or by spawning the matching seat or by spawning the agent — wires via its `ROSTER.md` row marked user-invoked, plus that invoker skill if it has one, and stays out of `lead` entirely; a **hook-invoked** seat — fired by the plugin (`plugin/kru.ts`), e.g. the audit nudge — wires via its `ROSTER.md` row marked hook-invoked plus its hook scripts, and likewise stays out of `lead` routing) |
 | 6 | `package.json` | `version` bump |
 | 7 | `README.md` | the plugin entry's `version`, equal to `VERSION` |
 | 8 | `VERSION` · `ROSTER.md` header | version — minor for a new seat: `VERSION` and the `# Roster — vX.Y.Z` header, equal |
@@ -34,15 +33,15 @@ A **skill** touches a smaller map: `skills/<name>/SKILL.md` (+ any disclosed sib
 ## Dispatch
 Read the one file for the requested verb, then execute it against the wiring map above.
 
-| `$ARGUMENTS` | Do | File |
+| task scope | Do | File |
 |---|---|---|
 | `hire [role]` | mint a specialist + wire #1–#9 | `hire.md` |
-| `author [name]` | mint or vendor a skill; an existing name refreshes it from an `/kru/update` verdict | `author.md` |
+| `author [name]` | mint or vendor a skill; an existing name refreshes it from an `skill/kru-update/SKILL.md` verdict | `author.md` |
 | `learn` | sweep the preference inbox back into the team | `learn.md` |
 | `retire <name>` | remove a seat + unwire everywhere | `retire.md` |
 | `audit` | report roster drift (read-only) | `audit.md` |
 
-**A requester asks for a new seat or skill** → [`request.md`](request.md). Restate the ask, choose `hire` or `author`, and ship it. A typed verb in the table still runs its own file.
+**A requester asks for a new seat or skill** → [`request.md`](request.md). Restate the ask, choose `hire` or `author`, and ship it. A deliberate PM load in the table still runs its own file.
 
 Plus one shared reference, read by `hire` and `audit` rather than dispatched to: **`shared-blocks.md`** — the canonical text of the blocks every seat carries (`Context hygiene`, `TypeScript`, the return contract), with its invariant clauses and its per-seat tailored slots marked.
 

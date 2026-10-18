@@ -1,6 +1,6 @@
 ---
 name: kru-cro
-description: "When the user wants to increase conversions on a marketing page or form (homepage, landing, pricing, feature, lead capture, contact), says a page isn't converting, or shares a URL asking for feedback on it."
+description: Conversion audit of a shipped marketing page or form when the task says the page under-converts or asks for CRO on a live URL.
 metadata:
   version: 2.0.3
 ---
@@ -8,7 +8,7 @@ metadata:
 <!-- vendored from `coreyhaines31/marketingskills` (main, sha e88ace7) → `skills/cro`.
      Corey Haines is a recognized SaaS-marketing authority; no first-party source exists for
      conversion-rate optimization, so this curated community skill is the backing (same tier as
-     the mattpocock pack). User-invoked conversion audit (`/cro`, runs inline) — optimizing the
+     the mattpocock pack). User-invoked conversion audit (`skill/kru-cro/SKILL.md` (PM loads when the task names it), runs inline) — optimizing the
      pages/forms that ship in the build, NOT paid-channel/campaign optimization. Kept verbatim; cross-skill
      mentions (signup/popups/ab-testing) point at unvendored marketing skills and degrade gracefully.
      re-sync: re-download SKILL.md + references/* from the raw source.

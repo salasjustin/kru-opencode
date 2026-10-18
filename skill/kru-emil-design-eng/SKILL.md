@@ -1,6 +1,6 @@
 ---
 name: kru-emil-design-eng
-description: This skill encodes Emil Kowalski's philosophy on UI polish, component design, animation decisions, and the invisible details that make software feel great.
+description: UI polish and motion craft on a component build — animation decisions, interaction feel, and component-level polish when the task is shipping or refining UI.
 user-invocable: false
 ---
 

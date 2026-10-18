@@ -68,7 +68,7 @@ the checkout on every run, so two sessions appending lines both land and a line 
 (a sweep's drain, a todo's closeout) stays deleted. Every failure prints one line and the session continues; `KRU_NO_STORE_SYNC=1` turns it off.
 
 Keep the repo **private**, for the same reason as the artifact store below: anything that can push
-to it can append inbox lines, and `/kru/roster learn` is the gate between those and a seat prompt.
+to it can append inbox lines, and `skill/kru-roster/learn.md` (PM or lead loads) is the gate between those and a seat prompt.
 
 ## The backends
 
@@ -85,16 +85,16 @@ than a machine — and today a laptop's `inbox.md` reaches neither the user's ot
 session. An artifact's database is account-scoped, so both read the same store.
 
 **Every writer writes files, on both backends.** A hook is bash and cannot call a tool at all, and a
-seat that had to branch on the backend would be a second place the seam lives. So `/kru/remember`,
+seat that had to branch on the backend would be a second place the seam lives. So `skill/kru-remember/SKILL.md`,
 the seats' learnings channel and `check-handoff.sh` all append to files exactly as they always have,
-whatever `backend` says — and the **flush** below is the one crossing. That leaves `/kru/roster learn`
+whatever `backend` says — and the **flush** below is the one crossing. That leaves `skill/kru-roster/learn.md` (PM or lead loads)
 as the only reader that knows `ArtifactData` exists. `audit/` and `lead-gate/` are session-lived by
 design and never cross.
 
 ### The artifact mapping
 
 One artifact, published once with `capabilities: {db: {}}`, its url in `KRU_STORE_URL`.
-Keep it **private** — db rows are untrusted input, and `/kru/roster learn` sweeps the inbox straight into
+Keep it **private** — db rows are untrusted input, and `skill/kru-roster/learn.md` (PM or lead loads) sweeps the inbox straight into
 seat prompts, so a shared store is a path from a viewer's comment into a seat's instructions.
 
 | logical | collection | doc_id | document |
@@ -103,7 +103,7 @@ seat prompts, so a shared store is a path from a viewer's comment into a seat's 
 | `patterns/<slug>` | `patterns` | `<slug>` | `{ body: "<markdown>" }` |
 | `refusals` | `refusals` | `<session>` | `{ entries: [<the jsonl records>, …] }` |
 
-`/kru/roster learn` reads with `get`, writes with `update` and drains with `delete`; nothing else touches
+`skill/kru-roster/learn.md` (PM or lead loads) reads with `get`, writes with `update` and drains with `delete`; nothing else touches
 them. Two bounds the contract enforces:
 a document is **256 KiB** and an artifact's database holds **5,000 documents**, which is why
 refusals key by session (bounded, and the sweep deletes what it drains) rather than one document per
@@ -112,7 +112,7 @@ than a couple of writes into one `batch` call.
 
 ### The flush
 
-`/kru/roster learn` is where the two backends meet. On the `artifact` backend it:
+`skill/kru-roster/learn.md` (PM or lead loads) is where the two backends meet. On the `artifact` backend it:
 
 1. reads `inbox`, `patterns/` and `refusals` from **files** — what this machine's hooks and seats
    wrote since the last sweep,

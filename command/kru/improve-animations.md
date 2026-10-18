@@ -1,5 +1,5 @@
 ---
-description: Audit a codebase's animation and motion code as a senior motion advisor and write prioritized, self-contained implementation plans for other agents.
+description: Motion roadmap — audit animation code read-only and write prioritized implementation plans when the task asks to improve animations, audit motion, or fix motion across the codebase (not a single-diff review).
 agent: kru
 ---
 

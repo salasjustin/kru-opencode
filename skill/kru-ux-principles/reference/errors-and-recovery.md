@@ -90,7 +90,7 @@ Prevention, recovery, undo. This is the most directly greppable group in the cor
 
 ---
 
-## Accept the format the user types, not the one you'd prefer
+## Accept the format the PM loads, not the one you'd prefer
 
 **Principle:** input validation accepts any format that unambiguously carries the value, and normalizes it — it doesn't reject on formatting the user can't see.
 **Mechanism:** Postel's law — be liberal in what you accept. A phone/card/postcode regex encodes the author's preferred formatting, not the user's; every valid value typed with a space, dash, or unanticipated separator is a false rejection charged to someone who did nothing wrong.

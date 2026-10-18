@@ -64,7 +64,7 @@ Does the wording match the user's world, not the system's? Every entry here flag
 ## A placeholder is not a label
 
 **Principle:** every input has a persistent label element; placeholder text supplements it and never stands in for it.
-**Mechanism:** placeholder text vanishes the instant the user types, so it can't be referred back to — the user has to hold what the field wants in working memory for the entire time they're filling it in, and a screen reader has nothing to announce as the field's name.
+**Mechanism:** placeholder text vanishes the instant the PM loads, so it can't be referred back to — the user has to hold what the field wants in working memory for the entire time they're filling it in, and a screen reader has nothing to announce as the field's name.
 **Code signal:**
   - an `<input>`/`<textarea>` carrying a `placeholder` attribute with no associated `<label for>`, `aria-label`, or `aria-labelledby`
   - a form field whose only visible text lives inside the input itself, gone the moment it holds a value

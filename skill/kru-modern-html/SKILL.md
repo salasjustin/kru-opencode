@@ -52,4 +52,4 @@ Native is enough for: a modal shell, a disclosure, an exclusive accordion, a lig
 - **Which primitive library, and its part anatomy** — `ark-ui` (or the repo's existing lib).
 - **Appearance** — the project's token file, via the `## Design system` pointer. This skill names elements, never values.
 - **Shadow DOM, slots, custom elements** — `web-components`.
-- **The WCAG audit afterwards** — `accessibility-reviewer` / `/kru/accessibility-review`.
+- **The WCAG audit afterwards** — `accessibility-reviewer` / `skill/kru-accessibility-review/SKILL.md`.

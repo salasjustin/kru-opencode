@@ -2,7 +2,6 @@
 name: kru-doc-fix
 description: Audit the human-facing doc prose in a target — README, DEPLOY, CONTRIBUTING, docs/ — and fix it in place.
 disable-model-invocation: true
-argument-hint: "[<path> | <glob> — omit for the repo's human docs]"
 ---
 
 The prose is the deliverable and the only thing that moves. The house standard, in one line: **a doc keeps the traps, the consequences, and what no run can teach — and points at the canonical file for everything else.** Doc prose drifts off that standard by accumulating: denials of paths nobody implied, narration of what running the thing already shows, restatements of what the code already carries, status notes that expire the day the doc's audience arrives, and the tells of prose written to perform rather than inform.
@@ -11,14 +10,14 @@ The prose is the deliverable and the only thing that moves. The house standard, 
 
 ## Do
 
-1. **Resolve the target** from `$ARGUMENTS`:
+1. **Resolve the target** from the invoking task:
 
-   | argument | scope |
+   | task names | scope |
    | --- | --- |
    | *(none)* | the repo's human docs — `README*`, `CONTRIBUTING*`, `DEPLOY*`, `docs/**`, root-level `*.md` |
    | a path or glob | those files, whole |
 
-   Agent-consumed documents — `AGENTS.md`, skill and agent definitions — are `writing-for-agents`' standard, not this one; leave them out unless named. `/kru/text-fix` runs both standards over one target.
+   Agent-consumed documents — `AGENTS.md`, skill and agent definitions — are `writing-for-agents`' standard, not this one; leave them out unless named. `skill/kru-text-fix/SKILL.md` runs both standards over one target.
 
 2. **Cut** — each is a class, not a phrasing:
    - **Negatives** — what a doc doesn't state is simply not a path, so there's no need to deny it: "there is no X", "no A, no B, no C" enumerations, "X does not do Y" where nothing implied it would. Whole sections of the form *what is deliberately not here* go entirely.

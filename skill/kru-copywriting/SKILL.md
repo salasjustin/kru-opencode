@@ -1,6 +1,6 @@
 ---
 name: kru-copywriting
-description: When the user wants to write, rewrite, or improve marketing copy for any page (homepage, landing, pricing, feature, about, product), including headlines, CTAs, value propositions and hero copy. For editing existing copy, see copy-editing.
+description: New marketing-page copy — homepage, landing, pricing, feature, or about — when the task asks for a page's argument and strings before design or build.
 metadata:
   version: 2.1.0
 ---
@@ -8,7 +8,7 @@ metadata:
 <!-- vendored from `coreyhaines31/marketingskills` (main, sha 12188f1) → `skills/copywriting`.
      Corey Haines is a recognized SaaS-marketing authority; no first-party source exists for
      conversion copywriting, so this curated community skill is the backing (same tier as the
-     mattpocock pack). User-invoked copy pass (`/copywriting`, runs inline) — on-page copy that
+     mattpocock pack). User-invoked copy pass (`skill/kru-copywriting/SKILL.md` (PM loads when the task names it), runs inline) — on-page copy that
      ships in the build, NOT channels/campaigns. Kept verbatim; cross-skill mentions (emails/popups/offers/
      ab-testing) point at unvendored marketing skills and degrade gracefully.
      re-sync: re-download SKILL.md + references/* from the raw source.

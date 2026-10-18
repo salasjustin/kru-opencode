@@ -1,6 +1,6 @@
 ---
 name: kru-improve-animations
-description: Audit a codebase's animation and motion code as a senior motion advisor and write prioritized, self-contained implementation plans for other agents. Read-only. Use when the user asks to "improve the animations", "audit the motion", or wants a roadmap of animation fixes, not a single-diff review.
+description: Motion roadmap — audit animation code read-only and write prioritized implementation plans when the task asks to improve animations, audit motion, or fix motion across the codebase (not a single-diff review).
 disable-model-invocation: true
 ---
 
@@ -8,6 +8,7 @@ disable-model-invocation: true
      Emil Kowalski (Sonner, Vaul, animations.dev) — the reference source for web-animation craft;
      no first-party animation source exists, so this authored pack is the legitimate backing.
      User-invoked motion audit; the build-side pack rides ambiently with the UI component builders (`react-ui-builder`/`svelte-ui-builder`).
+     **Local deviation:** `disable-model-invocation: true` — non-interactive default; the PM or lead `read`s this file when the task names a motion roadmap (upstream is interactive).
      Kept verbatim; re-sync: re-download from https://raw.githubusercontent.com/emilkowalski/skills/main/skills/improve-animations/.
      description trimmed locally — keep on re-sync. -->
 
@@ -83,7 +84,7 @@ Severity: **HIGH** = feel-breaking (wrong easing on UI, animation on keyboard/hi
 
 After the table, list 2–4 **missed opportunities** — places that don't animate but should (a jarring state change, a rare delight moment) — separately, since they're additive rather than corrective.
 
-Then **stop and wait for the user to select** which findings become plans. If running non-interactively, default to the top 3–5 by leverage.
+**Default to the top 3–5 findings by leverage** and write plans for those. When the invoking task names specific numbers or slugs, use that selection instead.
 
 ### Phase 4 — Write plans
 

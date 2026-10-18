@@ -2,7 +2,6 @@
 name: kru-landed
 description: The PR for this session's branch merged — verify it on GitHub, sync the base branch, retire the branch.
 disable-model-invocation: true
-argument-hint: "[pr number — omit for the current branch's PR]"
 ---
 
 The user just watched their PR merge. Put the session back on the base branch, up to date, with the spent branch gone — then stop, so the next change starts from a clean base.
@@ -13,7 +12,7 @@ The user just watched their PR merge. Put the session back on the base branch, u
 
 ## Do
 
-1. **Find the change.** `git rev-parse --abbrev-ref HEAD` for the branch. `$ARGUMENTS` names a PR number → use it; otherwise the current branch's PR:
+1. **Find the change.** `git rev-parse --abbrev-ref HEAD` for the branch. PR number in the task → use it; otherwise the current branch's PR:
 
    ```bash
    gh pr view --json number,title,state,headRefName,headRefOid,baseRefName,url
@@ -35,7 +34,7 @@ The user just watched their PR merge. Put the session back on the base branch, u
 
    `git worktree list` shows the base checked out in another worktree → the checkout fails by design. Sync it where it lives (`git -C <that path> pull --ff-only`) and leave this worktree alone: removing the directory the session is standing in takes the cwd with it. Name the path and let the user leave it first.
 6. **Retire the branch.** `git branch -D <branch>` — `-d` refuses a squashed merge, and `-D` is safe *here and only here* because step 2 proved the merge and step 3 proved nothing local is unaccounted for. Then `git fetch --prune` to drop the remote-tracking ref, whether or not the remote auto-deleted the branch.
-7. **Confirm in one line** — PR number and title landed, base branch at its new short SHA, branch deleted. If a worktree or a diverged base is still outstanding from step 5, that's the second line.
+7. **Confirm in one line** — PR number and title landed, base branch at its new short SHA, branch deleted. If a worktree or a diverged base is still outstanding from step 5, that's the second line. **Git merge state is not product acceptance** — the PM already accepted (or will accept) the work separately; this skill only syncs the local repo after merge.
 
 ## Don't
 

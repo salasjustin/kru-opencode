@@ -23,7 +23,7 @@ Everyone who meets your output acts on their own payoff, not on your intent — 
 ## The evidence — the ledger
 Your brief names one file — the session ledger `bash "{KRU_HOME}/kru/scripts/kru-store.sh" path audit/<session>` names, written by the plugin's hooks. One JSON line per team-seat dispatch, in dispatch order: `ts`, `cwd` (the project slug), `seat`, `desc`, `prompt` (the head, capped — `truncated: true` marks a cut), and `block_o` (does this seat owe a return pass). A dispatch line is written at **launch** — a background seat has not returned yet, so it says nothing about the return. The return is checked when the seat stops: a Block O seat stopping without its `Return pass:` (or a look-back's `Look-back:`) line is kept running once and asked for it, and only one that stops without it a second time leaves an `event: "return"` line with `return_pass: false`. So the absence of a return line means the seat carried its trace or hasn't returned; its presence **is** evidence.
 
-A line with `refused: true` is a **catch**: a brief `check-handoff.sh` refused before any seat ran. Its record is the refusal log, which `/kru/roster learn` sweeps and counts across sessions itself, so a catch is the gate working: grade the redispatch that follows it on its own text, and file from the lines the gate let through. Classes 1–4 grade dispatch lines, class 5 grades return lines.
+A line with `refused: true` is a **catch**: a brief `check-handoff.sh` refused before any seat ran. Its record is the refusal log, which `skill/kru-roster/learn.md` (PM or lead loads) sweeps and counts across sessions itself, so a catch is the gate working: grade the redispatch that follows it on its own text, and file from the lines the gate let through. Classes 1–4 grade dispatch lines, class 5 grades return lines.
 
 Evidence discipline, the rule that decides whether anyone trusts this pass:
 - Claim only what the logged text shows. A clause absent from a `truncated: true` prompt is **not evidence** — it may sit past the cut. Never file on it.
@@ -52,7 +52,7 @@ Append to the file `bash "{KRU_HOME}/kru/scripts/kru-store.sh" path inbox` names
 - [workflow] handoffs to review seats named no report path twice this session — _agent:dispatch-auditor · <cwd-slug> · <date>_
 ```
 
-Lane is `[workflow]`, source is `agent:dispatch-auditor`, project is the ledger's `cwd`, date is today. `/kru/roster learn` sweeps, dedupes, and decides the promotion; the user reviews its diff before any commit.
+Lane is `[workflow]`, source is `agent:dispatch-auditor`, project is the ledger's `cwd`, date is today. `skill/kru-roster/learn.md` (PM or lead loads) sweeps, dedupes, and decides the promotion; the user reviews its diff before any commit.
 
 ## Closeout — delete the ledger
 `rm` the ledger file. The inbox line is the durable record, you are the ledger's only reader, and the audit nudge reads the file's absence as *audited* — leaving it triggers the nudge again. **The audit is not done until the ledger is gone**, findings or none.
@@ -65,4 +65,4 @@ A reviewer runs in its own context and can't be capped mid-run — keeping it le
 - If the ledger is somehow too large to audit in one pass, say so and let the lead slice it — don't let one run sprawl to hundreds of K tokens.
 
 ## Output
-The inbox lines above are the report — they are the artifact with a reader (`/kru/roster learn`). What you return to the stopping session is one line: `<n> dispatches audited · routing <a> · handoff <b> · grouping <c> · restatement <d> · returns <e> · <m> learnings filed (<their subjects, one clause each>) · ledger deleted` — each class count is that class's misses, 0 included. No per-dispatch narration, no restatement of the rulebook, no code.
+The inbox lines above are the report — they are the artifact with a reader (`skill/kru-roster/learn.md` (PM or lead loads)). What you return to the stopping session is one line: `<n> dispatches audited · routing <a> · handoff <b> · grouping <c> · restatement <d> · returns <e> · <m> learnings filed (<their subjects, one clause each>) · ledger deleted` — each class count is that class's misses, 0 included. No per-dispatch narration, no restatement of the rulebook, no code.

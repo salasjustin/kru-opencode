@@ -5,7 +5,7 @@ allowed-tools: chrome-devtools_new_page, chrome-devtools_navigate_page, chrome-d
 user-invocable: false
 ---
 
-<!-- vendored (locally authored — no upstream) → `skills/local-browser`. Thin project wrapper over the `chrome-devtools` MCP server (ChromeDevTools/chrome-devtools-mcp), backing the `/kru/visual-review` and `/kru/accessibility-review` passes. Every fact below was verified against chrome-devtools-mcp@1.7.0 on 2026-08-24 by driving the server directly — re-verify the clamp and the whole-state behaviour after a server upgrade rather than trusting this file. No upstream skill exists → no re-sync source; maintain it here. -->
+<!-- vendored (locally authored — no upstream) → `skills/local-browser`. Thin project wrapper over the `chrome-devtools` MCP server (ChromeDevTools/chrome-devtools-mcp), backing the `skill/kru-visual-review/SKILL.md` and `skill/kru-accessibility-review/SKILL.md` passes. Every fact below was verified against chrome-devtools-mcp@1.7.0 on 2026-08-24 by driving the server directly — re-verify the clamp and the whole-state behaviour after a server upgrade rather than trusting this file. No upstream skill exists → no re-sync source; maintain it here. -->
 
 # local-browser
 

@@ -1,4 +1,4 @@
-<!-- The sheet's content and its renderings. `/kru/setup` writes this into a repo's
+<!-- The sheet's content and its renderings. `skill/kru-setup/SKILL.md` writes this into a repo's
      `AGENTS.md` in that file's own idiom. What each line says is derived from the repo; how
      it is laid out is derived from the host file. A repo's copy is a cache the next re-run rewrites. -->
 
@@ -7,7 +7,7 @@ one line that makes the sheet act rather than sit, since a session that never lo
 answers and no practice:
 
 ```
-Load **`kru-lead`** before building, reviewing, or dispatching a seat — it carries how the
+Load **`skill/kru-lead/SKILL.md`** before building, reviewing, or dispatching a seat — it carries how the
 team works.
 ```
 

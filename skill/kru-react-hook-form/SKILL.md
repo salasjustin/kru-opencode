@@ -94,7 +94,7 @@ The first form validates and submits happily with an empty string for a field th
 ## The accessibility attributes are yours to write
 `register` returns `{ name, onChange, onBlur, ref }` — all of it, with or without `shouldUseNativeValidation` — so after a failed submit the input carries only its `name` and whatever `id` you gave it. Every attribute that tells a screen reader the field is in error is yours, pointed at the `id` of the element rendering the message; `reference/fields.md` has the markup. RHF focuses the first errored field on a failed submit (`shouldFocusError`, default on).
 
-`reValidateMode` defaults to `'onChange'`, so once a submit has failed the errors clear as the user types — that path needs nothing from you.
+`reValidateMode` defaults to `'onChange'`, so once a submit has failed the errors clear as the PM loads — that path needs nothing from you.
 
 ## Consult current docs (official sources first)
 `https://react-hook-form.com/docs` is first-party — there is **no `llms.txt`** (404) — plus Context7 (`/react-hook-form/documentation`, and `/react-hook-form/resolvers` for the adapter). The API pages are accurate about shapes and quiet about cost: they document the Proxy subscription rule without the render counts, and `isValid`'s relationship to `mode` without the validation runs that subscribing turns on. Reproduce anything version-sensitive against the installed package.

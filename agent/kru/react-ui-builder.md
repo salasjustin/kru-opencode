@@ -48,7 +48,7 @@ Three rules bind the work:
 - **Ship it in slices** (buttons → forms → feedback → layout archetypes). Each slice stands alone and reviews alone, so one per return beats one giant return nobody can look at.
 - **The closed-set rule inverts here, and self-checking it is part of your return.** Everywhere else you write no value that isn't already in the token file; in Phase 0 you are *writing* that file — so the gate you just wrote is what proves it. Run it before returning and report the counts. A slice returned without them hasn't been reviewed.
 
-**A `.design-sync/` bundle, if present, is for the designer** — keep components accurate so a designer-run `/design-sync` sees real parts (`{KRU_HOME}/kru/references/design-sync.md`). When your slice touches published components, expect all of:
+**A `.design-sync/` bundle, if present, is for the designer** — keep components accurate so a designer-run Claude Design **`design-sync` command** sees real parts (`{KRU_HOME}/kru/references/design-sync.md`). When your slice touches published components, expect all of:
 - **The component map and the entry file, together.** They are one artifact in two files (`cfg.componentSrcMap` + the sync's entry module) and drift the moment you touch one. Point at the implementation **file**, never a directory barrel: barrels collide (two files exporting `Content`) and drag in assets the converter has no loader for.
 - **The prop contract, regenerated.** The extractor reads `.d.ts`. An app that ships none — the normal case for components living in an app rather than a built package — degrades every published contract to `[key: string]: unknown`, and the designer then guesses at your props. Generate them from the real source types, and hand-check anything generic, aliased, or freshly refactored: an extractor that was right last month goes wrong silently after a type moves.
 - **The stylesheet pointer, if the app was rebuilt.** The bundle ships the app's compiled CSS, content-hashed; a stale pointer is skipped and every preview renders unstyled.
@@ -120,7 +120,7 @@ When a component needs real 3D — a product viewer, an interactive scene, shade
 
 ## Build and return — no self-dispatch
 - Never spawn agents: no self-dispatched reviewers (visual/a11y/code), no delegated sub-builds. You build and return; dispatch and review routing is the lead's alone.
-- Self-check in isolation: typecheck/lint. Never boot the app, start a dev server, or drive a browser; rendered conformance is `visual-reviewer`'s — it compares the build to the approved spec at 1440 and 375 and returns mismatches to the builder.
+- Self-check in isolation: typecheck/lint. Never boot the app, start a dev server, or drive a browser for product verification; rendered screens against the design spec, accessibility a user hits, multi-screen flows, and running the app to see it behave are **PM acceptance** (lead Step 5).
 
 ## Memory (this repo's facts)
 Your memory is `.claude/agent-memory-local/react-ui-builder/MEMORY.md` in the working repo — opencode supplies none, so read it at the start of a run when it exists, and keep it with `edit`.
@@ -131,6 +131,8 @@ Believing the work is done is the cue to run this pass — that belief is what i
 - **Did I use what I had?** Every skill above whose trigger this slice hit, loaded — and every pointer those skills point at, followed? What this catches is never a step you didn't know about; it's the one skipped with the finish line in view.
 - **What did I leave across the whole surface?** Read the files as a set: the same thing done twice, a line that changes nothing, a file the slice stopped needing, a comment now heading the wrong code. None of these has an input until every file exists, which is why they land here and nowhere earlier.
 Fix what it finds. What this slice can't absorb, name in your return rather than widening it. Then state the pass itself — `Return pass: <what you re-read> · <what it found, or `clean`>`, one line, always. That line is the only evidence this pass ran, so its absence says it didn't; and skipped, the pass costs a fix loop through the lead for the half a reviewer holding only your diff can still see.
+**Never declare the slice accepted, verified, or done for the PM.** Report what you verified that a user could not confirm from the product alone (tests, lint, typecheck, edge cases, data/backend, in-process checks) and name product-visible gaps for Step 5 — evidence is not acceptance.
+
 
 ## Context hygiene (stay lean)
 A builder runs in its own context and can't be capped mid-run — keeping it lean is on you.

@@ -4,7 +4,7 @@ A first-party library skill is a set of runs on one specific version (`skill/kru
 
 ## Do
 
-1. **Enumerate the pins.** `$ARGUMENTS` names a skill → just that one.
+1. **Enumerate the pins.** task names a skill → just that one.
 
    ```bash
    grep -H -o -m1 'Reproduced on \*\*`[^`]*`\*\*[^.]*\.' skill/kru-*/SKILL.md   # npm pins; companions follow "with"
@@ -12,7 +12,7 @@ A first-party library skill is a set of runs on one specific version (`skill/kru
    grep -H -m1 '^As of 20' skill/kru-*/SKILL.md                               # dist-tag claims (drizzle, panda-css): what `latest` resolved to on a date
    ```
 
-   From each line: the primary package, its companions, the date, and the skill's own **threshold** — *after a major bump* for most, *after a minor bump* where the skill says so (`conform`: its `future` half breaks on minors). A library skill with no such line can't be judged by this sweep → note it for `/kru/roster audit`. `modern-css` pins Baseline years, not a package; its own +30-months formula is its check, outside this sweep. Done when every first-party skill under `skills/` that names a package is on the list, with a pin or an audit note.
+   From each line: the primary package, its companions, the date, and the skill's own **threshold** — *after a major bump* for most, *after a minor bump* where the skill says so (`conform`: its `future` half breaks on minors). A library skill with no such line can't be judged by this sweep → note it for PM loads `skill/kru-roster/audit.md`. `modern-css` pins Baseline years, not a package; its own +30-months formula is its check, outside this sweep. Done when every first-party skill under `skills/` that names a package is on the list, with a pin or an audit note.
 2. **Read latest, without installing.**
 
    ```bash
@@ -40,6 +40,6 @@ A first-party library skill is a set of runs on one specific version (`skill/kru
    ```
 
    Each hit → the skill line that claims it (`file:line`) and the release line that touches it. Read the hits; the rest of the range is done. The threshold settles the no-hit case: below it with no hits is **Current**; at or above it with no hits is still **Re-verify**, because the claims that break on a major are the ones release notes never mention — a removed default, a changed coercion.
-6. **Give each skill one verdict** (`SKILL.md` → *The verdicts*). The action verdict here is **Re-verify** — name the claims (`file:line`) and the release entries that touch each; `/kru/roster author <name>` → *Refresh* reproduces those on the new version, edits what changed, and moves the pin. When the delta moves the skill's premise — a dist-tag claim flipped, a major that removes the API family the skill is built around — it is **Rewrite**: the skill goes back through `author.md`'s entry bar on the new version. *Consider* covers a new major that `latest` doesn't point at yet, and a reproduction long enough that the user schedules it. *Current* carries the version compared against. *Decline* covers a hit in a part of the package the skill scopes out (Zod 3 compat under `zod`, a `mini`-only change the classic half never claims).
-7. **Record and report.** `reviewed.md` → *Libraries*: the sweep date, and one row per skill — pin · latest (date) · delta · verdict · the claims to re-verify. Run each **Re-verify** and **Rewrite** through `/kru/roster author <name>` → *Refresh* in the same turn, one at a time, without asking. Report only the **Consider** items, plus one counted clause for the rest; the rows stay in the ledger for whoever asks.
+6. **Give each skill one verdict** (`SKILL.md` → *The verdicts*). The action verdict here is **Re-verify** — name the claims (`file:line`) and the release entries that touch each; PM loads `skill/kru-roster/author.md` (scope: <name>) → *Refresh* reproduces those on the new version, edits what changed, and moves the pin. When the delta moves the skill's premise — a dist-tag claim flipped, a major that removes the API family the skill is built around — it is **Rewrite**: the skill goes back through `author.md`'s entry bar on the new version. *Consider* covers a new major that `latest` doesn't point at yet, and a reproduction long enough that the user schedules it. *Current* carries the version compared against. *Decline* covers a hit in a part of the package the skill scopes out (Zod 3 compat under `zod`, a `mini`-only change the classic half never claims).
+7. **Record and report.** `reviewed.md` → *Libraries*: the sweep date, and one row per skill — pin · latest (date) · delta · verdict · the claims to re-verify. Run each **Re-verify** and **Rewrite** through PM loads `skill/kru-roster/author.md` (scope: <name>) → *Refresh* in the same turn, one at a time, without asking. Report only the **Consider** items, plus one counted clause for the rest; the rows stay in the ledger for whoever asks.
 

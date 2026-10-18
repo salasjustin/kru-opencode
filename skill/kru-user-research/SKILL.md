@@ -1,6 +1,6 @@
 ---
 name: kru-user-research
-description: Plan, conduct, and synthesize user research. Trigger with "user research plan", "interview guide", "usability test", "survey design", "research questions", or when the user needs help with any aspect of understanding their users through research.
+description: User research plan when the task asks for interview guides, usability tests, survey design, or research questions before building.
 user-invocable: false
 ---
 

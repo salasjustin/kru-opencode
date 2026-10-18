@@ -2,8 +2,8 @@
 
 The rules the seats carry as prose that a static check in the product repo can enforce instead. Prose
 holds only when its reader notices and complies; a failing gate holds without either. Three callers:
-**`/kru/setup`** diffs each row against a repo's config and proposes the gap, **the row's owner**
-wires what the user accepts, and **`/kru/roster learn`** adds a row when a shortfall recurs (`learn.md` →
+**`skill/kru-setup/SKILL.md`** diffs each row against a repo's config and proposes the gap, **the row's owner**
+wires what the user accepts, and **`skill/kru-roster/learn.md` (PM or lead loads)** adds a row when a shortfall recurs (`learn.md` →
 *Encode it*).
 
 Every mechanism here is a tool the team already runs. A rule the repo's own tool can't express stays

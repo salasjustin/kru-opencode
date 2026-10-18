@@ -4,13 +4,13 @@ A vendored skill is a verbatim copy (`skill/kru-roster/author.md` → *Vendored*
 
 ## Do
 
-1. **Enumerate the copies.** Every `skill/kru-*/SKILL.md` that opens with a provenance comment, plus the rows in `SOURCES.md` → *Vendored resources* — a copy with no comment (`react-router`) has the row as its only pin. `$ARGUMENTS` names a skill → just that one.
+1. **Enumerate the copies.** Every `skill/kru-*/SKILL.md` that opens with a provenance comment, plus the rows in `SOURCES.md` → *Vendored resources* — a copy with no comment (`react-router`) has the row as its only pin. task names a skill → just that one.
 
    ```bash
    grep -H -o -m1 '<!-- vendored.\{0,400\}' skill/kru-*/SKILL.md
    ```
 
-   From each: the repo, the ref (branch or tag), the sha if one is recorded, the upstream path, and the recorded **deviations** — files excluded, lines re-applied after a re-sync (a `description trimmed locally` note is one: the re-sync keeps the short description). A directory that is in neither place is roster drift → note it for `/kru/roster audit` and move on. Done when every directory the `SOURCES.md` section names has a row in your list.
+   From each: the repo, the ref (branch or tag), the sha if one is recorded, the upstream path, and the recorded **deviations** — files excluded, lines re-applied after a re-sync (a `description trimmed locally` note is one: the re-sync keeps the short description). A directory that is in neither place is roster drift → note it for PM loads `skill/kru-roster/audit.md` and move on. Done when every directory the `SOURCES.md` section names has a row in your list.
 2. **Find upstream's head for that path.**
 
    ```bash
@@ -27,6 +27,6 @@ A vendored skill is a verbatim copy (`skill/kru-roster/author.md` → *Vendored*
 
    Drop every path outside the upstream path, and every path the comment excludes (`agents/openai.yaml`, `evals/`, `assets/`). Nothing left → **Current**, with the head as the new mark.
 4. **Diff the rest against the copy**, file by file: fetch `raw.githubusercontent.com/<owner>/<repo>/<head>/<upstream path>/<file>` into the scratchpad and `diff` it against `skills/<name>/<file>`. The provenance comment and the recorded deviations show up as local-only hunks; everything else is the upstream change. The hunk is the evidence — a commit titled *typo* has carried a rewritten rule before. Done when every file left from Step 3 (or, with no sha, every file in the copy) has been diffed and its hunks read.
-5. **Give each changed copy one verdict** (`SKILL.md` → *The verdicts*). The action verdict here is **Re-sync** — upstream changed content the copy carries; name the files, and the deviations `/kru/roster author <name>` re-applies after the download. Where the hunk lands on lines this team rewrote (`accessibility-review`, the `ux-designer` trio, the two `description` deviations in `writing-for-agents`) it is **Re-sync + re-adapt**: name both sides. *Consider* covers a rename, split or move upstream (`writing-great-skills` → `writing-for-agents` is the precedent), a sibling this team doesn't carry, a license change. *Decline* covers a cosmetic or Codex-only hunk, and one contrary to a deviation this team made on purpose.
-6. **Record and report.** `reviewed.md` → *Vendored skills*: the sweep date, and one row per copy — recorded ref · upstream head · verdict, with the files and deviations a re-sync names. Run each **Re-sync** through `/kru/roster author <name>` → *Refresh* in the same turn, one at a time, without asking. Report only the **Consider** items, plus one counted clause for the rest; the rows stay in the ledger for whoever asks.
+5. **Give each changed copy one verdict** (`SKILL.md` → *The verdicts*). The action verdict here is **Re-sync** — upstream changed content the copy carries; name the files, and the deviations PM loads `skill/kru-roster/author.md` (scope: <name>) re-applies after the download. Where the hunk lands on lines this team rewrote (`accessibility-review`, the `ux-designer` trio, the two `description` deviations in `writing-for-agents`) it is **Re-sync + re-adapt**: name both sides. *Consider* covers a rename, split or move upstream (`writing-great-skills` → `writing-for-agents` is the precedent), a sibling this team doesn't carry, a license change. *Decline* covers a cosmetic or Codex-only hunk, and one contrary to a deviation this team made on purpose.
+6. **Record and report.** `reviewed.md` → *Vendored skills*: the sweep date, and one row per copy — recorded ref · upstream head · verdict, with the files and deviations a re-sync names. Run each **Re-sync** through PM loads `skill/kru-roster/author.md` (scope: <name>) → *Refresh* in the same turn, one at a time, without asking. Report only the **Consider** items, plus one counted clause for the rest; the rows stay in the ledger for whoever asks.
 

@@ -91,7 +91,7 @@ instead.
 
 ## What opencode has no equivalent for
 
-**The bundled `/design` skill and Claude Design canvas.** Upstream v0.156.0 routes flows, IA, mockups,
+**The bundled `/design` skill and Claude Design canvas.** Upstream v0.156.0+ routes flows, IA, mockups,
 brand and assets to a **separate designer** (human or bot) using `references/designer-handoff.md`; the
 engineering lead builds from the PM's approved mockup + build spec (`references/design-spec.md`) and
 `visual-reviewer` checks the build against it at **1440px and 375px**. opencode has no Claude Design

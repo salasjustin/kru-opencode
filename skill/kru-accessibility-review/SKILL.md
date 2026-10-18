@@ -2,7 +2,6 @@
 name: kru-accessibility-review
 description: WCAG 2.1 AA accessibility audit of a design or page — keyboard navigation, focus order, touch target size, screen reader/ARIA. Color contrast is the design's, and is audited nowhere on this team. Report-only unless fixes are asked for.
 disable-model-invocation: true
-argument-hint: "<URL, page/component, or description>"
 ---
 
 <!-- vendored from the knowledge-work `design` plugin (design@knowledge-work-plugins v1.2.0, sha 15898ec).
@@ -14,19 +13,11 @@ argument-hint: "<URL, page/component, or description>"
      review pass on this team computes or re-derives a ratio.
      re-sync: diff against the plugin cache after a plugin update, then re-apply. -->
 
-# /kru/accessibility-review
+# Accessibility review
 
-Audit a design or page for WCAG 2.1 AA accessibility compliance. This is the team's a11y gate — the sibling of the `/kru/visual-review` (rendered states + cause) pass. Run it after a page/component is built and rendered.
+Audit a design or page for WCAG 2.1 AA accessibility compliance. This is the team's a11y gate — the sibling of the visual-review (rendered states + cause) pass. Run it after a page/component is built and rendered.
 
 **Contrast is the design's and ships as authored — no seat on this team computes a ratio**, so you audit everything else. What is still reportable is **breakage**: text over image, video, gradient or translucency with no scrim, reported as unreadable rather than as a number. Name 1.4.3/1.4.11 as unassessed in *what wasn't verified*: with them out, this audit is never a full-AA claim.
-
-## Usage
-
-```
-/kru/accessibility-review $ARGUMENTS
-```
-
-Audit for accessibility: @$1
 
 ## WCAG 2.1 AA Quick Reference
 
@@ -66,7 +57,7 @@ Audit for accessibility: @$1
 3. Screen reader testing (VoiceOver, NVDA)
 4. Zoom to 200% — does layout break?
 
-When a dev server is running, prefer **measured** evidence over eyeballing — drive the live app via the `local-browser` skill (`chrome-devtools` MCP) and read real values with `evaluate_script` (`getBoundingClientRect` for touch-target size, tab order via focus events, computed styles for the focus indicator). `lighthouse_audit` (`mode: "snapshot"`, or `"navigation"` for a fresh load) sweeps the automatable criteria in one call — treat its output as a lead list, not the audit: it catches missing names and roles, and it cannot see focus order, keyboard traps, or whether a target is big enough to hit. **Every measured number on a rendered page is this pass's** — `/kru/visual-review` hands target sizes here rather than tabling its own.
+When a dev server is running, prefer **measured** evidence over eyeballing — drive the live app via the `local-browser` skill (`chrome-devtools` MCP) and read real values with `evaluate_script` (`getBoundingClientRect` for touch-target size, tab order via focus events, computed styles for the focus indicator). `lighthouse_audit` (`mode: "snapshot"`, or `"navigation"` for a fresh load) sweeps the automatable criteria in one call — treat its output as a lead list, not the audit: it catches missing names and roles, and it cannot see focus order, keyboard traps, or whether a target is big enough to hit. **Every measured number on a rendered page is this pass's** — `skill/kru-visual-review/SKILL.md` hands target sizes here rather than tabling its own.
 
 ## Output
 

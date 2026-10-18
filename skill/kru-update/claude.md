@@ -4,7 +4,7 @@ opencode ships most weekdays, and a release can change the ground under a plugin
 
 ## Do
 
-1. **Find the mark.** `reviewed.md` → *opencode* → *Swept through*. `$ARGUMENTS` names a version → sweep back to that one instead.
+1. **Find the mark.** `reviewed.md` → *opencode* → *Swept through*. task names a version → sweep back to that one instead.
 2. **Get the releases.**
 
    ```bash
@@ -22,7 +22,7 @@ opencode ships most weekdays, and a release can change the ground under a plugin
    | skill / slash-command frontmatter (`disable-model-invocation` · `allowed-tools` · `context` · `background` · `argument-hint`) | `skill/kru-*/SKILL.md` |
    | plugin + marketplace manifest, install, loading, `{KRU_HOME}/kru` | `.claude-plugin/*.json`, README → *Install* |
    | subagent dispatch — concurrency caps, spawn depth, partial results, worktree isolation, a `task` call carrying the prior `task_id` | `lead` SKILL.md → Steps 3–4 |
-   | the built-ins the team delegates to — `explore`, `plan`, `kru/code-reviewer`, `/run`, `/skill-doctor`, `/doctor prompt-audit` | `lead` SKILL.md, `ROSTER.md` → *Reused, not owned* |
+   | the built-ins the team delegates to — `explore`, `plan`, the built-in code-review skill, `/run`, `/skill-doctor`, `/doctor prompt-audit` | `lead` SKILL.md, `ROSTER.md` → *Reused, not owned* |
    | hook events and their payloads | `agent/kru/*.md` frontmatter, target-repo gates |
    | tool and permission names a seat lists | every `tools:` / `allowed-tools:` line |
    | MCP config for `chrome-devtools` and `context7` | README → *Requirements*, `SOURCES.md` |
@@ -42,5 +42,5 @@ opencode ships most weekdays, and a release can change the ground under a plugin
    - a **built-in's behavior** — check what the team's own text claims about it, and correct the claim.
 6. **Give every kept entry one verdict** (`SKILL.md` → *The verdicts*). The action verdict here is **Adopt** — the change is small, reversible, and the team's existing doctrine already argues for it. Say which line moves.
 7. **Check the floor.** An adopted feature that needs a newer CLI moves README → *Requirements* → the **≥ version** line. Name the version and the feature that forced it.
-8. **Record and report.** Rewrite `reviewed.md` → *opencode*: the mark to the newest version read, and one line per verdict under its bucket. Then wire every **Adopt** through `/kru/roster hire|author|learn` in the same turn, one at a time, without asking. The user hears only the **Consider** items, each in outcome terms, plus one counted clause for the rest ("plus 3 adopted, 12 declined").
+8. **Record and report.** Rewrite `reviewed.md` → *opencode*: the mark to the newest version read, and one line per verdict under its bucket. Then wire every **Adopt** through PM loads `skill/kru-roster/hire.md`, `author.md`, or `learn.md` in the same turn, one at a time, without asking. The user hears only the **Consider** items, each in outcome terms, plus one counted clause for the rest ("plus 3 adopted, 12 declined").
 

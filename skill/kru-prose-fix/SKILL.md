@@ -2,7 +2,6 @@
 name: kru-prose-fix
 description: Audit the strings a target renders to the user — labels, helper text, errors, empty states, CTAs, confirms, catalogs — and fix them in place.
 disable-model-invocation: true
-argument-hint: "[<path> | <branch> | <pr number> — omit for the working tree]"
 ---
 
 The rendered string is the deliverable and the only thing that moves. The house standard, in one line: **copy says what the UI cannot show, and promises only what the code holds.** The rules behind it live in `ui-patterns` (the text-and-icons group) and `ux-copy`; load both before reading a hunk, and take the reasoning from there — this file carries the classes to look for, not the why.
@@ -11,9 +10,9 @@ The rendered string is the deliverable and the only thing that moves. The house 
 
 ## Do
 
-1. **Resolve the target** from `$ARGUMENTS`:
+1. **Resolve the target** from the invoking task:
 
-   | argument | scope |
+   | task names | scope |
    | --- | --- |
    | *(none)* | the working tree — `git diff HEAD`, plus untracked files |
    | a path or glob | those files, whole |

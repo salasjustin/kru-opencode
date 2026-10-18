@@ -9,7 +9,7 @@ The inverse of `hire`: strip the seat from **every** point of the wiring map in 
 - Delete `agent/kru/<name>.md`.
 - Remove its `ROSTER.md` *Current specialists* row and *Model tiers* entry.
 - Remove its `SOURCES.md` row.
-- Remove its row from `{KRU_HOME}/kru/references/routing.md`, or its review wiring (Step 4). A deployed repo still naming it in its sheet sheds the line on its next `/kru/setup`.
+- Remove its row from `{KRU_HOME}/kru/references/routing.md`, or its review wiring (Step 4). A deployed repo still naming it in its sheet sheds the line on its next `skill/kru-setup/SKILL.md`.
 - Fix every inbound reference from step 1 — if another seat's boundary clause named this one, rewrite it.
 
 ## 3. Version (map #6–#8)

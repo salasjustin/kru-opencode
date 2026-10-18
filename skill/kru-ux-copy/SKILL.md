@@ -1,7 +1,6 @@
 ---
 name: kru-ux-copy
-description: Write or review UX copy — microcopy, error messages, empty states, CTAs. Trigger with "write copy for", "what should this button say?", "review this error message", or when naming a CTA, wording a confirmation dialog, filling an empty state, or writing onboarding text.
-argument-hint: "<context or copy to review>"
+description: Microcopy, errors, empty states, and CTAs when the task names in-product strings, button labels, confirmations, or onboarding text to write or review.
 user-invocable: false
 ---
 
@@ -12,16 +11,9 @@ user-invocable: false
      TEAM-ADAPTED: dead CONNECTORS.md pointer dropped, connector block rewritten as team equivalents
      (repo strings for voice, the design spec's screen inventory for context); error messages split field-level vs system-level, where upstream gives every error the what+why+how structure. re-sync: diff, then re-apply. -->
 
-# /kru/ux-copy
-
+# UX copy
 
 Write or review UX copy for any interface context.
-
-## Usage
-
-```
-/kru/ux-copy $ARGUMENTS
-```
 
 ## What I Need From You
 

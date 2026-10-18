@@ -49,4 +49,4 @@ Ark components are TS-heavy (generic `value`/`collection` types, part props). Fo
 ## Not this skill's job
 - **Placing the primitive in a route, wiring page data, form submission / server actions** — that's the framework build you're already doing; this skill is just the primitive's composition + a11y + styling.
 - **The visual system** (palette, type, spacing, motion tokens) is the design's — you *apply* those tokens, you don't invent them.
-- **Post-build passes** — `/kru/accessibility-review` (WCAG) and `/kru/visual-review` (rendered UI) are the user's to pull afterward; this skill is the build-time discipline that makes them come back clean.
+- **Post-build passes** — `skill/kru-accessibility-review/SKILL.md` (WCAG) and `skill/kru-visual-review/SKILL.md` (rendered UI) are the user's to pull afterward; this skill is the build-time discipline that makes them come back clean.

@@ -2,7 +2,7 @@
 
 Loaded by `lead` when the branch is live.
 
-1. The subject, audience, the one job and the stack are the sheet's — `/kru/setup` grilled them on the blank repo (its step 1b). Read them there. UI greenfield defaults to React when the user states no preference; a stated stack wins.
+1. The subject, audience, the one job and the stack are the sheet's — `skill/kru-setup/SKILL.md` grilled them on the blank repo (its step 1b). Read them there. UI greenfield defaults to React when the user states no preference; a stated stack wins.
 2. Consider grilling (Step 2.5) before architecting.
 3. Then spawn **`plan`** (built-in) for the architecture, scaffold, and route implementation (Step 3).
 

@@ -1,6 +1,6 @@
 # Designer handoff — mockups, build spec, PM approval
 
-For the **designer** (standalone bot or human) using kru's design skills — `/design`, `composition`, `design-system`, `design-gallery`, `landing-page`, `ux-principles`, `user-research`, `research-synthesis`, `ux-copy`, `ui-patterns`, `brand-marks`, `algorithmic-art`, gen-asset tooling (`scripts/asset/`), motion skills, and related references. The engineering lead does not run this workflow or dispatch design seats.
+For the **designer** (standalone bot or human) using kru's design skills — the bundled opencode `design` skill (designer loads), `composition`, `design-system`, `design-gallery`, `landing-page`, `ux-principles`, `user-research`, `research-synthesis`, `ux-copy`, `ui-patterns`, `brand-marks`, `algorithmic-art`, gen-asset tooling (`scripts/asset/`), motion skills, and related references. The engineering lead does not run this workflow or dispatch design seats.
 
 ## Your output to the PM
 
@@ -12,9 +12,9 @@ When the design is ready for build, hand the PM a single package they can attach
 
 Working files (artboards, `canvas.json`, images) stay **local and uncommitted** beside `.design-work/` in the repo or in the designer's store — they are inputs to the mockups, not something the lead serves or commits. Only the approved exports and build spec cross to the PM.
 
-## Canvas and `/design`
+## Canvas and the bundled opencode `design` skill (designer loads)
 
-Invoke the bundled **`/design` skill** for artboards and publish:
+Invoke the bundled opencode `design` skill (designer loads) for artboards and publish:
 
 - Match the existing app from the repo when brownfield — token file, stylesheets, closest screens — and say in one line what you matched.
 - **Directions at bootstrap, screen mockups after** — 2–4 genuinely different directions when the look is unsettled; compose from real parts once a system exists.

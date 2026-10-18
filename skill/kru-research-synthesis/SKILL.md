@@ -1,7 +1,6 @@
 ---
 name: kru-research-synthesis
-description: Synthesize user research into themes, insights, and recommendations. Use when you have interview transcripts, survey results, usability test notes, support tickets, or NPS responses that need to be distilled into patterns, user segments, and prioritized next steps.
-argument-hint: "<research data, transcripts, or survey results>"
+description: Synthesize transcripts, survey results, usability notes, or support tickets into themes and recommendations when the task hands you research artifacts to distill.
 user-invocable: false
 ---
 
@@ -13,16 +12,10 @@ user-invocable: false
      no-analytics rule made explicit — without supplied data, name what would confirm a theme rather than quantifying its impact.
      re-sync: diff against the plugin cache after a plugin update, then re-apply. -->
 
-# /kru/research-synthesis
+# Research synthesis
 
 
 Synthesize user research data into actionable insights. See the **user-research** skill for research methods, interview guides, and analysis frameworks.
-
-## Usage
-
-```
-/kru/research-synthesis $ARGUMENTS
-```
 
 ## What I Accept
 

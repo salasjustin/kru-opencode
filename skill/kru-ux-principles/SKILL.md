@@ -40,7 +40,7 @@ No group matches? `grep -ril "<term>" reference/` before concluding there's no p
 
 ## Not this skill's job
 - **WCAG conformance** — `accessibility-review`. The lanes touch at the signifier boundary (a `<div onClick>` is both a signifier defect and a keyboard defect); cite the overlap, don't re-audit it.
-- **Rendered breakage** — `/kru/visual-review` reads rendered screens for what broke; this walks a task for journey breaks.
+- **Rendered breakage** — `skill/kru-visual-review/SKILL.md` reads rendered screens for what broke; this walks a task for journey breaks.
 - **The words themselves** — `ux-copy`. This flags a *missing* error state; that skill decides what it says.
 - **Conversion** — `cro`. A usability principle is not a conversion test, and the two genuinely disagree sometimes.
 - **Building the primitive accessibly** — `ark-ui`. This says which principle is violated, never how to code the replacement.

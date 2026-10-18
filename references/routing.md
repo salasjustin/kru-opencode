@@ -1,8 +1,8 @@
 # Routing — detected stack to seat and skill
 
-The derivation tables, with three callers. **`/kru/setup`** runs them once over a repo and
+The derivation tables, with three callers. **`skill/kru-setup/SKILL.md`** runs them once over a repo and
 writes the answers into that repo's block — that block is then the repo's routing, in prose, and
-re-running the tables is what a block exists to retire. **`/kru/roster`** writes this file when
+re-running the tables is what a block exists to retire. **`skill/kru-roster/SKILL.md`** writes this file when
 a seat is hired or retired, or a conditional skill authored. **`lead`** runs them where no block has
 resolved them, or where a slice reaches a stack the block never covered. A repo whose block already
 names the seat and its skills has this question answered — take the answer.
@@ -41,27 +41,30 @@ names the seat and its skills has this question answered — take the answer.
 | design/landing/marketing/portfolio UI — **no system yet** | *UI from scratch*, Step 2 — **PM must attach approved design spec** before builders |
 | UI feature or screen — **system exists** | PM's **approved design spec** → UI builder (*UI on an existing system*, Step 2) |
 | a builder returned a **named gap** | the **PM**, with the token name it would need. No seat fills it, and no seat extends the system |
-| correctness/quality review of a diff | `code-reviewer` (or `kru/code-reviewer` skill inline) |
-| module/interface design, refactor with fuzzy boundaries, "where's the seam", coupling/testability | `architecture-reviewer` (design mode, before builder) |
-| structural-integrity gate on a change (boundary erosion, coupling drift) | `architecture-reviewer` (review mode, after builder) |
+| correctness/quality review of a diff | `code-reviewer` — **only when the PM names it in the task**; not lead Step 4 |
+| module/interface design, refactor with fuzzy boundaries, "where's the seam", coupling/testability | `architecture-reviewer` (design mode) or `skill/kru-codebase-design/SKILL.md` on the main thread — **only when the PM names it**; not lead Step 4 |
+| structural-integrity review on a change (boundary erosion, coupling drift) | `architecture-reviewer` (review mode) — **only when the PM names it** |
+| rendered UI spec match, screen states, 1440/375 | `visual-reviewer` or `skill/kru-visual-review/SKILL.md` — **only when the PM names it in the task**; not lead Step 4 |
+| WCAG structural audit on a built page | `accessibility-reviewer` or `skill/kru-accessibility-review/SKILL.md` — **only when the PM names it** |
+| multi-screen UX flow audit | `ux-auditor` or `skill/kru-ux-review/SKILL.md` — **only when the PM names it** |
 | coverage sweep or fan-out across many files; repair a red/flaky suite; an exempt seat's logic-dense output; a repo with no testing conventions captured yet | `test-writer` |
 | repo tooling: pnpm workspaces/catalogs/lockfile · `turbo.json` monorepo task graph + caching · Biome/ESLint/Prettier lint+format · wiring a new package into the graph | `toolchain-engineer` |
 | repo-wide TypeScript infrastructure: strict migration, monorepo project references, type-perf profiling | a general agent with the `typescript` skill loaded |
-| a half-formed idea the user wants grilled without committing to a record | **`/kru/brainstorm`** — user-invoked; `brief`'s grill with nothing written, persisted as a `/kru/brief` on their go |
-| ambiguous or high-blast-radius change the user wants stress-tested and written down before building | **`/kru/brief`** — name it for the user to type; it is not a seat you spawn |
-| something the user wants but doesn't want done now — "not yet," "remember this for later" | **`/kru/todo`** — user-invoked, so name it in one line; mid-task it's your Step 4.5 `TODOS.md` capture |
-| something *wrong* the user wants recorded before it evaporates — a bug they just hit, not being fixed now | **`/kru/issue`** — user-invoked, same deal; mid-task it's your Step 4.5 `issues/` capture |
-| the user wants to work what's parked or what's broken — the `TODOS.md` lines, the open defect files | **`/kru/todos`** / **`/kru/issues`** — user-invoked; each reconciles the store against the code, scores, proposes a batch and waits for the pick before building. Name the one they want; only the user can fire them. Mid-task you already read the store directly when a step needs it |
-| the user wants to know where their efforts stand, or to pick one back up — the `plan/<effort>/brief.md` files | **`/kru/briefs`** — user-invoked; reconciles every brief's ticks against git and the code, and waits for the pick before ticking, archiving or resuming |
+| a half-formed idea the PM wants grilled without committing to a record | **`skill/kru-brainstorm/SKILL.md`** — grill like `brief`, write nothing until the task approves persist |
+| ambiguous or high-blast-radius change the PM wants stress-tested and written down before building | **`skill/kru-brief/SKILL.md`** — load and run; not a seat you spawn |
+| something the PM wants but doesn't want done now — "not yet," "remember this for later" | **`skill/kru-todo/SKILL.md`** — load when the task is capture; mid-task it's your Step 4.5 `TODOS.md` capture |
+| something *wrong* the PM wants recorded before it evaporates — a bug just hit, not being fixed now | **`skill/kru-issue/SKILL.md`** — same; mid-task it's your Step 4.5 `issues/` capture |
+| the PM wants to work what's parked or what's broken — the `TODOS.md` lines, the open defect files | **`skill/kru-todos/SKILL.md`** / **`skill/kru-issues/SKILL.md`** — each reconciles, scores, returns a batch as its result; the next task carries the pick. Mid-task you already read the store directly when a step needs it |
+| the PM wants to know where efforts stand, or to pick one back up — the `plan/<effort>/brief.md` files | **`skill/kru-briefs/SKILL.md`** — reconciles every brief's ticks; returns the pick list as its result |
 | work too big for one context / needs a durable plan of record / decompose a spec into parallelizable slices | `planner` (Step 2.6) |
-| **no specialist matches** | the **user**, naming the seat it would need (*Handling gaps*); the general path only on their say-so |
+| **no specialist matches** | **return to the caller**, naming the seat it would need (*Handling gaps*); the general path only when the task approves it |
 
 **Contested lanes — the tie-breaks the table can't hold.** Each seat's own definition states its half; read that rather than a copy, and reach for these when two rows look plausible:
 - **Hono splits like a framework on Workers**: the Hono app = `hono-builder` · `wrangler` config, bindings, D1 and deploy = `cloudflare-builder` (on Node/Bun, the image and deploy = `fly-platform-engineer`) · the code calling its `hc` client = that consumer's seat.
 - **SQLite four ways, split by the driver**: an embedded `.db` file on `better-sqlite3`/`node:sqlite`/`bun:sqlite` = `sqlite-architect` · **D1** = `cloudflare-builder` (it's CF's SQLite) · **Turso/libSQL**, local, Cloud or synced = `turso-specialist` · a Postgres server = `postgres-architect`.
 - **Vercel two ways**: app code = the framework builder · deploy/env/infra = `vercel-platform-engineer` · speed and caching-for-speed = `vercel-perf-optimizer`.
 - **Three platform lanes, split by runtime shape, not by vendor preference**: Vercel = `vercel-platform-engineer` · the Workers runtime = `cloudflare-builder` · a **long-lived VM with a persistent disk** (a container that has to be a container, a background worker, scale-to-zero with state) = `fly-platform-engineer`. App code is the framework builder's in all three.
-- **Copy splits by the route's job, not by the file**: a route that persuades someone who has not committed is `conversion-copywriter`'s (the pricing page). Wording and flows on product screens are in the **design spec** from the designer — the lead does not dispatch a copy seat for them. A page that already ships and reads badly is the user's `/copy-editing`; one that converts badly is their `/cro`.
+- **Copy splits by the route's job, not by the file**: a route that persuades someone who has not committed is `conversion-copywriter`'s (the pricing page). Wording and flows on product screens are in the **design spec** from the designer — the lead does not dispatch a copy seat for them. A page that already ships and reads badly → `skill/kru-copy-editing/SKILL.md`; one that converts badly → `skill/kru-cro/SKILL.md`.
 - **Anything that renders** crosses *the UI seam* — see below. The domain seats (`stripe-specialist`, `paypal-specialist`, `chariot-specialist`, `nowpayments-specialist`, `better-auth-specialist`, the data seats) each name their handoff in a **Builder owns** line.
 - **Payment rails, split by provider**: Stripe = `stripe-specialist` · PayPal/Venmo = `paypal-specialist` · Chariot DAF grants = `chariot-specialist` · NOWPayments crypto = `nowpayments-specialist`. A repo can run several, and a change touching each is one dispatch per rail — no provider's object graph, webhook vocabulary or idempotency mechanism transfers. The record they settle into (the order/donation row, the shared settlement math) is the data seat's and the framework builder's.
 - **Accounting sits downstream of every rail**: posting a settled record into QuickBooks is `quickbooks-specialist`'s adapter; the queue, cron and OAuth routes that drive it stay with the platform seat and framework builder.
@@ -79,7 +82,7 @@ line. What earns deriving is the **library choice inside a lane**, and what thes
 call that *succeeds* and returns wrong data.
 
 **One table, three channels.** The answer reaches a seat in the brief, or on the `skills` line a
-`/kru/setup` sheet writes into the repo's always-loaded docs; a seat that gets neither reads
+`skill/kru-setup/SKILL.md` sheet writes into the repo's always-loaded docs; a seat that gets neither reads
 `package.json` against the table below. Past one conditional, a seat carries a single *libraries*
 section naming those three channels rather than a section per library, and keeps a named section only
 for a library it has something of its own to say about — a seam that library bends

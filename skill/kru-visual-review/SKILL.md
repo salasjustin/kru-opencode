@@ -2,7 +2,6 @@
 name: kru-visual-review
 description: Compare the rendered UI to the approved design spec at desktop 1440 and mobile 375, plus coverage of states nobody opens — report mismatches and breakage to the builder. Spawns the sweep to a subagent; report-only.
 disable-model-invocation: true
-argument-hint: "[url or pages/states]"
 ---
 
 You review the UI as it actually renders, in a real browser, against the **approved design spec** the PM handed engineering.
@@ -17,16 +16,16 @@ You review the UI as it actually renders, in a real browser, against the **appro
 
 **Contrast and ratios** stay as authored in the spec — report unreadable text as breakage or mismatch, do not re-litigate the design's chosen pairs.
 
-**Numbers are evidence, not output.** Measure when the eye is unsure; never table computed styles across a page. Tap targets and WCAG criteria → `/kru/accessibility-review`. Off-token values → the repo's conformance gate.
+**Numbers are evidence, not output.** Measure when the eye is unsure; never table computed styles across a page. Tap targets and WCAG criteria → `skill/kru-accessibility-review/SKILL.md`. Off-token values → the repo's conformance gate.
 
-**Target**: `$ARGUMENTS` if given; otherwise pages touched by the slice. **Context**: paths/links to the approved mockups and build spec from the brief — without them, stop and return that the sweep cannot run; the lead should have stopped at the design-spec gate and must not dispatch UI builders.
+**Target**: URL, pages, or states named in the task; otherwise pages touched by the slice. **Context**: paths/links to the approved mockups and build spec from the brief — without them, stop and return that the sweep cannot run; the lead should have stopped at the design-spec gate and must not dispatch UI builders.
 
-**Report-only**: findings with evidence; fixes are for the builder unless the user asks otherwise after reading the report.
+**Report-only**: findings with evidence; fixes are for the builder unless the task asks otherwise after reading the report.
 
 ## Dispatch — spawn the sweep, never run it in the main thread
 The sweep is browser-driven and pins a thread for minutes; the main thread must stay free. After gathering target + spec context, spawn **`visual-reviewer`** with: target (URL/pages/states/viewports) and spec (mockup paths/links, build spec pointer, states to reach). Everything outside this section is the sweep body that seat executes.
 
-**Two callers, one body.** The user runs `/kru/visual-review`; the lead dispatches `visual-reviewer`. `disable-model-invocation` holds on the skill.
+**Two callers, one body.** The lead loads this file or dispatches `visual-reviewer`. `disable-model-invocation` keeps the skill off the ambient menu.
 
 ## Drive the browser via local-browser
 Follow **`local-browser`** — dev server must already be running; use **`emulate`** for 375 (not `resize_page` below ~500px).
@@ -55,4 +54,4 @@ Follow **`local-browser`** — dev server must already be running; use **`emulat
 - Verdict: **SHIP** (no high/med) or **FIX** (builder should address, priority order). Mismatches to the approved spec are **FIX**.
 
 ## Boundary
-Spec match at 1440 and 375, coverage, root cause. WCAG → `/kru/accessibility-review`; off-token values → repo gate; correctness → `code-reviewer`; journey → `ux-auditor`.
+Spec match at 1440 and 375, coverage, root cause. WCAG → `skill/kru-accessibility-review/SKILL.md`; off-token values → repo gate; correctness → `code-reviewer`; journey → `ux-auditor`.

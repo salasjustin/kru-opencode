@@ -2,7 +2,6 @@
 name: kru-text-fix
 description: Run every text pass a target earns — comments, rendered strings, human docs, agent docs — in one go, each under its own standard.
 disable-model-invocation: true
-argument-hint: "[<path> | <branch> | <pr number> — omit for the working tree]"
 ---
 
 Four classes of text, four standards, and a real target almost always carries more than one. **One target, one read, every class that fires — each still under its own standard, none of them restated here.**
@@ -11,7 +10,7 @@ Four classes of text, four standards, and a real target almost always carries mo
 
 ## Do
 
-1. **Resolve the target** from `$ARGUMENTS`, by the table at `{KRU_HOME}/skill/kru-comment-fix/SKILL.md` → step 1 — the four-row one, and the bound under it that a *diff* target audits what the change wrote while a *path* target means whole files. That bound is what keeps four passes from becoming four sweeps.
+1. **Resolve the target** from the invoking task, by the table at `{KRU_HOME}/skill/kru-comment-fix/SKILL.md` → step 1 — the four-row one, and the bound under it that a *diff* target audits what the change wrote while a *path* target means whole files. That bound is what keeps four passes from becoming four sweeps.
 
 2. **Classify every file the target resolved to.** A file firing more than one pass is the normal case, not an edge:
 

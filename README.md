@@ -134,7 +134,7 @@ versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` 
 - `/kru/eval-review` `[<eval dir>]`: audit a Claude Code plugin eval suite for checks that pass or fail for the wrong reason, and fix them.
 
 **Backlog and tech debt**
-- `/kru/reflect` `[<pr> | <branch> | <commit> | everything]`: every seat looks back over its own lane, then the fixes get scoped, sliced and landed.
+- `/kru/reflect` `[<pr> | <branch> | <commit> | everything]`: stack seats re-read their lanes against official sources (no separate code-review seats), then the fixes get scoped, sliced and landed.
 - `/kru/todos`, `/kru/issues`: work the backlog; each entry landed is deleted.
 - `/kru/issues-loop`, `/kru/todos-loop` `[<max files>]`: fix defects or build wants one commit at a time, without stopping to ask, until the branch reaches the changed-file cap (default 80); product calls wait for the end.
 - `/kru/briefs`: check every brief against what shipped; tick, archive, or resume one.
@@ -153,7 +153,7 @@ versions moves to `~/.kru/` the first time the plugin loads or `kru-oc install` 
 - **Tooling**: pnpm, Turborepo, Biome.
 - **Programs and packages**: Node CLIs, scripts and workers; Vite plugins, MCP servers, small Node libraries.
 
-Design (flows, mockups, brand, assets) is done by a **separate designer** outside this roster. Engineering builds from the PM's approved spec (`references/design-spec.md`, `references/designer-handoff.md`) and reviews after (correctness, structure, rendered UI against that spec at 1440px and 375px, accessibility, UX). The seats behind each layer, and how to spawn one directly: `ROSTER.md`.
+Design (flows, mockups, brand, assets) is done by a **separate designer** outside this roster. Engineering builds from the PM's approved spec (`references/design-spec.md`, `references/designer-handoff.md`), runs builder verification in Step 4 (tests, lint, typecheck, edge cases), and hands Step 5 acceptance to the PM on the preview (rendered UI at 1440px and 375px, accessibility, flows). Review seats run only when the task names them. The seats behind each layer, and how to spawn one directly: `ROSTER.md`.
 
 A stack with no seat is a question the lead brings to you before it guesses.
 

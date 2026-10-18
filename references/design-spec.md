@@ -19,4 +19,4 @@ Optional but useful: motion dials, coverage-ledger gaps handed to the PM as buil
 
 ## What is out of scope for the lead
 
-The lead **never** runs `/design`, `composition` for mockups, or a design/mockup step. Design skills in the plugin library are for the **designer** session; their output is the spec above, approved by the PM before engineering starts.
+The lead **never** runs the bundled opencode `design` skill (designer loads), `composition` for mockups, or a design/mockup step. Design skills in the plugin library are for the **designer** session; their output is the spec above, approved by the PM before engineering starts.

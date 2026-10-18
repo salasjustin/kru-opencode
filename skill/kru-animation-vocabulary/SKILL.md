@@ -1,6 +1,6 @@
 ---
 name: kru-animation-vocabulary
-description: Reverse-lookup glossary turning a vague description of a web animation or motion effect into its exact term ("the bouncy thing when a popover opens" → Pop in). Use when the user asks "what's it called when…" or describes a motion effect without its name. For naming, not building.
+description: Name a motion effect when the task describes animation vaguely and needs the precise term (popover bounce → Pop in) — naming only, not building or auditing motion.
 user-invocable: false
 ---
 

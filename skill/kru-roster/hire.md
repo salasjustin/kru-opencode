@@ -22,7 +22,7 @@ Completion: file exists, meets the standard, description carries a boundary clau
 ## 3. Register (map #2–#5)
 - `ROSTER.md` *Current specialists* row and *Model tiers* entry (a pinned row with a one-line why in the ROSTER rationale style).
 - `SOURCES.md` backing-source row (skip only if genuinely stack-agnostic — then say so in the ROSTER row).
-- `{KRU_HOME}/kru/references/routing.md` row — the `detected/needed → specialist`. That table has two callers (`lead` and `/kru/setup`), so one row serves both; a repo already deployed picks the new seat up on its next `/kru/setup`. A **review-only** seat wires into *Step 4* (review & verify) instead, next to its sibling reviewer.
+- `{KRU_HOME}/kru/references/routing.md` row — the `detected/needed → specialist`. That table has two callers (`lead` and `skill/kru-setup/SKILL.md`), so one row serves both; a repo already deployed picks the new seat up on its next `skill/kru-setup/SKILL.md`. A **review-only** seat wires into *Step 4* (review & verify) instead, next to its sibling reviewer.
 
 ## 4. Version (map #6–#8)
 Minor bump: `VERSION`, `package.json` `version`, the `README.md` plugin entry's `version`, and the `ROSTER.md` header, all equal.
