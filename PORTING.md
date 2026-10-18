@@ -62,7 +62,7 @@ Mechanical, all of it in `scripts/port.mjs`:
 - **MCP tool names**: `mcp__<server>__<tool>` → `<server>_<tool>`, which is how opencode registers
   them. The server key in `opencode.json` *is* the prefix, so `context7` and `chrome-devtools` have to
   be keyed exactly that (`skill/kru-setup/SKILL.md` says why).
-- **Claude's built-in delegates**: `Explore` → `explore`, `Plan` → `plan`, `/tdd` →  `kru-tdd`,
+- **Claude's built-in delegates**: `Explore` → `explore`, `Plan` → `plan`, `/tdd` → `kru-tdd`,
   `/diagnosing-bugs` → `kru-diagnosing-bugs`, `/code-review` → the `kru/code-reviewer` seat.
 - **Instruction files**: the repo sheet `/kru/setup` writes moves from `.claude/CLAUDE.md` to
   `AGENTS.md`, which is what opencode reads at a repo root (then `CLAUDE.md`, first match winning).
@@ -72,8 +72,9 @@ Mechanical, all of it in `scripts/port.mjs`:
 - **In-tree paths**: `agents/<seat>.md` → `agent/kru/<seat>.md`, `skills/<name>/` → `skill/kru-<name>/`,
   including the glob and brace forms the roster's `audit` greps with.
 - **Upstream `skills/` merges**: anything left in a top-level `skills/<name>/` after a merge is copied into
-  `skill/kru-<name>/` (every file type, with the same rewrites on text), then `skills/` is removed.
-  `claude-code-delegation` is dropped (no opencode equivalent; see below).
+  `skill/kru-<name>/` (every file type), then `skills/` is removed. Files listed under *Hand-owned* below
+  are skipped (`HAND_OWNED`) or left in place when the fork already has them (`PATHS_ONLY`); everything
+  else gets the same full or path-only rewrite as `portText`. `claude-code-delegation` is dropped (see below).
 - **Task tools**: upstream's board is `TaskCreate`/`TaskUpdate` with `TodoWrite` as the fallback;
   here it is `todowrite`.
 - **Install vocabulary**: upstream is a versioned plugin resolved out of a cache; here it is a copy in
@@ -136,6 +137,7 @@ human read. `scripts/port.mjs` → `HAND_OWNED` holds the list the rules skip en
 | `README.md`, `PORTING.md`, `MODELS.md` | the fork's own documents; they name both harnesses on purpose |
 | `SOURCES.md` → prose | the official-source map names claude's surfaces on purpose. It is `PATHS_ONLY` in `scripts/port.mjs`: the layout and name rules run on it, the vocabulary rules don't, and the design, orchestration and vendoring rows are rewritten by hand |
 | `skill/kru-update/SKILL.md` | its "Claude Code" ground is about the *other* harness's releases; this fork's equivalent ground is opencode's, and the sweep needs rewriting by hand |
+| `skill/kru-eval-review/SKILL.md` | `PATHS_ONLY`: it audits a Claude Code plugin eval suite; path rules run, vocabulary stays, and an upstream `skills/eval-review/` merge does not replace the fork file once it exists |
 | `plugin/kru.ts` → the lead gate and the brainstorm lock | upstream's `require-lead.sh` and `brainstorm-guard.sh` read the session transcript, which opencode does not expose, so their state is tracked in TS (a `kru-lead` load, a `/kru/brainstorm` run, the user's go). Both call upstream's `hooks/readonly-bash.sh` for the read-only test, so an edit to its verb lists needs no mirror |
 | `hooks/check-handoff.sh` → the user rules files | opencode loads `~/.config/opencode/AGENTS.md` or `~/.claude/CLAUDE.md`, so the machine-budget and shingle scans read both |
 | `skill/kru-roster/audit.md` → assertion 1 | upstream dropped the seat-count check with its tagline; this fork still states a count |

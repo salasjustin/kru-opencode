@@ -7,7 +7,7 @@
 // exits 1.
 
 import { readFileSync, readdirSync, existsSync } from "node:fs"
-import { join, dirname, relative, basename } from "node:path"
+import { join, dirname, relative, basename, resolve, normalize } from "node:path"
 import { fileURLToPath } from "node:url"
 import { execFileSync } from "node:child_process"
 import { parse as parseYaml, parseAllDocuments } from "yaml"
@@ -234,15 +234,23 @@ for (const p of files) {
   const skillDirs = new Set(skills)
   for (const p of files.filter((f) => f.endsWith(".md"))) {
     const text = read(p)
-    for (const m of text.matchAll(/skill\/kru-([a-z0-9-]+)\//g)) {
+    for (const m of text.matchAll(/skill\/kru-([a-z0-9-]+)(?:\/|(?![a-z0-9-]))/g)) {
       const dir = `kru-${m[1]}`
-      if (!skillDirs.has(dir)) fail("layout", `${rel(p)}: links skill/${dir}/ but skill/${dir}/ is missing`)
+      if (!skillDirs.has(dir)) fail("layout", `${rel(p)}: links skill/${dir} but skill/${dir}/ is missing`)
     }
     for (const m of text.matchAll(/\]\(\.\.\/([a-z0-9-]+)\/SKILL\.md\)/g)) {
       const bare = m[1]
-      const dir = bare.startsWith("kru-") ? bare : `kru-${bare}`
-      if (!skillDirs.has(dir))
-        fail("layout", `${rel(p)}: relative link ../${bare}/SKILL.md should be skill/${dir}/ (missing on tree)`)
+      const prefixed = bare.startsWith("kru-") ? bare : `kru-${bare}`
+      const candidates = [
+        normalize(resolve(dirname(p), "..", bare, "SKILL.md")),
+        join(ROOT, "skill", prefixed, "SKILL.md"),
+        join(ROOT, "skill", bare, "SKILL.md"),
+      ]
+      if (!candidates.some((t) => existsSync(t)))
+        fail(
+          "layout",
+          `${rel(p)}: relative link ../${bare}/SKILL.md does not resolve (tried ${candidates.map((t) => relative(ROOT, t)).join(", ")})`,
+        )
     }
   }
 }
@@ -255,7 +263,11 @@ const ABOUT_CLAUDE = /^(README\.md|PORTING\.md|MODELS\.md|SOURCES\.md|scripts\/p
 // the old store path is legal only where the move happens and where it's explained
 const STORE_MOVE = /^(README\.md|PORTING\.md|plugin\/kru\.ts|scripts\/kru-store-migrate(\.test)?\.mjs|scripts\/smoke\.sh|scripts\/verify(-tree\.mjs|\.sh))$/
 const SCANS = [
-  { name: "${CLAUDE_PLUGIN_ROOT}", re: /CLAUDE_PLUGIN_ROOT/, allow: /^(scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh))$/ },
+  {
+    name: "${CLAUDE_PLUGIN_ROOT}",
+    re: /CLAUDE_PLUGIN_ROOT/,
+    allow: /^(scripts\/port\.mjs|scripts\/verify(-tree\.mjs|\.sh)|scripts\/port-upstream-hand-owned\.test\.mjs)$/,
+  },
   { name: "~/.claude/kru", re: /(~|\$HOME|homedir\(\)[^\n]*)\/?\.claude\/kru\b|"\.claude", "kru"/, allow: STORE_MOVE },
   // "Claude Code channels" is a product extension-builder builds, not the harness
   { name: "Claude Code", re: /\bClaude Code\b(?! channels?\b)/, allow: ABOUT_CLAUDE },

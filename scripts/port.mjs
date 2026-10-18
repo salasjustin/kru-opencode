@@ -237,7 +237,7 @@ const HAND_OWNED = new Set(["skill/kru-update/SKILL.md", "PORTING.md", "MODELS.m
 
 // the fork's own checks and the store move: they name claude's vocabulary in
 // order to look for it, so normalizing them would blind the scan
-const FORK_OWNED = /^scripts\/(verify-tree\.mjs|verify\.sh|smoke\.sh|hooks\.test\.sh|kru-store-migrate(\.test)?\.mjs)$/
+const FORK_OWNED = /^scripts\/(verify-tree\.mjs|verify\.sh|smoke\.sh|hooks\.test\.sh|kru-store-migrate(\.test)?\.mjs|port-upstream-hand-owned\.test\.mjs)$/
 
 // the official-source map names claude's surfaces on purpose (its design and
 // harness rows say what upstream uses and what this fork does instead), so only
@@ -462,33 +462,41 @@ function portUpstreamSkills() {
   if (!existsSync(skillsRoot)) return
   const seats = new Set(seatNames())
   for (const name of readdirSync(skillsRoot)) {
-    const srcDir = join(skillsRoot, name)
-    if (!statSync(srcDir).isDirectory()) continue
+    const srcPath = join(skillsRoot, name)
+    if (!statSync(srcPath).isDirectory()) {
+      problems.push(`skills/${name}: not a directory — run node scripts/port.mjs to remove`)
+      if (!CHECK) rmSync(srcPath)
+      continue
+    }
     if (SKILLS_DROP.has(name)) {
-      if (!CHECK) rmSync(srcDir, { recursive: true })
+      problems.push(`skills/${name}/: excluded (no opencode equivalent) — run node scripts/port.mjs to remove`)
+      if (!CHECK) rmSync(srcPath, { recursive: true })
       continue
     }
     const destRoot = join(ROOT, "skill", `kru-${name}`)
-    for (const file of walk(srcDir)) {
-      const relPath = relative(srcDir, file)
+    for (const file of walk(srcPath)) {
+      const relPath = relative(srcPath, file)
       const dest = join(destRoot, relPath)
+      const destRel = relative(ROOT, dest).replaceAll("\\", "/")
+      if (HAND_OWNED.has(destRel)) continue
+      if (PATHS_ONLY.has(destRel) && existsSync(dest)) continue
       if (!CHECK) mkdirSync(dirname(dest), { recursive: true })
       if (/\.(md|sh|mjs|ts|js|txt|html|py)$/.test(file)) {
         const text = readFileSync(file, "utf8")
-        write(dest, rewrite(text, seats, { sh: file.endsWith(".sh"), pathsOnly: false }))
+        const pathsOnly = PATHS_ONLY.has(destRel)
+        write(dest, rewrite(text, seats, { sh: file.endsWith(".sh"), pathsOnly }))
       } else if (CHECK) {
         const missing = !existsSync(dest)
         const differs =
           !missing &&
           readFileSync(file).compare(readFileSync(dest)) !== 0
-        if (missing || differs) changed.push(relative(ROOT, dest))
+        if (missing || differs) changed.push(destRel)
       } else {
         copyFileSync(file, dest)
-        const rel = relative(ROOT, dest)
-        if (!changed.includes(rel)) changed.push(rel)
+        if (!changed.includes(destRel)) changed.push(destRel)
       }
     }
-    if (!CHECK) rmSync(srcDir, { recursive: true })
+    if (!CHECK) rmSync(srcPath, { recursive: true })
   }
   if (!CHECK && existsSync(skillsRoot) && readdirSync(skillsRoot).length === 0) rmSync(skillsRoot, { recursive: true })
 }
