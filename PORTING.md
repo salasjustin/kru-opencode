@@ -1,4 +1,4 @@
-# Porting — how this fork tracks kru, and where opencode stops
+# Porting: how this fork tracks kru, and where opencode stops
 
 This repo is a **git fork** of [ap-justin/kru](https://github.com/ap-justin/kru) with upstream as a
 remote. Nothing is vendored twice: the same files, restructured into an opencode config dir and
@@ -118,7 +118,7 @@ to what this fork has: the suite (`kru-testing`), the browser (`kru-local-browse
 **Nested dispatch.** Both harnesses stop a subagent from spawning another — but opencode's limit is a
 config value (`subagent_depth`, default 1), not a law. The contract still assumes depth 1.
 
-## Hand-owned — what a merge will not normalize
+## Hand-owned: what a merge will not normalize
 
 These are the places upstream's text cannot be rewritten by rule, so an upstream edit to them needs a
 human read. `scripts/port.mjs` → `HAND_OWNED` holds the list the rules skip entirely.
@@ -131,7 +131,7 @@ human read. `scripts/port.mjs` → `HAND_OWNED` holds the list the rules skip en
 | `plugin/kru.ts` → the lead gate and the brainstorm lock | upstream's `require-lead.sh` and `brainstorm-guard.sh` read the session transcript, which opencode does not expose, so their state is tracked in TS (a `kru-lead` load, a `/kru/brainstorm` run, the user's go). Both call upstream's `hooks/readonly-bash.sh` for the read-only test, so an edit to its verb lists needs no mirror |
 | `hooks/check-handoff.sh` → the user rules files | opencode loads `~/.config/opencode/AGENTS.md` or `~/.claude/CLAUDE.md`, so the machine-budget and shingle scans read both |
 | `skill/kru-roster/audit.md` → assertion 1 | upstream dropped the seat-count check with its tagline; this fork still states a count |
-| `references/ui-practice.md`, `references/designer-handoff.md` | upstream design workflow vs opencode; hand-merge after each upstream design change |
+| `references/ui-practice.md`, `references/designer-handoff.md`, `references/design-sync.md` | upstream design workflow vs opencode; hand-merge after each upstream design change. `design-sync.md` stays for the external designer; engineering does not run the sync lane here |
 | `ROSTER.md` → *Model tiers* | upstream argues Claude tiers, `effort:` and prompt-cache TTL; here the section is three lines pointing at `MODELS.md`, and `effort:`/`cacheTtl` have no opencode equivalent |
 | `skill/kru-roster/audit.md` → assertion 8 | upstream measures context load with `claude plugin details`; opencode reports none, so the assertion counts description bytes instead |
 | `SOURCES.md` → *Orchestration / harness mechanics* | the lead's own official source: opencode's docs and Context7, not `claude-code-guide` |

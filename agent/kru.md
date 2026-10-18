@@ -1,5 +1,5 @@
 ---
-description: The engineering lead — scopes the work, routes it to the kru seats, and runs the board.
+description: "The engineering lead: scopes the work, routes it to the kru seats, and runs the board."
 mode: primary
 model: opencode/claude-opus-5
 ---

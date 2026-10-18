@@ -53,7 +53,7 @@ const DEFAULT_SEAT = { model: ZEN.coding }
 // opencode switches primaries with tab rather than loading a skill.
 const LEAD = {
   model: ZEN.judgment,
-  description: "The engineering lead — scopes the work, routes it to the kru seats, and runs the board.",
+  description: "The engineering lead: scopes the work, routes it to the kru seats, and runs the board.",
 }
 
 // ---------------------------------------------------------------------------
@@ -446,7 +446,7 @@ function portLead() {
     `skills as \`kru-<name>\` (\`kru-testing\`). Commands are \`/kru/<name>\`.`,
     ``,
   ].join("\n")
-  const out = `---\ndescription: ${LEAD.description}\nmode: primary\nmodel: ${LEAD.model}\n---\n\n${header}\n${fm.body.trim()}\n`
+  const out = `---\ndescription: "${LEAD.description.replaceAll('"', '\\"')}"\nmode: primary\nmodel: ${LEAD.model}\n---\n\n${header}\n${fm.body.trim()}\n`
   write(join(ROOT, "agent", "kru.md"), rewrite(out, new Set(seatNames())))
 }
 
