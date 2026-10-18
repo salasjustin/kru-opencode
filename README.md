@@ -63,7 +63,7 @@ would silently shadow your own global rules.
   ```json
   { "mcp": { "context7": { "type": "remote", "enabled": true, "url": "https://mcp.context7.com/mcp" } } }
   ```
-- **Optional, for generated image/video assets:** `GOOGLE_API_KEY` (Google AI Studio) and Node.js on PATH —
+- **Optional, for generated image/video assets:** `GOOGLE_API_KEY` (Google AI Studio) and Node.js on PATH:
   the image deps install themselves on first run (`scripts/asset/run.sh`). Without them the designer library's
   gen-asset script reports what's missing instead of shipping a placeholder. The same deps power `sharp`
   rasters for `brand-marks`; no key needed for cutouts or sharp-only runs.
