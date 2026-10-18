@@ -10,7 +10,7 @@
 // what it never touches: prose judgment. a rule that would need judgment is
 // listed in PORTING.md under "hand-owned" instead.
 
-import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync } from "node:fs"
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync, copyFileSync, statSync } from "node:fs"
 import { join, dirname, basename, relative } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -149,7 +149,10 @@ const REWRITES = [
   // the rule above lands inside a code span upstream already opened
   [/``explore``/g, "`explore`"],
   [/`\/code-review`/g, "`kru/code-reviewer`"],
+  [/`\/code-review\s+(?:high|medium|low)`/g, "`kru/code-reviewer`"],
+  [/(say|type) `\/code-review\s+(?:high|medium|low)`/g, "$1 `kru/code-reviewer`"],
   [/(^|[\s(])\/code-review\b/g, "$1`kru/code-reviewer`"],
+  [/copied into `skills\/`/g, "vendored under `skill/kru-*/`"],
   // claude's built-in delegates → opencode's
   [/`Explore`/g, "`explore`"],
   [/\bExplore's\b/g, "`explore`'s"],
@@ -450,6 +453,46 @@ function portLead() {
   write(join(ROOT, "agent", "kru.md"), rewrite(out, new Set(seatNames())))
 }
 
+// upstream lands vendored skills under skills/<name>/; opencode loads skill/kru-<name>/.
+// claude-code-delegation targets the claude CLI and is dropped on this fork (PORTING.md).
+const SKILLS_DROP = new Set(["claude-code-delegation"])
+
+function portUpstreamSkills() {
+  const skillsRoot = join(ROOT, "skills")
+  if (!existsSync(skillsRoot)) return
+  const seats = new Set(seatNames())
+  for (const name of readdirSync(skillsRoot)) {
+    const srcDir = join(skillsRoot, name)
+    if (!statSync(srcDir).isDirectory()) continue
+    if (SKILLS_DROP.has(name)) {
+      if (!CHECK) rmSync(srcDir, { recursive: true })
+      continue
+    }
+    const destRoot = join(ROOT, "skill", `kru-${name}`)
+    for (const file of walk(srcDir)) {
+      const relPath = relative(srcDir, file)
+      const dest = join(destRoot, relPath)
+      if (!CHECK) mkdirSync(dirname(dest), { recursive: true })
+      if (/\.(md|sh|mjs|ts|js|txt|html|py)$/.test(file)) {
+        const text = readFileSync(file, "utf8")
+        write(dest, rewrite(text, seats, { sh: file.endsWith(".sh"), pathsOnly: false }))
+      } else if (CHECK) {
+        const missing = !existsSync(dest)
+        const differs =
+          !missing &&
+          readFileSync(file).compare(readFileSync(dest)) !== 0
+        if (missing || differs) changed.push(relative(ROOT, dest))
+      } else {
+        copyFileSync(file, dest)
+        const rel = relative(ROOT, dest)
+        if (!changed.includes(rel)) changed.push(rel)
+      }
+    }
+    if (!CHECK) rmSync(srcDir, { recursive: true })
+  }
+  if (!CHECK && existsSync(skillsRoot) && readdirSync(skillsRoot).length === 0) rmSync(skillsRoot, { recursive: true })
+}
+
 // --- step 3: skill names ---------------------------------------------------
 // opencode's skill namespace is flat and global, so every skill carries the
 // kru- prefix its directory already has; the loader requires the two to match.
@@ -567,6 +610,7 @@ function audit() {
 
 portAgents()
 portLead()
+portUpstreamSkills()
 portSkills()
 portText()
 portCommands()

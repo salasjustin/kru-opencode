@@ -46,9 +46,9 @@ renders a verdict on design intent beyond what the approved spec states.
 
 **Mechanical: `dispatch-auditor` at `claude-haiku-5-5`.** It reads a JSONL ledger and
 checks each line against a contract it carries. No design calls, no prose, a fixed rubric. It is the one
-seat where the smallest model is not a compromise. Upstream kru v0.150.0 (`ap-justin/kru` branch
-`haiku-5-5-dispatch-auditor`, PR pending) moves the seat from `claude-sonnet-5-5` to Claude Haiku 5.5;
-this fork moves it now that zen lists it. On input, Anthropic's list price is below the flash model
+seat where the smallest model is not a compromise. Upstream kru v0.150.0 moved the seat from
+`claude-sonnet-5-5` to Claude Haiku 5.5; this fork pins zen's `claude-haiku-5-5` now that the catalog
+lists it. On input, Anthropic's list price is below the flash model
 it replaced; what zen charges for it has not been checked.
 
 ## Temperature

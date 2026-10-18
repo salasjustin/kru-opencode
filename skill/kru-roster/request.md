@@ -14,7 +14,7 @@ Done when the three lines are written, or the reply names the covering seat.
 
 A new seat is [`hire.md`](hire.md). A new skill, or a change to a skill that already exists, is [`author.md`](author.md). Read that file.
 
-Brief opencode as a local headless run ([`claude-code-delegation`](../claude-code-delegation/SKILL.md) → *Where it runs*): the chosen recipe, and [`writing-for-agents`](../writing-for-agents/SKILL.md). The brief carries the goal, the constraints, the done-check and the proof ([`reliable-work`](../reliable-work/SKILL.md)).
+Brief opencode in a headless session: the chosen recipe (`hire.md` or `author.md`), and [`writing-for-agents`](../kru-writing-for-agents/SKILL.md). The brief carries the goal, the constraints, the done-check and the proof ([`reliable-work`](../kru-reliable-work/SKILL.md)).
 
 Done when [`audit`](audit.md) passes on the branch.
 

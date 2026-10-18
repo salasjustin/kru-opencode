@@ -223,6 +223,30 @@ for (const p of files) {
   }
 }
 
+// --- layout: no upstream skills/ tree; skill/kru-* links resolve -----------
+{
+  const skillsTop = join(ROOT, "skills")
+  if (existsSync(skillsTop)) {
+    const entries = readdirSync(skillsTop).filter((e) => !e.startsWith("."))
+    if (entries.length)
+      fail("layout", `skills/ must be empty after port (still has ${entries.join(", ")}) — run node scripts/port.mjs`)
+  }
+  const skillDirs = new Set(skills)
+  for (const p of files.filter((f) => f.endsWith(".md"))) {
+    const text = read(p)
+    for (const m of text.matchAll(/skill\/kru-([a-z0-9-]+)\//g)) {
+      const dir = `kru-${m[1]}`
+      if (!skillDirs.has(dir)) fail("layout", `${rel(p)}: links skill/${dir}/ but skill/${dir}/ is missing`)
+    }
+    for (const m of text.matchAll(/\]\(\.\.\/([a-z0-9-]+)\/SKILL\.md\)/g)) {
+      const bare = m[1]
+      const dir = bare.startsWith("kru-") ? bare : `kru-${bare}`
+      if (!skillDirs.has(dir))
+        fail("layout", `${rel(p)}: relative link ../${bare}/SKILL.md should be skill/${dir}/ (missing on tree)`)
+    }
+  }
+}
+
 // --- leftover claude-code vocabulary ---------------------------------------
 // files that name claude code on purpose: the fork's own docs, the rewriter,
 // these checks, the official-source map and eval-review (PATHS_ONLY in
@@ -265,12 +289,13 @@ for (const p of files) {
 }
 
 // --- report -----------------------------------------------------------------
-const CHECKS = ["frontmatter", "json/yaml", "version", "seats", "claude leftovers"]
+const CHECKS = ["frontmatter", "json/yaml", "version", "seats", "layout", "claude leftovers"]
 const detail = {
   frontmatter: `${seats.length + 1} agents · ${skills.length} skills · ${commands.length} commands`,
   "json/yaml": `${files.filter((f) => /\.(json|ya?ml)$/.test(f)).length} files`,
   version: read(join(ROOT, "VERSION")).trim(),
   seats: `${seats.length} seats · ${READ_ONLY.length} read-only`,
+  layout: "no skills/ dir · skill/kru-* links",
   "claude leftovers": `${SCANS.length} patterns`,
 }
 for (const n of notes) console.log(`note ${n}`)

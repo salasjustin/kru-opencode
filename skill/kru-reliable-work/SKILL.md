@@ -1,5 +1,5 @@
 ---
-name: reliable-work
+name: kru-reliable-work
 description: "Proving non-trivial work is done. Use when taking on, handing off, or running a build, a delegation, or a long or unattended run. A one-step change you can see finished is out."
 user-invocable: false
 ---
